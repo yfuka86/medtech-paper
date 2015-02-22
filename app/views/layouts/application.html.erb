@@ -17,6 +17,11 @@
     <%= flash[:notice] %>
   </div>
   <div id='notification-messages-container'></div>
-  <%= yield %>
+  <div class='interface-container'>
+    <%= render 'sidebar/main' %>
+    <div class='content'>
+      <%= yield %>
+    </div>
+  </div>
 </body>
 </html>

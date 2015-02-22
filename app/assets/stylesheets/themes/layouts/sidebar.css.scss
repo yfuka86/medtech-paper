@@ -1,0 +1,14 @@
+@import "globals/config-loader";
+@import "modules/flat_button";
+
+.sidebar {
+  background-color: $WHITE;
+  padding: 10px;
+
+  .user-info {
+    padding: 10px;
+    a {
+      display: block;
+    }
+  }
+}
