@@ -1,0 +1,10 @@
+<div class='<%= @innerClassName %>'>
+  <div class='notification-message-box'>
+    <%- @message %>
+  </div>
+  <% if @closeable : %>
+    <span class='close-btn'>
+      <i class="fa fa-remove"></i>
+    </span>
+  <% end %>
+</div>

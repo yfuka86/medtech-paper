@@ -1,0 +1,32 @@
+@import "globals/config-loader";
+
+body {
+  min-height: 100%;
+  height: 100%;
+  background-color: lighten($IDENTITY_COLOR, 40);
+}
+
+.app-identity {
+  padding: 10px;
+  color: darken($IDENTITY_COLOR, 5);
+  font-size: 30px;
+  font-weight: 600;
+  font-family: serif;
+  .darken {
+    color: darken($IDENTITY_COLOR, 10);
+    font-size: 36px;
+  }
+}
+
+.header {
+  position: fixed;
+  top: 0px; left: 0px;
+  background-color: $IDENTITY_COLOR;
+  color: $WHITE;
+
+  height: 60px;
+  width: 100%;
+  a {
+    color: $WHITE;
+  }
+}

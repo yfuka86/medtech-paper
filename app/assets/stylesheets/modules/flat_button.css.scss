@@ -1,0 +1,78 @@
+@import "globals/config-loader";
+
+/**
+ * buttons
+ */
+
+@mixin flat-button-base {
+  display: inline-block;
+  line-height: 18px;
+  margin-bottom: 0;
+  padding: 4px 10px 4px;
+  border: 1px solid $GRAYCC;
+  background-repeat: repeat-x;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+
+  &:active,
+  &:focus,
+  &:visited {
+    outline: none;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:active {
+    /* クリック時のstyle */
+  }
+
+  &.disabled,
+  &:disabled {
+    border-color: $GRAYBB;
+    border-bottom-color: $GRAYAA;
+    background-color: $GRAYBB;
+    pointer-events: none;
+  }
+}
+
+@mixin flat-button-normal {
+  border-color: $GRAYBB;
+  background-color: $GRAYF4;
+  color: #333;
+
+  &:hover,
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.flat-button-normal {
+  @include flat-button-normal;
+}
+
+@mixin flat-button-identity {
+  @include flat-button-base;
+
+  border-color: $IDENTITY_COLOR;
+  background-color: lighten($IDENTITY_COLOR, 5);
+  color: #fff;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    background-color: lighten($IDENTITY_COLOR, 10);
+  }
+}
+
+.flat-button-identity {
+  @include flat-button-identity;
+}
+
+

@@ -17,6 +17,13 @@
     <%= flash[:notice] %>
   </div>
   <div id='notification-messages-container'></div>
-  <%= yield %>
+  <div class='auth-container'>
+    <div class='form-container'>
+      <%= render 'layouts/identity' %>
+      <div class='form-inner'>
+        <%= yield %>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

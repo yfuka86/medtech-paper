@@ -1,0 +1,63 @@
+@import "globals/config-loader";
+
+.form-integrated {
+  position: relative;
+  background: $WHITE;
+  border-radius: 3px;
+  border: 1px solid $GRAYDD;
+  margin: 0;
+  padding: 0;
+  input {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: 46px;
+    padding: 8px 14px;
+    border: 0 none;
+    font-size: 16px;
+    line-height: 30px;
+    border-bottom: 1px solid $GRAYDD;
+    background-color: transparent;
+    color: $GRAY55;
+    &:focus {
+      outline: none;
+    }
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    left: 2px; bottom: 0; right: 2px;
+    height: 1px;
+    background-color: $WHITE;
+  }
+}
+
+.form-normal {
+  position: relative;
+  background: $WHITE;
+
+  input {
+    box-sizing: border-box;
+    display: inline-block;
+    height: 30px;
+    padding: 6px 10px;
+    font-size: 16px;
+    line-height: 24px;
+    border: 1px solid $GRAYDD;
+    background-color: transparent;
+    color: $GRAY55;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.form-editable {
+  .editable-input {
+    border: 0 none;
+    border-bottom: 1px solid $GRAYDD;
+    &:disabled {
+      border: 0 none;
+    }
+  }
+}

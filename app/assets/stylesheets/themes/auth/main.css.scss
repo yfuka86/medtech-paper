@@ -1,0 +1,44 @@
+@import "globals/config-loader";
+@import "modules/flat_button";
+
+.auth-container {
+  height: 100%;
+  width: 100%;
+  .form-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 360px;
+    height: 600px;
+    .form-inner {
+      padding: 20px;
+      background-color: $WHITE;
+      border: 1px solid $GRAYCC;
+      border-radius: 5px;
+      form {
+        .field {
+          font-size: 16px;
+          box-sizing: border-box;
+          margin: 0 0 10px 0;
+          input[type='email'], input[type='password'] {
+            width: 98%;
+            font-size: 16px;
+            line-height: 30px;
+          }
+        }
+        .actions {
+          margin: 0 0 10px 0;
+          input[type='submit'] {
+            @include flat-button-identity;
+            width: 100%;
+            font-size: 16px;
+            line-height: 30px;
+          }
+        }
+      }
+    }
+  }
+}

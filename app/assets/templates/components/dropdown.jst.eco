@@ -1,0 +1,3 @@
+<li v-repeat='list'>
+  <a v-on='click: onClick($value)'>{{$key}}</a>
+</li>
