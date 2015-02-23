@@ -58,12 +58,13 @@
 @mixin flat-button-identity {
   @include flat-button-base;
 
-  border-color: $IDENTITY_COLOR;
+  border-color: lighten($IDENTITY_COLOR, 0);
   background-color: lighten($IDENTITY_COLOR, 5);
   color: #fff;
 
   &:hover {
     opacity: 0.9;
+    color: #fff;
   }
 
   &:active {
@@ -75,4 +76,45 @@
   @include flat-button-identity;
 }
 
+@mixin flat-button-identity1 {
+  @include flat-button-base;
 
+  border-color: darken($IDENTITY_COLOR, 15);
+  background-color: darken($IDENTITY_COLOR, 10);
+  color: #fff;
+
+  &:hover {
+    opacity: 0.9;
+    color: #fff;
+  }
+
+  &:active {
+    background-color: darken($IDENTITY_COLOR, 5);
+  }
+}
+
+.flat-button-identity1 {
+  @include flat-button-identity1;
+}
+
+
+@mixin flat-button-identity2 {
+  @include flat-button-base;
+
+  border-color: darken($IDENTITY_COLOR, 10);
+  background-color: darken($IDENTITY_COLOR, 5);
+  color: #fff;
+
+  &:hover {
+    opacity: 0.9;
+    color: #fff;
+  }
+
+  &:active {
+    background-color: darken($IDENTITY_COLOR, 0);
+  }
+}
+
+.flat-button-identity2 {
+  @include flat-button-identity2;
+}

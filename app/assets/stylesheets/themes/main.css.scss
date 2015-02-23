@@ -34,12 +34,12 @@ body {
   margin: auto;
   .sidebar {
     width: 280px;
-    height: 100%;
+    min-height: 100%;
     float: left;
     box-sizing: border-box;
   }
   .content {
-    height: 100%;
+    min-height: 100%;
     float: left;
     padding: 10px;
   }

@@ -11,4 +11,18 @@
       display: block;
     }
   }
+
+  .menu {
+    .button {
+      height: 40px;
+      line-height: 30px;
+      font-size: 16px;
+      width: 100%;
+      margin: 10px 0;
+      i {
+        font-size: 24px;
+        margin-right: 6px;
+      }
+    }
+  }
 }
