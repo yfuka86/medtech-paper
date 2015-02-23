@@ -1,0 +1,154 @@
+/**
+ * Utility styles
+ */
+
+@import "globals/config-loader";
+
+/**
+ * all
+ */
+html {
+  height: 100%;
+}
+
+body {
+  color: #333;
+  font-size: 14px;
+  font-family: 'Open Sans',Helvetica,Arial,sans-serif;
+  margin: 0;
+}
+
+/**
+ * link
+ */
+
+a {
+  color: #00c;
+  text-decoration: none;
+
+  &:hover {
+    color: #4779c9;
+  }
+}
+
+.link-readable {
+  pointer-events: none;
+}
+
+/**
+ * icon font
+ */
+
+i {
+  margin-right: 3px;
+}
+
+
+/**
+ * header
+ */
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  padding: 0;
+  color: #444;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+
+/**
+ * clearfix
+ */
+
+.clearfix:after {
+  content: ".";  /* 新しいコンテンツ */
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden; /* 非表示に */
+}
+
+.clearfix {
+  min-height: 1px;
+}
+
+* html .clearfix {
+  height: 1px;
+  /*¥*//*/
+  height: auto;
+  overflow: hidden;
+  /**/
+}
+
+
+/**
+ * float
+ */
+
+.left {
+  display: inline;
+  float: left;
+}
+
+.right {
+  display: inline;
+  float: right;
+}
+
+.clear {
+  display: block;
+  float: none;
+}
+
+/**
+ * text-align
+ */
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/**
+ * margin
+ */
+@for $i from 0 through 24 {
+  .margin-bottom#{$i * 5} { margin-bottom: 5px * $i; }
+  .margin-left#{$i * 5}0 { margin-left: 5px * $i; }
+  .margin-right#{$i * 5}0 { margin-right: 5px * $i; }
+}
+
+/**
+ * padding
+ */
+@for $i from 0 through 24 {
+  .padding-bottom#{$i * 5} { padding-bottom: 5px * $i; }
+  .padding-left#{$i * 5}0 { padding-left: 5px * $i; }
+  .padding-right#{$i * 5}0 { padding-right: 5px * $i; }
+}
+
+/**
+ * font-size
+ */
+@for $i from 7 through 24 {
+  .font#{$i} { font-size: #{$i}px; }
+}
+
+/**
+ * width
+ */
+@for $i from 1 through 20 {
+  .width#{$i}0 { width: 10px * $i; }
+}

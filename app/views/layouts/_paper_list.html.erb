@@ -1,0 +1,6 @@
+<h1 class='paper-list-title'><%= @title %></h1>
+<div class='paper-list'>
+  <% papers.each_with_index do |p, idx| %>
+    <%= render 'layouts/paper', paper: p, is_last: (idx + 1 == papers.count) %>
+  <% end %>
+</div>

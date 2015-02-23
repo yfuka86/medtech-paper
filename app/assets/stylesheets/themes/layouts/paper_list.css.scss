@@ -1,0 +1,81 @@
+@import "globals/config-loader";
+
+.paper-list-title {
+  font-family: serif;
+  font-size: 24px;
+  color: $GRAY99;
+  padding: 0 20px;
+}
+
+.paper-list {
+  padding: 20px;
+  .paper {
+    background-color: $WHITE;
+    border-top: 1px solid $GRAYCC;
+    &.last {
+      border-bottom: 1px solid $GRAYCC;
+    }
+    .summary {
+      padding: 5px 0 0 0;
+      box-sizing: border-box;
+      cursor: pointer;
+      height: 30px;
+      width: 100%;
+      &:hover {
+        background-color: $GRAYEE;
+      }
+      .popularity {
+        float: left;
+        min-width: 50px;
+        text-align: center;
+        width: 50px;
+      }
+      .title {
+        float: left;
+        max-width: 300px;
+        font-weight: 600;
+        padding: 0 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .authors {
+        float: left;
+        max-width: 300px;
+        overflow: hidden;
+        padding: 0 10px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .abstract {
+        float: left;
+        width: 600px;
+        display: table-cell;
+        overflow: hidden;
+        padding: 0 10px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .detail {
+      .popularity {
+
+      }
+      .source {
+
+      }
+      .title {
+
+      }
+      .authors {
+
+      }
+      .abstract {
+
+      }
+      .pubmed-link {
+
+      }
+    }
+  }
+}

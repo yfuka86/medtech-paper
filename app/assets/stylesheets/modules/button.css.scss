@@ -1,0 +1,130 @@
+@import "globals/config-loader";
+
+/**
+ * buttons
+ */
+
+@mixin button-base {
+  display: inline-block;
+  line-height: 18px;
+  margin-bottom: 0;
+  padding: 4px 10px 4px;
+  border: 1px solid $GRAYCC;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-repeat: repeat-x;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: center;
+  vertical-align: middle;
+
+  &:active,
+  &:focus,
+  &:visited {
+    outline: none;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:active {
+    /* クリック時のstyle */
+  }
+
+  &.disabled,
+  &:disabled {
+    border-color: $GRAYBB;
+    border-bottom-color: $GRAYAA;
+    background-color: $GRAYBB;
+    color: #fff; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    pointer-events: none;
+  }
+}
+
+.button-normal {
+  @include button-base;
+
+  border-color: $GRAYBB;
+  background-color: $GRAYF4;
+  background-image: -ms-linear-gradient(top, $WHITE, $GRAYE6);
+  background-image: -moz-linear-gradient(top, $WHITE, $GRAYE6);
+  background-image: -webkit-linear-gradient(top, $WHITE, $GRAYE6);
+  background-image: linear-gradient(top, $WHITE, $GRAYE6);
+  color: #333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+
+  &:hover,
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.button-lightblue {
+  @include button-base;
+
+  border-color: $LIGHTBLUE1;
+  background-repeat: repeat;
+  background-image: -ms-linear-gradient($LIGHTBLUE1, $LIGHTBLUE2);
+  background-image: -moz-linear-gradient($LIGHTBLUE1, $LIGHTBLUE2);
+  background-image: -webkit-linear-gradient($LIGHTBLUE1, $LIGHTBLUE2);
+  background-image: linear-gradient($LIGHTBLUE1, $LIGHTBLUE2);
+  color: #fff;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    background-image: -ms-linear-gradient($LIGHTBLUE2, $LIGHTBLUE1);
+    background-image: -moz-linear-gradient($LIGHTBLUE2, $LIGHTBLUE1);
+    background-image: -webkit-linear-gradient($LIGHTBLUE2, $LIGHTBLUE1);
+    background-image: linear-gradient($LIGHTBLUE2, $LIGHTBLUE1);
+  }
+}
+
+.button-lightorange {
+  @include button-base;
+
+  border-color: $LIGHTORANGE1;
+  background-repeat: repeat;
+  background-image: -ms-linear-gradient($LIGHTORANGE1, $LIGHTORANGE2);
+  background-image: -moz-linear-gradient($LIGHTORANGE1, $LIGHTORANGE2);
+  background-image: -webkit-linear-gradient($LIGHTORANGE1, $LIGHTORANGE2);
+  background-image: linear-gradient($LIGHTORANGE1, $LIGHTORANGE2);
+  color: #fff;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    background-image: -ms-linear-gradient($LIGHTORANGE2, $LIGHTORANGE1);
+    background-image: -moz-linear-gradient($LIGHTORANGE2, $LIGHTORANGE1);
+    background-image: -webkit-linear-gradient($LIGHTORANGE2, $LIGHTORANGE1);
+    background-image: linear-gradient($LIGHTORANGE2, $LIGHTORANGE1);
+  }
+}
+
+.button-identityblue {
+  @include button-base;
+
+  border-color: $IDENTITY_COLOR;
+  background-repeat: repeat;
+  background-image: -ms-linear-gradient(lighten($IDENTITY_COLOR, 15), lighten($IDENTITY_COLOR, 10));
+  background-image: -moz-linear-gradient(lighten($IDENTITY_COLOR, 15), lighten($IDENTITY_COLOR, 10));
+  background-image: -webkit-linear-gradient(lighten($IDENTITY_COLOR, 15), lighten($IDENTITY_COLOR, 10));
+  background-image: linear-gradient(lighten($IDENTITY_COLOR, 15), lighten($IDENTITY_COLOR, 10));
+  color: #fff;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    background-image: -ms-linear-gradient(lighten($IDENTITY_COLOR, 10), lighten($IDENTITY_COLOR, 15));
+    background-image: -moz-linear-gradient(lighten($IDENTITY_COLOR, 10), lighten($IDENTITY_COLOR, 15));
+    background-image: -webkit-linear-gradient(lighten($IDENTITY_COLOR, 10), lighten($IDENTITY_COLOR, 15));
+    background-image: linear-gradient(lighten($IDENTITY_COLOR, 10), lighten($IDENTITY_COLOR, 15));
+  }
+}

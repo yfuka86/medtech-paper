@@ -1,0 +1,84 @@
+@import "globals/config-loader";
+
+@mixin balloon-base {
+  border-radius: 3px;
+  box-shadow: 1px 1px 5px $GRAY88;
+
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 7px;
+  width: 200px;
+  height: auto;
+  color: #F6F6F6;
+  z-index: $NOTIFICATION_BALLOON_Z;
+  word-wrap: keep-all;
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+  }
+}
+
+@mixin top-balloon {
+  @include balloon-base;
+  &:after {
+    bottom: -8px; left: 20%;
+    border-width: 8px 8px 0 8px;
+  }
+}
+
+@mixin right-balloon {
+  @include balloon-base;
+  &:after {
+    top: 20%; left: -8px;
+    border-width: 8px 8px 8px 0;
+  }
+}
+
+@mixin bottom-balloon {
+  @include balloon-base;
+  &:after {
+    top: -8px; left: 20%;
+    border-width: 0 8px 8px 8px;
+  }
+}
+
+@mixin left-balloon {
+  @include balloon-base;
+  &:after {
+    top: 20%; right: -8px;
+    border-width: 8px 0 8px 8px;
+  }
+}
+
+
+
+.error-top-balloon {
+  @include top-balloon;
+  background: lighten($IDENTITY_RED, 10);
+  &:after { border-color: lighten($IDENTITY_RED, 10) transparent transparent transparent; }
+}
+
+.error-right-balloon {
+  @include right-balloon;
+  background: lighten($IDENTITY_RED, 10);
+  &:after { border-color: transparent lighten($IDENTITY_RED, 10) transparent transparent; }
+}
+
+.error-bottom-balloon {
+  @include bottom-balloon;
+  background: lighten($IDENTITY_RED, 10);
+  &:after { border-color: transparent transparent lighten($IDENTITY_RED, 10) transparent; }
+}
+
+.error-left-balloon {
+  @include left-balloon;
+  background: lighten($IDENTITY_RED, 10);
+  &:after { border-color: transparent transparent transparent lighten($IDENTITY_RED, 10); }
+}

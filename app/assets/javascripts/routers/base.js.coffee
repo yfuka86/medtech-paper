@@ -13,6 +13,7 @@ class routers.Base extends alpha.mvc.Router
     # these routers should be in ./shared
     return [
       routers.shared.Main
+      routers.shared.PaperList
     ]
 
   # @return {Object} .
