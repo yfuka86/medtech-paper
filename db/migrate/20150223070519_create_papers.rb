@@ -9,6 +9,7 @@ class CreatePapers < ActiveRecord::Migration
       t.integer :volume
       t.integer :issue
       t.string :pages
+      t.integer :journal_id
       t.text :abstract
       t.text :rawdata
 

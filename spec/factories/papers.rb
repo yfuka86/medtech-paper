@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :paper do
     pubmed_id 10592235
+    journal_id 1
     received_date "2015-01-23"
     accepted_date "2015-02-23"
     published_date "2015-03-23"

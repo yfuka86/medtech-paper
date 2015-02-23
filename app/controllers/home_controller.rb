@@ -3,6 +3,6 @@ class HomeController < ApplicationController
 
   def index
     @papers = Paper.ranking
-    @title = 'ランキング'
+    @title = t(:hot_papers)
   end
 end

@@ -1,31 +1,36 @@
-<div class='abstract'>
-  <div class='popularity'>
-    <%= paper.popularity %>
+<div class='<%="paper#{" last" if is_last}"%>'>
+  <div class='summary'>
+    <div class='popularity'>
+      <%= paper.popularity %>
+    </div>
+    <div class='title'>
+      <%= paper.title %>
+    </div>
+    <div class='authors'>
+      <%= paper.authors_list %>
+    </div>
+    <div class='abstract'>
+      <%= paper.abstract %>
+    </div>
   </div>
-  <div class='title'>
-    <%= paper.title %>
-  </div>
-  <div class='authors'>
-    <%= paper.authors_list %>
-  </div>
-</div>
-<div class='detail' style='display:none;'>
-  <div class='popularity'>
-    <%= paper.popularity %>
-  </div>
-  <div class='source'>
-    <%= "#{paper.journal_name} #{paper.published_date};#{paper.volume}(#{paper.issue}):#{paper.pages}" %>
-  </div>
-  <div class='title'>
-    <%= paper.title %>
-  </div>
-  <div class='authors'>
-    <%= paper.authors_list %>
-  </div>
-  <div class='abstract'>
-    <%= paper.abstract %>
-  </div>
-  <div class='pubmed-link'>
-    <%= link_to paper.pubmed_path, paper.pubmed_id.to_s %>
+  <div class='detail' style='display:none;'>
+    <div class='popularity'>
+      <%= paper.popularity %>
+    </div>
+    <div class='source'>
+      <%= "#{paper.journal_name} #{paper.published_date};#{paper.volume}(#{paper.issue}):#{paper.pages}" %>
+    </div>
+    <div class='title'>
+      <%= paper.title %>
+    </div>
+    <div class='authors'>
+      <%= paper.authors_list %>
+    </div>
+    <div class='abstract'>
+      <%= paper.abstract %>
+    </div>
+    <div class='pubmed-link'>
+      <%= link_to paper.pubmed_path, paper.pubmed_id.to_s %>
+    </div>
   </div>
 </div>

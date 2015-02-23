@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223071645) do
+ActiveRecord::Schema.define(version: 20150223143337) do
 
   create_table "author_papers", force: :cascade do |t|
     t.integer  "author_id",  limit: 4
@@ -38,6 +38,19 @@ ActiveRecord::Schema.define(version: 20150223071645) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "paper_lists", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  create_table "paper_paper_lists", force: :cascade do |t|
+    t.integer  "paper_id",      limit: 4
+    t.integer  "paper_list_id", limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "papers", force: :cascade do |t|
     t.integer  "pubmed_id",      limit: 4
     t.date     "received_date"
@@ -47,10 +60,18 @@ ActiveRecord::Schema.define(version: 20150223071645) do
     t.integer  "volume",         limit: 4
     t.integer  "issue",          limit: 4
     t.string   "pages",          limit: 255
+    t.integer  "journal_id",     limit: 4
     t.text     "abstract",       limit: 65535
     t.text     "rawdata",        limit: 65535
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+  end
+
+  create_table "user_paper_lists", force: :cascade do |t|
+    t.integer  "paper_list_id", limit: 4
+    t.integer  "user_id",       limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "users", force: :cascade do |t|
