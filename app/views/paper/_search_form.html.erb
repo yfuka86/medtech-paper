@@ -2,7 +2,7 @@
   登録したい論文を探す
   <%= form_tag paper_index_path, method: :get do %>
     <p>
-      <%= text_field_tag :search, params[:search], class: 'keyword-input', placeholder: 'キーワード' %>
+      <%= text_field_tag :term, params[:term], class: 'keyword-input', placeholder: 'キーワード' %>
     </p>
     <p>
       <%= label_tag :min_date, '出版年月日' %>
