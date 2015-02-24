@@ -22,6 +22,6 @@ class Paper < ActiveRecord::Base
   end
 
   def pubmed_path
-    ''
+    "http://www.ncbi.nlm.nih.gov/pubmed/#{pubmed_id}"
   end
 end
