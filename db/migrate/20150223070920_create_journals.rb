@@ -1,8 +1,10 @@
 class CreateJournals < ActiveRecord::Migration
   def change
     create_table :journals do |t|
-      t.string :symbol
-      t.string :full_name
+      t.string :iso_jta
+      t.string :ml_jta
+      t.string :name
+      t.string :issn
 
       t.timestamps null: false
     end
