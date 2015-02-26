@@ -1,0 +1,38 @@
+@import "globals/config-loader";
+
+.paper-list-form {
+  margin: 10px;
+  padding: 20px 40px;
+  background-color: $WHITE;
+  border: 1px solid $GRAYCC;
+  border-radius: 10px;
+  .title-input {
+    font-size: 14px;
+    line-height: 24px;
+    width: 500px;
+  }
+  .submit-btn {
+    float: right;
+    width: 160px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+
+.paper-list-list-title {
+  font-family: serif;
+  font-size: 24px;
+  color: $GRAY99;
+  padding: 0 20px;
+}
+
+.paper-list-list {
+  padding: 20px;
+  .single-paper-list {
+    background-color: $WHITE;
+    border-top: 1px solid $GRAYCC;
+    &.last {
+      border-bottom: 1px solid $GRAYCC;
+    }
+  }
+}

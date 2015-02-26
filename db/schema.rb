@@ -42,8 +42,11 @@ ActiveRecord::Schema.define(version: 20150224024116) do
 
   create_table "paper_lists", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.string   "title",      limit: 255
+    t.integer  "category",   limit: 4,   default: 0
+    t.boolean  "is_public",  limit: 1,   default: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   create_table "paper_paper_lists", force: :cascade do |t|

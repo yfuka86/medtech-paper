@@ -18,6 +18,16 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :paper_lists do
+    collection do
+      get 'search'
+    end
+
+    member do
+      put 'add_paper'
+    end
+  end
+
   # Example resource route with options:
   #   resources :products do
   #     member do

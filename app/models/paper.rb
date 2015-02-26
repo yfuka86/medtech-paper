@@ -9,8 +9,12 @@ class Paper < ActiveRecord::Base
   accepts_nested_attributes_for :journal
 
   def self.build_from_pubmed(fetch_params={}, summary_params={})
+    pmid = fetch_params["pmid"].try(:to_i)
+    already_exists_paper = self.where(pubmed_id: pmid).first
+    return already_exists_paper if already_exists_paper.present?
+
     paper = self.new
-    paper.pubmed_id = fetch_params["pmid"].try(:to_i)
+    paper.pubmed_id = pmid
     paper.abstract = fetch_params["medent"].try(:[], "abstract")
 
     fetch_data = fetch_params["medent"].try(:[], "cit")

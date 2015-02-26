@@ -18,11 +18,13 @@
     <div class='title'>
       <%= paper.title %>
     </div>
-    <div class='popularity'>
-      <%= paper.popularity %>
-    </div>
+    <% if paper.popularity.present? %>
+      <div class='popularity'>
+        <%= paper.popularity %>
+      </div>
+    <% end %>
     <div class='source'>
-      <%= "#{paper.journal_name} #{paper.published_date.try(:strfdate, '%Y-%m-%d')};#{paper.volume}(#{paper.issue}):#{paper.pages}" %>
+      <%= "#{paper.journal_name} #{paper.published_date.try(:strfdate, '%Y/%m/%d')};#{paper.volume}(#{paper.issue}):#{paper.pages}" %>
     </div>
     <div class='authors'>
       <%= paper.authors_list %>
