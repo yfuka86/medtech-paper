@@ -108,21 +108,21 @@
   @include flat-button-identity2;
 }
 
-@mixin flat-button-lightorange {
+@mixin flat-button-orange {
   @include flat-button-outline;
 
-  border-color: lighten($LIGHTORANGE2, 0);
-  background-color: lighten($LIGHTORANGE2, 5);
+  border-color: lighten($ORANGE, 0);
+  background-color: lighten($ORANGE, 5);
   &:active {
-    background-color: lighten($LIGHTORANGE2, 10);
+    background-color: lighten($ORANGE, 10);
   }
 }
 
-.flat-button-lightorange {
-  @include flat-button-lightorange;
+.flat-button-orange {
+  @include flat-button-orange;
 }
 
-@mixin flat-button-identity-red {
+@mixin flat-button-red {
   @include flat-button-outline;
 
   border-color: lighten($RED1, 0);
@@ -132,7 +132,7 @@
   }
 }
 
-.flat-button-identity-red {
-  @include flat-button-identity-red;
+.flat-button-red {
+  @include flat-button-red;
 }
 

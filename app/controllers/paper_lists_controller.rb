@@ -6,12 +6,8 @@ class PaperListsController < ApplicationController
     @title = '抄読会（論文リスト）一覧'
   end
 
-  def search
-  end
-
   def show
     @paper_list = current_user.paper_lists.find_by(id: params[:id])
-    @papers = @paper_list.papers
   end
 
   def new
@@ -34,10 +30,19 @@ class PaperListsController < ApplicationController
   def update
   end
 
+  def destroy
+    paper_list = PaperList.find_by(id: params[:id], user_id: current_user.id)
+    if paper_list.try(:destroy)
+      redirect_to paper_lists_path, notice: '論文リストが削除されました'
+    else
+      redirect_to paper_lists_path, alert: '論文リストの削除に失敗しました'
+    end
+  end
+
   def add_paper
   end
 
-  def destroy
+  def search
   end
 
   private

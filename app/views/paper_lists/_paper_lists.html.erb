@@ -1,5 +1,5 @@
-<h1 class='paper-list-list-title'><%= title %></h1>
-<div class='paper-list-list'>
+<h1 class='paper-lists-title'><%= title %></h1>
+<div class='paper-lists'>
   <% paper_lists.each_with_index do |p, idx| %>
     <%= render 'paper_lists/paper_list', paper_list: p, is_last: (idx + 1 == paper_lists.count) %>
   <% end %>
