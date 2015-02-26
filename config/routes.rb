@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  resources :paper, only: [:index] do
+  resources :papers, only: [:index] do
     collection do
       get 'search'
     end

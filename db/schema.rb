@@ -55,9 +55,9 @@ ActiveRecord::Schema.define(version: 20150224024116) do
 
   create_table "papers", force: :cascade do |t|
     t.integer  "pubmed_id",      limit: 4
-    t.date     "received_date"
-    t.date     "accepted_date"
-    t.date     "published_date"
+    t.datetime "received_date"
+    t.datetime "accepted_date"
+    t.datetime "published_date"
     t.string   "title",          limit: 255
     t.integer  "volume",         limit: 4
     t.integer  "issue",          limit: 4

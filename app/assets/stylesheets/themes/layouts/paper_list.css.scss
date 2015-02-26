@@ -29,6 +29,7 @@
         min-width: 50px;
         text-align: center;
         width: 50px;
+        height: 100%;
       }
       .title {
         float: left;
@@ -41,7 +42,7 @@
       }
       .authors {
         float: left;
-        max-width: 300px;
+        max-width: 200px;
         overflow: hidden;
         padding: 0 10px;
         text-overflow: ellipsis;

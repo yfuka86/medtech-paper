@@ -1,36 +1,47 @@
 class Paper < ActiveRecord::Base
   has_many :author_papers
   has_many :authors, through: :author_papers
+  has_many :paper_paper_lists
+  has_many :paper_lists, through: :paper_paper_lists
   belongs_to :journal
 
   accepts_nested_attributes_for :authors
   accepts_nested_attributes_for :journal
 
-  def self.build_from_pubmed(fetch_params, summary_params)
+  def self.build_from_pubmed(fetch_params={}, summary_params={})
     paper = self.new
-    paper.pubmed_id = id = fetch_params["pmid"]
-    paper.abstract = fetch_params["medent"]["abstract"]
+    paper.pubmed_id = fetch_params["pmid"].try(:to_i)
+    paper.abstract = fetch_params["medent"].try(:[], "abstract")
 
-    fetch_data = fetch_params["medent"]["cit"]
-    journal_data = fetch_data["from journal"]
-    pubdate = journal_data["imp"]["date"]
-
-    paper.published_date = "#{pubdate["year"]}-#{pubdate["month"]}-#{pubdate["day"]}"
-    paper.journal = Journal.build_from_params(journal_data["title"])
-    journal_data["authors"]["names"].each do |k, v|
-      paper.authors << Author.build_from_params({name: v["name ml"]})
+    fetch_data = fetch_params["medent"].try(:[], "cit")
+    author_data = fetch_data.try(:[], "authors")
+    if author_data.is_a?(Hash) && author_data["names"].is_a?(Hash)
+      author_data["names"].each do |k, v|
+        paper.authors << Author.build_from_params({name: v["name ml"]})
+      end
+    elsif author_data.is_a?(Hash) && author_data["names ml"].present?
+      paper.authors << Author.build_from_params({name: author_data["names ml"][nil]})
     end
 
-    summary_data = summary_params["result"]["#{id}"]
-    history = summary_data["history"]
-    history.each do |k, v|
-      paper.received_date = v["date"] if v["pubstatus"] == 'received'
-      paper.accepted_date = v["date"] if v["pubstatus"] == 'accepted'
-    end
-    paper.title = summary_data["title"]
-    paper.volume = summary_data["volume"]
-    paper.issue = summary_data["issue"]
-    paper.pages = summary_data["pages"]
+    journal_data = fetch_data.try(:[], "from journal")
+    pubdate = journal_data.try(:[], "imp").try(:[], "date")
+
+    paper.published_date = "#{pubdate["year"]}-#{pubdate["month"].presence || 1}-#{pubdate["day"].presence || 1}" if pubdate.try(:[], "year").present?
+    converted_hash = {}
+    journal_data.try(:[], "title").try(:each){|k, v| converted_hash[k.gsub('-', '_')] = v}
+    paper.journal = Journal.build_from_params(converted_hash)
+
+    history = summary_params["history"]
+    history.each do |hash|
+      if hash.is_a?(Hash)
+        paper.received_date = hash["date"] if hash["pubstatus"] == 'received'
+        paper.accepted_date = hash["date"] if hash["pubstatus"] == 'accepted'
+      end
+    end if history.is_a?(Hash)
+    paper.title = summary_params["title"]
+    paper.volume = summary_params["volume"]
+    paper.issue = summary_params["issue"]
+    paper.pages = summary_params["pages"]
 
     paper
   end
@@ -40,15 +51,19 @@ class Paper < ActiveRecord::Base
   end
 
   def popularity
-    10
+    if self.paper_lists.count == 0
+      ''
+    else
+      self.paper_lists.count
+    end
   end
 
   def journal_name
-    self.journal.symbol
+    self.journal.ml_jta
   end
 
   def authors_list
-    self.authors.map{|a| a.name}.join(' ')
+    self.authors.map{|a| a.name}.join(', ')
   end
 
   def pubmed_path
