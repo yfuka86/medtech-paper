@@ -31,8 +31,47 @@
   .single-paper-list {
     background-color: $WHITE;
     border-top: 1px solid $GRAYCC;
+    height: 40px;
     &.last {
       border-bottom: 1px solid $GRAYCC;
+    }
+    .icon {
+      display: inline-block;
+      width: 40px;
+      text-align: center;
+      i {
+        &.fa-star {
+          padding: 5px 2px 5px 8px;
+          font-size: 20px;
+          color: $YELLOW;
+          vertical-align: middle;
+        }
+        &.fa-bookmark {
+          padding: 5px 5px 5px 10px;
+          font-size: 20px;
+          color: darken($IDENTITY_COLOR, 15);
+          vertical-align: middle;
+        }
+      }
+    }
+    .title {
+      display: inline-block;
+      line-height: 40px;
+      vertical-align: middle;
+      font-size: 14px;
+      font-weight: 600;
+      padding-right: 20px;
+    }
+    .created_at, .updated_at {
+      display: inline-block;
+      padding-right: 20px;
+    }
+    .show-btn, .destroy-btn {
+      display: inline-block;
+      float: right;
+      box-sizing: border-box;
+      height: 26px;
+      margin: 7px 10px;
     }
   }
 }
