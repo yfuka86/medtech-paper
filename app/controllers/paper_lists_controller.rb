@@ -25,13 +25,21 @@ class PaperListsController < ApplicationController
   end
 
   def edit
+    @paper_list = current_user.paper_lists.find_by(id: params[:id])
   end
 
   def update
+    paper_list = current_user.paper_lists.find_by(id: params[:id])
+    paper_list.assign_attributes(paper_params)
+    if paper_list.save
+      redirect_to paper_lists_path, notice: '論文リストの編集が完了しました'
+    else
+      redirect_to new_paper_lists_path, alert: '論文リストの編集に失敗しました'
+    end
   end
 
   def destroy
-    paper_list = PaperList.find_by(id: params[:id], user_id: current_user.id)
+    paper_list = current_user.paper_lists.find_by(id: params[:id])
     if paper_list.try(:destroy)
       redirect_to paper_lists_path, notice: '論文リストが削除されました'
     else

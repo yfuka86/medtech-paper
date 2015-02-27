@@ -61,7 +61,7 @@
 
   color: #fff;
   &:hover {
-    opacity: 0.9;
+    opacity: 0.75;
     color: #fff;
   }
 }
@@ -136,3 +136,17 @@
   @include flat-button-red;
 }
 
+
+@mixin flat-button-yellow {
+  @include flat-button-outline;
+
+  border-color: lighten($YELLOW, 0);
+  background-color: lighten($YELLOW, 5);
+  &:active {
+    background-color: lighten($YELLOW, 10);
+  }
+}
+
+.flat-button-yellow {
+  @include flat-button-yellow;
+}

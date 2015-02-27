@@ -1,0 +1,14 @@
+<div class='paper-list-form'>
+  <p>リスト：<%= @paper_list.title %>の編集</p>
+  <%= form_for(@paper_list, url: paper_list_path(id: @paper_list.id) ,method: :put) do |f| %>
+    <p>
+      <%= f.label :title, 'リスト名' %>
+      <%= f.text_field :title, required: true, class: 'title-input' %>
+    </p>
+    <p>
+      <%= f.label :is_public, 'このリストを公開する' %>
+      <%= f.check_box :is_public %>
+      <%= f.submit '編集完了する', class: 'submit-btn flat-button-identity2', data: {disable_with: '送信中...'} %>
+    </p>
+  <% end %>
+</div>
