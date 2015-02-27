@@ -41,6 +41,7 @@
 }
 
 @mixin flat-button-normal {
+  @include flat-button-base;
   border-color: $GRAYBB;
   background-color: $GRAYF4;
   color: #333;
@@ -69,7 +70,7 @@
 @mixin flat-button-identity {
   @include flat-button-outline;
 
-  border-color: lighten($IDENTITY_COLOR, 0);
+  border-color: darken($IDENTITY_COLOR, 5);
   background-color: lighten($IDENTITY_COLOR, 5);
   &:active {
     background-color: lighten($IDENTITY_COLOR, 10);
@@ -83,7 +84,7 @@
 @mixin flat-button-identity1 {
   @include flat-button-outline;
 
-  border-color: darken($IDENTITY_COLOR, 15);
+  border-color: darken($IDENTITY_COLOR, 20);
   background-color: darken($IDENTITY_COLOR, 10);
   &:active {
     background-color: darken($IDENTITY_COLOR, 5);
@@ -97,7 +98,7 @@
 @mixin flat-button-identity2 {
   @include flat-button-outline;
 
-  border-color: darken($IDENTITY_COLOR, 10);
+  border-color: darken($IDENTITY_COLOR, 15);
   background-color: darken($IDENTITY_COLOR, 5);
   &:active {
     background-color: darken($IDENTITY_COLOR, 0);

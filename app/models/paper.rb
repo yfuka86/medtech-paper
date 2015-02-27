@@ -63,7 +63,7 @@ class Paper < ActiveRecord::Base
   end
 
   def journal_name
-    self.journal.ml_jta
+    self.journal.try(:ml_jta)
   end
 
   def authors_list

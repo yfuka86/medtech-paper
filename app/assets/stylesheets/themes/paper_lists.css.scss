@@ -6,6 +6,9 @@
   background-color: $WHITE;
   border: 1px solid $GRAYCC;
   border-radius: 10px;
+  .form-title {
+    font-size: 20px;
+  }
   .title-input {
     font-size: 14px;
     line-height: 24px;
@@ -28,10 +31,12 @@
 
 .paper-lists {
   padding: 20px;
+
   .single-paper-list {
     background-color: $WHITE;
     border-top: 1px solid $GRAYCC;
     height: 40px;
+    padding: 0 10px 0 0;
     &.last {
       border-bottom: 1px solid $GRAYCC;
     }
@@ -71,7 +76,59 @@
       float: right;
       box-sizing: border-box;
       height: 26px;
-      margin: 7px 10px;
+      margin: 7px 5px;
+    }
+  }
+}
+
+.paper-list-detail {
+  background-color: $WHITE;
+  .paper-list-metainfo {
+    padding: 20px;
+    .icon {
+      display: inline-block;
+      width: 40px;
+      text-align: center;
+      i {
+        &.fa-star {
+          padding: 5px 2px 5px 8px;
+          font-size: 30px;
+          color: $YELLOW;
+          vertical-align: middle;
+        }
+        &.fa-bookmark {
+          padding: 5px 5px 5px 10px;
+          font-size: 30px;
+          color: darken($IDENTITY_COLOR, 15);
+          vertical-align: middle;
+        }
+      }
+    }
+    .title {
+      display: inline-block;
+      line-height: 40px;
+      vertical-align: middle;
+      font-size: 24px;
+      font-weight: 600;
+      padding-right: 20px;
+    }
+    .created_at, .updated_at {
+      display: inline-block;
+      padding-right: 20px;
+    }
+    .edit-btn, .destroy-btn {
+      display: inline-block;
+      float: right;
+      box-sizing: border-box;
+      height: 26px;
+      margin: 7px 5px;
+    }
+  }
+  .paper-list-menu {
+    padding: 20px;
+    text-align: center;
+    .paper-search-btn, .share-btn {
+      margin: 10px 20px;
     }
   }
 }

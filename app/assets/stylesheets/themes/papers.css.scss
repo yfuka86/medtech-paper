@@ -6,6 +6,9 @@
   background-color: $WHITE;
   border: 1px solid $GRAYCC;
   border-radius: 10px;
+  .form-title {
+    font-size: 20px;
+  }
   .keyword-input {
     font-size: 14px;
     line-height: 24px;
@@ -31,6 +34,10 @@
 
 .papers {
   padding: 20px;
+  .attention {
+    font-size: 18px;
+    text-align: center;
+  }
   .paper {
     background-color: $WHITE;
     border-top: 1px solid $GRAYCC;
@@ -119,8 +126,17 @@
         line-height: 24px;
         padding: 5px 0;
       }
-      .pubmed-link {
+      .menu {
         padding: 10px 0;
+        form {
+          .target-paper-list {
+            font-size: 16px;
+            min-width: 200px;
+          }
+          .add-paper-btn {
+            padding: 2px 10px;
+          }
+        }
       }
     }
   }

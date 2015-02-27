@@ -13,18 +13,16 @@ Rails.application.routes.draw do
     collection do
       get 'search'
     end
-
-    member do
-    end
   end
 
   resources :paper_lists do
     collection do
       get 'search'
+      put 'add_paper'
     end
 
     member do
-      put 'add_paper'
+      delete 'remove_paper'
     end
   end
 

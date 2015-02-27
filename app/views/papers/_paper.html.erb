@@ -24,7 +24,11 @@
       </div>
     <% end %>
     <div class='source'>
-      <%= "#{paper.journal_name} #{paper.published_date.try(:strfdate, '%Y/%m/%d')};#{paper.volume}(#{paper.issue}):#{paper.pages}" %>
+      <%= "#{paper.journal_name}
+           #{paper.published_date.strftime('%Y/%m/%d') + ';' if paper.published_date.present?}
+           #{paper.volume}
+           #{'(' + paper.issue.to_s + ')' if paper.issue.present?}
+           #{':' + paper.pages if paper.pages.present?}" %>
     </div>
     <div class='authors'>
       <%= paper.authors_list %>
@@ -32,8 +36,29 @@
     <div class='abstract'>
       <%= paper.abstract %>
     </div>
-    <div class='pubmed-link'>
-      <%= link_to t('goto_pubmed'), paper.pubmed_path, target: '_blank' %>
+    <div class='menu'>
+      <p>
+        <%= link_to t('goto_pubmed'), paper.pubmed_path, target: '_blank', class: 'pubmed-link' %>
+      </p>
+      <%= form_tag add_paper_paper_lists_path, method: :put do %>
+        <p>
+          <%= hidden_field_tag :pubmed_id, paper.pubmed_id %>
+          <%= label_tag :id, '抄読会（リスト）：' %>
+          <%= select_tag :id,
+                        options_for_select(
+                          user.paper_lists.map{|pl| [pl.title, pl.id] unless pl.id == ((defined? paper_list) && paper_list.try(:id))}.compact
+                        ), required: true, class: 'target-paper-list' %>
+          にこの論文を
+          <%= submit_tag "登録する", name: nil, class: 'add-paper-btn flat-button-identity2', data: {disable_with: '登録中...'} %>
+        </p>
+      <% end if user.present? %>
+      <% if (defined? paper_list) && paper_list.present? %>
+        <p>
+          <%= link_to 'このリストから削除する',
+                      remove_paper_paper_list_path(id: (defined? paper_list) && paper_list.id, paper_id: paper.id),
+                      method: :delete, class: 'remove-paper-btn flat-button-red', data: {confirm: '本当に削除しますか？'} %>
+        </p>
+      <% end %>
     </div>
   </div>
 </div>

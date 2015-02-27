@@ -1,5 +1,5 @@
 <div class='paper-search-form'>
-  登録したい論文を探す
+  <div class='form-title'>登録したい論文を探す</div>
   <%= form_tag papers_path, method: :get do %>
     <p>
       <%= text_field_tag :term, params[:term], required: true, class: 'keyword-input', placeholder: 'キーワード' %>
