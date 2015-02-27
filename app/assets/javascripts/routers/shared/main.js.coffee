@@ -34,3 +34,7 @@ class routers.shared.Main extends alpha.mvc.Router
 
     content = $.trim($('#notification').html())
     renderMessage(content, _.extend({}, opts, {timeout: 2000, closeable: true}))
+
+    content = _.map $('.devise-error-messages'), (el) =>
+      $.trim($(el).html())
+    renderMessage(content, opts, 'error')

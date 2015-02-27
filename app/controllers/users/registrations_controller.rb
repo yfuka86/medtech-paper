@@ -12,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
-    PaperList.setup_with_newuser(current_user)
+    PaperList.setup_with_newuser(current_user) if current_user.present?
   end
 
   # GET /resource/edit

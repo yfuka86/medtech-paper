@@ -66,6 +66,10 @@
       font-size: 14px;
       font-weight: 600;
       padding-right: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
     }
     .created_at, .updated_at {
       display: inline-block;
@@ -84,7 +88,7 @@
 .paper-list-detail {
   background-color: $WHITE;
   .paper-list-metainfo {
-    padding: 20px;
+    padding: 20px 40px;
     .icon {
       display: inline-block;
       width: 40px;

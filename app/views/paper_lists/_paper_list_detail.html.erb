@@ -1,12 +1,14 @@
 <div class='paper-list-detail'>
   <div class='paper-list-metainfo'>
-    <div class='icon'>
-      <% if paper_list.favorite? %>
-        <i class="fa fa-star"></i>
-      <% elsif paper_list.read? %>
-        <i class="fa fa-bookmark"></i>
-      <% end %>
-    </div>
+    <% if paper_list.favorite? || paper_list.read? %>
+      <div class='icon'>
+        <% if paper_list.favorite? %>
+          <i class="fa fa-star"></i>
+        <% elsif paper_list.read? %>
+          <i class="fa fa-bookmark"></i>
+        <% end %>
+      </div>
+    <% end %>
     <div class='title'>
       <%= paper_list.title %>
     </div>

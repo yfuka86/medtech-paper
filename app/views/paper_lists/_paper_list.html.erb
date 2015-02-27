@@ -11,10 +11,10 @@
   </div>
   <% if paper_list.general? %>
     <div class='created_at'>
-      <%= paper_list.created_at.strftime('%Y/%m/%d %H:%M') %>作成
+      <%= paper_list.created_at.strftime('%Y/%m/%d') %>作成
     </div>
     <div class='updated_at'>
-      <%= paper_list.updated_at.strftime('%Y/%m/%d %H:%M') %>更新
+      <%= paper_list.updated_at.strftime('%Y/%m/%d') %>更新
     </div>
     <%= link_to '削除', paper_list_path(id: paper_list.id),
                                method: :delete,
