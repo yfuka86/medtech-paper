@@ -41,13 +41,15 @@
 }
 
 @mixin flat-button-normal {
+  @include flat-button-base;
   border-color: $GRAYBB;
   background-color: $GRAYF4;
   color: #333;
 
   &:hover,
   &:active {
-    opacity: 0.9;
+    opacity: 0.7;
+    color: #333;
   }
 }
 
@@ -55,18 +57,21 @@
   @include flat-button-normal;
 }
 
-@mixin flat-button-identity {
+@mixin flat-button-outline {
   @include flat-button-base;
 
-  border-color: lighten($IDENTITY_COLOR, 0);
-  background-color: lighten($IDENTITY_COLOR, 5);
   color: #fff;
-
   &:hover {
-    opacity: 0.9;
+    opacity: 0.75;
     color: #fff;
   }
+}
 
+@mixin flat-button-identity {
+  @include flat-button-outline;
+
+  border-color: darken($IDENTITY_COLOR, 5);
+  background-color: lighten($IDENTITY_COLOR, 5);
   &:active {
     background-color: lighten($IDENTITY_COLOR, 10);
   }
@@ -77,17 +82,10 @@
 }
 
 @mixin flat-button-identity1 {
-  @include flat-button-base;
+  @include flat-button-outline;
 
-  border-color: darken($IDENTITY_COLOR, 15);
+  border-color: darken($IDENTITY_COLOR, 20);
   background-color: darken($IDENTITY_COLOR, 10);
-  color: #fff;
-
-  &:hover {
-    opacity: 0.9;
-    color: #fff;
-  }
-
   &:active {
     background-color: darken($IDENTITY_COLOR, 5);
   }
@@ -97,19 +95,11 @@
   @include flat-button-identity1;
 }
 
-
 @mixin flat-button-identity2 {
-  @include flat-button-base;
+  @include flat-button-outline;
 
-  border-color: darken($IDENTITY_COLOR, 10);
+  border-color: darken($IDENTITY_COLOR, 15);
   background-color: darken($IDENTITY_COLOR, 5);
-  color: #fff;
-
-  &:hover {
-    opacity: 0.9;
-    color: #fff;
-  }
-
   &:active {
     background-color: darken($IDENTITY_COLOR, 0);
   }
@@ -117,4 +107,47 @@
 
 .flat-button-identity2 {
   @include flat-button-identity2;
+}
+
+@mixin flat-button-orange {
+  @include flat-button-outline;
+
+  border-color: lighten($ORANGE, 0);
+  background-color: lighten($ORANGE, 5);
+  &:active {
+    background-color: lighten($ORANGE, 10);
+  }
+}
+
+.flat-button-orange {
+  @include flat-button-orange;
+}
+
+@mixin flat-button-red {
+  @include flat-button-outline;
+
+  border-color: lighten($RED1, 0);
+  background-color: lighten($RED1, 5);
+  &:active {
+    background-color: lighten($RED1, 10);
+  }
+}
+
+.flat-button-red {
+  @include flat-button-red;
+}
+
+
+@mixin flat-button-yellow {
+  @include flat-button-outline;
+
+  border-color: lighten($YELLOW, 0);
+  background-color: lighten($YELLOW, 5);
+  &:active {
+    background-color: lighten($YELLOW, 10);
+  }
+}
+
+.flat-button-yellow {
+  @include flat-button-yellow;
 }

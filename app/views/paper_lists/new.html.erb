@@ -1,0 +1,14 @@
+<div class='paper-list-form'>
+  <p>新しい抄読会（論文リスト）を作成する</p>
+  <%= form_for(@paper_list, url: paper_lists_path) do |f| %>
+    <p>
+      <%= f.label :title, 'リスト名' %>
+      <%= f.text_field :title, required: true, class: 'title-input' %>
+    </p>
+    <p>
+      <%= f.label :is_public, 'このリストを公開する' %>
+      <%= f.check_box :is_public %>
+      <%= f.submit '作成する', class: 'submit-btn flat-button-identity2', data: {disable_with: '作成中...'} %>
+    </p>
+  <% end %>
+</div>

@@ -10,4 +10,4 @@ class routers.shared.PaperList extends alpha.mvc.Router
   # @param {?string} query
   shared: (query) ->
     paperListView = new views.shared.PaperList
-    paperListView.decorate '.paper-list'
+    paperListView.decorate '.papers'

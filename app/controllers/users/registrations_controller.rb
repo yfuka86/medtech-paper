@@ -10,9 +10,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+    PaperList.setup_with_newuser(current_user) if current_user.present?
+  end
 
   # GET /resource/edit
   # def edit

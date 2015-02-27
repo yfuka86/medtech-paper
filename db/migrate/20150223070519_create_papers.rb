@@ -2,9 +2,9 @@ class CreatePapers < ActiveRecord::Migration
   def change
     create_table :papers do |t|
       t.integer :pubmed_id
-      t.date :received_date
-      t.date :accepted_date
-      t.date :published_date
+      t.datetime :received_date
+      t.datetime :accepted_date
+      t.datetime :published_date
       t.string :title
       t.integer :volume
       t.integer :issue

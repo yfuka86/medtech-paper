@@ -1,14 +1,43 @@
 @import "globals/config-loader";
 
-.paper-list-title {
+.paper-search-form {
+  margin: 10px;
+  padding: 20px 40px;
+  background-color: $WHITE;
+  border: 1px solid $GRAYCC;
+  border-radius: 10px;
+  .form-title {
+    font-size: 20px;
+  }
+  .keyword-input {
+    font-size: 14px;
+    line-height: 24px;
+    width: 500px;
+  }
+  input[type='date'] {
+    height: 24px;
+  }
+  .submit-btn {
+    float: right;
+    width: 160px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+
+.papers-title {
   font-family: serif;
   font-size: 24px;
   color: $GRAY99;
   padding: 0 20px;
 }
 
-.paper-list {
+.papers {
   padding: 20px;
+  .attention {
+    font-size: 18px;
+    text-align: center;
+  }
   .paper {
     background-color: $WHITE;
     border-top: 1px solid $GRAYCC;
@@ -29,6 +58,7 @@
         min-width: 50px;
         text-align: center;
         width: 50px;
+        height: 100%;
       }
       .title {
         float: left;
@@ -41,7 +71,7 @@
       }
       .authors {
         float: left;
-        max-width: 300px;
+        max-width: 200px;
         overflow: hidden;
         padding: 0 10px;
         text-overflow: ellipsis;
@@ -49,7 +79,7 @@
       }
       .abstract {
         float: left;
-        width: 600px;
+        width: 500px;
         display: table-cell;
         overflow: hidden;
         padding: 0 10px;
@@ -96,8 +126,17 @@
         line-height: 24px;
         padding: 5px 0;
       }
-      .pubmed-link {
+      .menu {
         padding: 10px 0;
+        form {
+          .target-paper-list {
+            font-size: 16px;
+            min-width: 200px;
+          }
+          .add-paper-btn {
+            padding: 2px 10px;
+          }
+        }
       }
     }
   }

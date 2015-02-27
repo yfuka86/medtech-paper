@@ -56,5 +56,17 @@ ja:
       not_found: 'は見つかりませんでした。'
       not_locked: 'は凍結されていません。'
       not_saved:
-        one: "エラーが発生したため %{resource} は保存されませんでした:"
-        other: "%{count} 件のエラーが発生したため %{resource} は保存されませんでした:"
+        one: "１つのエラーがあります。修正して再度送信して下さい。"
+        other: "%{count} 件のエラーがあります。修正して再度送信して下さい。"
+      taken: "は既に使用されています。"
+      blank: "が入力されていません。"
+      too_short: "は%{count}文字以上に設定して下さい。"
+      too_long: "は%{count}文字以下に設定して下さい。"
+      invalid: "は有効でありません。"
+      confirmation: "が内容とあっていません。"
+  activerecord:
+    attributes:
+      user:
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（再入力）

@@ -9,12 +9,20 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  resources :paper, only: [:index] do
+  resources :papers, only: [:index] do
     collection do
       get 'search'
     end
+  end
+
+  resources :paper_lists do
+    collection do
+      get 'search'
+      put 'add_paper'
+    end
 
     member do
+      delete 'remove_paper'
     end
   end
 
