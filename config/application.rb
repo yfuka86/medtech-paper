@@ -22,5 +22,6 @@ module MedtechPaper
     config.autoload_paths += %W(#{config.root}/lib)
 
     config.time_zone = 'Tokyo'
+    config.serve_static_assets = true
   end
 end
