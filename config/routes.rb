@@ -1,16 +1,30 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: "users/sessions",
+    confirmations: "users/confirmations",
+    passwords: "users/passwords",
+    registrations: "users/registrations",
+    unlocks: "users/unlocks"
+  }
 
   root 'home#index'
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  resources :papers, only: [:index] do
+    collection do
+      get 'search'
+    end
+  end
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  resources :paper_lists do
+    collection do
+      get 'search'
+      put 'add_paper'
+    end
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+    member do
+      delete 'remove_paper'
+    end
+  end
 
   # Example resource route with options:
   #   resources :products do

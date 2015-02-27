@@ -1,0 +1,50 @@
+@import "globals/config-loader";
+
+body {
+  min-height: 100%;
+  height: 100%;
+  background-color: lighten($IDENTITY_COLOR, 40);
+}
+
+.app-identity {
+  padding: 10px;
+  a {
+    color: darken($IDENTITY_COLOR, 5);
+    font-size: 30px;
+    font-weight: 600;
+    font-family: serif;
+    &:hover {
+      color: lighten($IDENTITY_COLOR, 5);
+      .darken {
+        color: $IDENTITY_COLOR;
+      }
+    }
+    .darken {
+      color: darken($IDENTITY_COLOR, 10);
+      font-size: 36px;
+    }
+  }
+}
+
+.interface-container {
+  position: relative;
+  width: 70%;
+  height: 100%;
+  margin: auto;
+  padding-left: 280px;
+  .sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 280px;
+    min-height: 100%;
+    box-sizing: border-box;
+  }
+  .content {
+    min-height: 100%;
+    width: 100%;
+    min-width: 840px;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+}

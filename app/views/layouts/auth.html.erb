@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MedtechPaper</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+   <div id='alert' style='display: none;'>
+    <%= flash[:alert] %>
+  </div>
+  <div id='success' style='display: none;'>
+    <%= flash[:success] %>
+  </div>
+  <div id='notification' style='display: none;'>
+    <%= flash[:notice] %>
+  </div>
+  <div id='notification-messages-container'></div>
+  <div class='auth-container'>
+    <div class='form-container'>
+      <%= render 'layouts/identity' %>
+      <div class='form-inner'>
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

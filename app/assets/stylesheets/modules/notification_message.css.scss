@@ -1,0 +1,61 @@
+@import "globals/config-loader";
+
+.notification-message {
+  position: fixed;
+  z-index: $NOTIFICATION_MESSAGE_Z;
+  width: 100%;
+}
+
+@mixin message-base {
+  box-sizing: border-box;
+
+  position: relative;
+  margin: auto;
+  margin-top: -70px;
+  padding: 10px 20px;
+
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+
+  width: 100%;
+  max-width: 600px;
+  min-height: 45px;
+
+  background-color: $GRAYFC;
+
+  .notification-message-box {
+    line-height: 23px;
+    font-size: 17px;
+    color: $TEXTCOLOR;
+    vertical-align: middle;
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  .close-btn {
+    font-size: 16px;
+    color: $GRAY99;
+    position: absolute;
+    right: 4px;
+    top: 3px;
+    cursor: pointer;
+  }
+}
+
+.normal-notification-message {
+  @include message-base;
+}
+
+.error-notification-message {
+  @include message-base;
+  background-color: lighten($IDENTITY_RED, 10);
+  .notification-message-box { color: $WHITE; }
+  .close-btn { color: $GRAYEE;}
+}
+
+.success-notification-message {
+  @include message-base;
+  background-color: lighten($IDENTITY_COLOR, 10);
+  .notification-message-box { color: $WHITE; }
+  .close-btn { color: $GRAYEE;}
+}

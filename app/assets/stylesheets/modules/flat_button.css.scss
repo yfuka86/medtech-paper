@@ -1,0 +1,153 @@
+@import "globals/config-loader";
+
+/**
+ * buttons
+ */
+
+@mixin flat-button-base {
+  display: inline-block;
+  line-height: 18px;
+  margin-bottom: 0;
+  padding: 4px 10px 4px;
+  border: 1px solid $GRAYCC;
+  background-repeat: repeat-x;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+
+  &:active,
+  &:focus,
+  &:visited {
+    outline: none;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:active {
+    /* クリック時のstyle */
+  }
+
+  &.disabled,
+  &:disabled {
+    border-color: $GRAYBB;
+    border-bottom-color: $GRAYAA;
+    background-color: $GRAYBB;
+    pointer-events: none;
+  }
+}
+
+@mixin flat-button-normal {
+  @include flat-button-base;
+  border-color: $GRAYBB;
+  background-color: $GRAYF4;
+  color: #333;
+
+  &:hover,
+  &:active {
+    opacity: 0.7;
+    color: #333;
+  }
+}
+
+.flat-button-normal {
+  @include flat-button-normal;
+}
+
+@mixin flat-button-outline {
+  @include flat-button-base;
+
+  color: #fff;
+  &:hover {
+    opacity: 0.75;
+    color: #fff;
+  }
+}
+
+@mixin flat-button-identity {
+  @include flat-button-outline;
+
+  border-color: darken($IDENTITY_COLOR, 5);
+  background-color: lighten($IDENTITY_COLOR, 5);
+  &:active {
+    background-color: lighten($IDENTITY_COLOR, 10);
+  }
+}
+
+.flat-button-identity {
+  @include flat-button-identity;
+}
+
+@mixin flat-button-identity1 {
+  @include flat-button-outline;
+
+  border-color: darken($IDENTITY_COLOR, 20);
+  background-color: darken($IDENTITY_COLOR, 10);
+  &:active {
+    background-color: darken($IDENTITY_COLOR, 5);
+  }
+}
+
+.flat-button-identity1 {
+  @include flat-button-identity1;
+}
+
+@mixin flat-button-identity2 {
+  @include flat-button-outline;
+
+  border-color: darken($IDENTITY_COLOR, 15);
+  background-color: darken($IDENTITY_COLOR, 5);
+  &:active {
+    background-color: darken($IDENTITY_COLOR, 0);
+  }
+}
+
+.flat-button-identity2 {
+  @include flat-button-identity2;
+}
+
+@mixin flat-button-orange {
+  @include flat-button-outline;
+
+  border-color: lighten($ORANGE, 0);
+  background-color: lighten($ORANGE, 5);
+  &:active {
+    background-color: lighten($ORANGE, 10);
+  }
+}
+
+.flat-button-orange {
+  @include flat-button-orange;
+}
+
+@mixin flat-button-red {
+  @include flat-button-outline;
+
+  border-color: lighten($RED1, 0);
+  background-color: lighten($RED1, 5);
+  &:active {
+    background-color: lighten($RED1, 10);
+  }
+}
+
+.flat-button-red {
+  @include flat-button-red;
+}
+
+
+@mixin flat-button-yellow {
+  @include flat-button-outline;
+
+  border-color: lighten($YELLOW, 0);
+  background-color: lighten($YELLOW, 5);
+  &:active {
+    background-color: lighten($YELLOW, 10);
+  }
+}
+
+.flat-button-yellow {
+  @include flat-button-yellow;
+}

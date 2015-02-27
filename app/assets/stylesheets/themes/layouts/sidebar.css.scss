@@ -1,0 +1,30 @@
+@import "globals/config-loader";
+@import "modules/flat_button";
+
+.sidebar {
+  background-color: $WHITE;
+  padding: 10px;
+
+  .user-info {
+    padding: 10px;
+    a {
+      display: block;
+    }
+  }
+
+  .menu {
+    .button {
+      height: 40px;
+      line-height: 30px;
+      font-size: 14px;
+      width: 100%;
+      margin: 10px 0;
+      vertical-align: middle;
+      i {
+        font-size: 24px;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+    }
+  }
+}
