@@ -45,11 +45,13 @@
       border-bottom: 1px solid $GRAYCC;
     }
     .summary {
-      padding: 5px 0 0 0;
+      padding: 0 0 0 0;
       box-sizing: border-box;
       cursor: pointer;
       height: 30px;
       width: 100%;
+      line-height: 30px;
+      vertical-align: middle;
       &:hover {
         background-color: $GRAYEE;
       }
