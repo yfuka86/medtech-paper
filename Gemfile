@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.0'
 
 gem 'mysql2'
+gem 'pg'
 
 # to authenticate
 gem 'devise'
