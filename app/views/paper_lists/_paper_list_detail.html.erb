@@ -1,30 +1,21 @@
 <div class='paper-list-detail'>
   <div class='paper-list-metainfo'>
-    <% if paper_list.favorite? || paper_list.read? %>
-      <div class='icon'>
-        <% if paper_list.favorite? %>
-          <i class="fa fa-star"></i>
-        <% elsif paper_list.read? %>
-          <i class="fa fa-bookmark"></i>
-        <% end %>
-      </div>
-    <% end %>
     <div class='title'>
       <%= paper_list.title %>
     </div>
-    <% if paper_list.general? %>
-      <div class='created-at'>
-        <%= paper_list.created_at.strftime('%Y/%m/%d %H:%M') %>作成
-      </div>
-      <div class='updated-at'>
-        <%= paper_list.updated_at.strftime('%Y/%m/%d %H:%M') %>更新
-      </div>
+    <div class='created-at'>
+      <%= paper_list.created_at.strftime('%Y/%m/%d %H:%M') %>作成
+    </div>
+    <div class='updated-at'>
+      <%= paper_list.updated_at.strftime('%Y/%m/%d %H:%M') %>更新
+    </div>
+    <% if paper_list.user.id = user.id %>
       <%= link_to '削除', paper_list_path(id: paper_list.id),
                                  method: :delete,
                                  class: 'destroy-btn flat-button-red',
                                  data: {confirm: '本当に削除してよろしいですか？'} %>
-      <%= link_to '編集', edit_paper_list_path(id: paper_list.id), class: 'edit-btn flat-button-normal' %>
     <% end %>
+    <%= link_to '編集', edit_paper_list_path(id: paper_list.id), class: 'edit-btn flat-button-normal' %>
     <% unless paper_list.shared_users.count == 0 %>
       <div class='sharing-with'>
         <%= link_to "#{paper_list.all_users.count}人のユーザーが共有中です", '#', class: 'toggle-userlist' %>
