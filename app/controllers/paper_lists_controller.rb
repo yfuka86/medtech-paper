@@ -32,12 +32,14 @@ class PaperListsController < ApplicationController
   end
 
   def update
-    paper_list = assign_params_to_paper_list
+    paper_list = current_user.paper_lists.find_by(id: params[:id])
+    (redirect_to paper_lists_path, alert: '不正なパラメータです' and return) unless paper_list.present?
+    paper_list = assign_params_to_paper_list(paper_list)
     redirect_to paper_list_path(id: paper_list.id), notice: '論文リストの編集が完了しました'
   rescue ActiveRecord::RecordNotFound => e
-    redirect_to edit_paper_list_path(id: paper_list.id), alert: '指定したメンバーが見つかりませんでした'
+    redirect_to edit_paper_list_path(id: params[:id]), alert: '指定したメンバーが見つかりませんでした'
   rescue ActiveRecord::RecordInvalid => e
-    redirect_to edit_paper_list_path(id: paper_list.id), alert: '論文リストの編集に失敗しました'
+    redirect_to edit_paper_list_path(id: params[:id]), alert: '論文リストの編集に失敗しました'
   end
 
   def destroy
@@ -78,13 +80,16 @@ class PaperListsController < ApplicationController
 
   private
 
-  def assign_params_to_paper_list
+  def assign_params_to_paper_list(paper_list)
+    paper_list ||= PaperList.new
     ActiveRecord::Base.transaction do
-      paper_list = current_user.paper_lists.find_by(id: params[:id]) || PaperList.new
       paper_list.assign_attributes(title: paper_list_params[:title], is_public: paper_list_params[:is_public])
       paper_list.user = current_user
-      paper_list.shared_users = paper_list_params[:shared_users_attributes].values.map do |user_params|
-        user = User.find(id: user_params[:email])
+      shared_users_params = paper_list_params[:shared_users_attributes].values.select do |hash|
+        hash[:_destroy] == 'false'
+      end
+      paper_list.shared_users = shared_users_params.map do |user_params|
+        user = User.find_by!(email: user_params[:email])
       end
       paper_list.save!
     end
@@ -92,7 +97,7 @@ class PaperListsController < ApplicationController
   end
 
   def paper_list_params
-    params.require(:paper_list).permit(:title, :is_public, shared_users_attributes:[:email])
+    params.require(:paper_list).permit(:title, :is_public, shared_users_attributes:[:email, :_destroy])
   end
 
   def add_paper_params
