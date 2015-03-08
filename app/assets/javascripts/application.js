@@ -5,6 +5,7 @@
 //= require backbone
 //= require vue/dist/vue
 //= require spin.js/spin
+//= require jquery_nested_form
 
 //= require i18n
 //= require i18n/translations

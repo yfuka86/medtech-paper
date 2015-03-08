@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224024116) do
+ActiveRecord::Schema.define(version: 20150308050520) do
 
   create_table "author_papers", force: :cascade do |t|
     t.integer  "author_id",  limit: 4
@@ -38,6 +38,13 @@ ActiveRecord::Schema.define(version: 20150224024116) do
   create_table "organizations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "paper_list_users", force: :cascade do |t|
+    t.integer  "paper_list_id", limit: 4
+    t.integer  "user_id",       limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "paper_lists", force: :cascade do |t|

@@ -51,15 +51,11 @@ class Paper < ActiveRecord::Base
   end
 
   def self.ranking
-    self.all
+    self.all.sort_by{|p| -p.popularity}
   end
 
   def popularity
-    if self.paper_lists.count == 0
-      ''
-    else
-      self.paper_lists.count
-    end
+    self.paper_lists.count
   end
 
   def journal_name
@@ -67,7 +63,7 @@ class Paper < ActiveRecord::Base
   end
 
   def authors_list
-    self.authors.map{|a| a.name}.join(', ')
+    self.authors.joins(:author_papers).order('author_papers.id').map{|a| a.name}.join(', ')
   end
 
   def pubmed_path

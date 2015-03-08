@@ -3,4 +3,7 @@
   <% papers.each_with_index do |p, idx| %>
     <%= render 'papers/paper', paper: p, is_last: (idx + 1 == papers.count), user: user %>
   <% end %>
+  <% if papers.count == 0 %>
+    <p>お探しの論文は見つかりませんでした</p>
+  <% end %>
 </div>

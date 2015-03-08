@@ -9,7 +9,10 @@
     <i class="fa fa-list"></i>抄読会（論文リスト）一覧
   <% end %>
   <%= link_to new_paper_list_path, class: 'button register-paper flat-button-identity' do %>
-    <i class="fa fa-file-text-o"></i>抄読会（論文リスト）をつくる
+    <i class="fa fa-file-text-o"></i>論文リストをつくる
+  <% end %>
+  <%= link_to shared_new_paper_lists_path, class: 'button register-paper flat-button-identity' do %>
+    <i class="fa fa-file-text"></i>抄読会をつくる
   <% end %>
   <%# link_to search_paper_lists_path, class: 'button search-paper-list flat-button-identity1' do %>
     <!-- <i class="fa fa-search-plus"></i>抄読会（論文リスト）を探す -->
