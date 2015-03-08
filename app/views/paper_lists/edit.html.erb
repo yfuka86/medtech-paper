@@ -13,6 +13,9 @@
       抄読会メンバー（リスト共有メンバー）
     </p>
     <p>
+      管理者：<%= @paper_list.user.email %>
+    </p>
+    <p>
       <%= f.fields_for :shared_users do |user| %>
         <%= user.text_field :email, class: 'email-input', placeholder: 'メールアドレス' %>
         <%= user.link_to_remove '削除', class: 'remove-shared-user flat-button-red' %>

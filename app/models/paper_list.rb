@@ -16,4 +16,7 @@ class PaperList < ActiveRecord::Base
     user.save
   end
 
+  def all_users
+    shared_users + [user]
+  end
 end
