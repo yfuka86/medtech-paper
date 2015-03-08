@@ -2,6 +2,10 @@ class PaperList < ActiveRecord::Base
   has_many :paper_paper_lists
   has_many :papers, through: :paper_paper_lists
   belongs_to :user
+  has_many :paper_list_users, dependent: :delete_all
+  has_many :shared_users, through: :paper_list_users, source: :user
+
+  accepts_nested_attributes_for :shared_users
 
   enum category: [:general, :favorite, :read]
 

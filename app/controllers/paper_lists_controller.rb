@@ -14,14 +14,17 @@ class PaperListsController < ApplicationController
     @paper_list = PaperList.new
   end
 
+  def shared_new
+    @paper_list = PaperList.new
+  end
+
   def create
-    paper_list = PaperList.new(paper_params)
-    paper_list.user = current_user
-    if paper_list.save
-      redirect_to paper_lists_path, notice: '論文リストが保存されました'
-    else
-      redirect_to new_paper_lists_path, alert: '論文リストの保存に失敗しました'
-    end
+    paper_list = assign_params_to_paper_list
+    redirect_to paper_list_path(id: paper_list.id), notice: '論文リストが保存されました'
+  rescue ActiveRecord::RecordNotFound => e
+    redirect_to new_paper_list_path, alert: '指定したメンバーが見つかりませんでした'
+  rescue ActiveRecord::RecordInvalid => e
+    redirect_to new_paper_list_path, alert: '論文リストの保存に失敗しました'
   end
 
   def edit
@@ -29,13 +32,12 @@ class PaperListsController < ApplicationController
   end
 
   def update
-    paper_list = current_user.paper_lists.find_by(id: params[:id])
-    paper_list.assign_attributes(paper_params)
-    if paper_list.save
-      redirect_to paper_list_path(id: paper_list.id), notice: '論文リストの編集が完了しました'
-    else
-      redirect_to edit_paper_list_path(id: paper_list.id), alert: '論文リストの編集に失敗しました'
-    end
+    paper_list = assign_params_to_paper_list
+    redirect_to paper_list_path(id: paper_list.id), notice: '論文リストの編集が完了しました'
+  rescue ActiveRecord::RecordNotFound => e
+    redirect_to edit_paper_list_path(id: paper_list.id), alert: '指定したメンバーが見つかりませんでした'
+  rescue ActiveRecord::RecordInvalid => e
+    redirect_to edit_paper_list_path(id: paper_list.id), alert: '論文リストの編集に失敗しました'
   end
 
   def destroy
@@ -62,7 +64,6 @@ class PaperListsController < ApplicationController
 
   def remove_paper
     relation = PaperPaperList.find_by(paper_list_id: remove_paper_params[:id], paper_id: remove_paper_params[:paper_id])
-    binding.pry
     paper = relation.paper
     paper_list = relation.paper_list
     if relation.destroy
@@ -77,8 +78,21 @@ class PaperListsController < ApplicationController
 
   private
 
-  def paper_params
-    params.require(:paper_list).permit(:title, :is_public)
+  def assign_params_to_paper_list
+    ActiveRecord::Base.transaction do
+      paper_list = current_user.paper_lists.find_by(id: params[:id]) || PaperList.new
+      paper_list.assign_attributes(title: paper_list_params[:title], is_public: paper_list_params[:is_public])
+      paper_list.user = current_user
+      paper_list.shared_users = paper_list_params[:shared_users_attributes].values.map do |user_params|
+        user = User.find(id: user_params[:email])
+      end
+      paper_list.save!
+    end
+    paper_list
+  end
+
+  def paper_list_params
+    params.require(:paper_list).permit(:title, :is_public, shared_users_attributes:[:email])
   end
 
   def add_paper_params

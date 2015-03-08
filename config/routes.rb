@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   resources :paper_lists do
     collection do
+      get 'shared_new'
       get 'search'
       put 'add_paper'
     end

@@ -67,7 +67,7 @@ class Paper < ActiveRecord::Base
   end
 
   def authors_list
-    self.authors.map{|a| a.name}.join(', ')
+    self.authors.joins(:author_papers).order('author_papers.id').map{|a| a.name}.join(', ')
   end
 
   def pubmed_path

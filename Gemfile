@@ -28,6 +28,7 @@ gem 'font-awesome-sass', '~> 4.2.0'
 gem 'jquery-rails'
 gem 'momentjs-rails'
 gem 'backbone-on-rails', '~> 1.1.1.0'
+gem 'nested_form'
 
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'

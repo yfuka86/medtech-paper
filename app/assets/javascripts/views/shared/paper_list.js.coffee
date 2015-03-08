@@ -12,6 +12,11 @@ class views.shared.PaperList extends alpha.mvc.View
       $summary = $el.find('.summary')
       $detail = $el.find('.detail')
       @listen $el.find('.summary'), 'click', =>
+        _.each @$('.paper'), (el) =>
+          $el = $(el)
+          $el.find('.summary').show()
+          @setSummaryCss()
+          $el.find('.detail').hide()
         $summary.hide()
         $detail.show()
       @listen $(el).find('.close-bar'), 'click', =>
