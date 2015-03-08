@@ -84,8 +84,7 @@ class PaperListsController < ApplicationController
 
   private
 
-  def assign_params_to_paper_list(paper_list)
-    paper_list ||= PaperList.new
+  def assign_params_to_paper_list(paper_list=PaperList.new)
     ActiveRecord::Base.transaction do
       paper_list.assign_attributes(title: paper_list_params[:title], is_public: paper_list_params[:is_public])
       paper_list.user ||= current_user
