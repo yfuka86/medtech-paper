@@ -34,7 +34,7 @@
 
   <div class="field">
     <%= f.label :department, '所属科' %><br />
-    <%= f.select :department, User.departments.map{|k, v| [t("department.#{k}"), v]} %>
+    <%= f.select :department, User.departments.map{|k, v| [t("department.#{k}"), v]}, prompt: '選択してください' %>
   </div>
 
   <div class="field">

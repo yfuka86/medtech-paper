@@ -30,5 +30,5 @@ class views.shared.Papers extends alpha.mvc.View
     _.each @$('.paper'), (el) =>
       $el = $(el)
       $summary = $el.find('.summary')
-      abstract_width = $summary.outerWidth() - $summary.find('.popularity').outerWidth() - $summary.find('.title').outerWidth() - $summary.find('.authors').outerWidth()
+      abstract_width = $summary.outerWidth() - $summary.find('.favorite').outerWidth() - $summary.find('.popularity').outerWidth() - $summary.find('.title').outerWidth() - $summary.find('.authors').outerWidth()
       $summary.find('.abstract').outerWidth(abstract_width - 30)

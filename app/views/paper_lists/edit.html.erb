@@ -18,7 +18,9 @@
     <p>
       <%= f.fields_for :shared_users do |user| %>
         <%= user.text_field :email, class: 'email-input', placeholder: 'メールアドレス' %>
-        <%= user.link_to_remove '削除', class: 'remove-shared-user flat-button-red' %>
+        <% if current_user.id == @paper_list.user.id %>
+          <%= user.link_to_remove '削除', class: 'remove-shared-user flat-button-red' %>
+        <% end %>
       <% end %>
       <p>
         <%= f.link_to_add 'メンバーを追加する', :shared_users %>

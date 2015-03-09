@@ -1,5 +1,12 @@
 <div class='<%="paper#{" last" if is_last}"%>'>
   <div class='summary'>
+    <div class='favorite'>
+      <% if user.favorite_list.has_paper?(paper) %>
+        <i class='fa fa-star'></i>
+      <% else %>
+        <i class='fa fa-star-o'></i>
+      <% end %>
+    </div>
     <div class='popularity'>
       <%= paper.popularity if paper.popularity != 0 %>
     </div>
@@ -14,7 +21,7 @@
     </div>
   </div>
   <div class='detail' style='display:none;'>
-    <div class='close-bar'></div>
+    <div class='close-bar'><i class='fa fa-times'></i></div>
     <div class='title'>
       <%= paper.title %>
     </div>

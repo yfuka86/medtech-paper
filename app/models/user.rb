@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :paper_list_users, dependent: :delete_all
   has_many :shared_paper_lists, through: :paper_list_users, source: :paper_list
 
+  validates :username, length: { maximum: 20 }
   validates :hospital_name, length: { maximum: 50 }
   validate :valid_username?
 
@@ -32,5 +33,9 @@ class User < ActiveRecord::Base
 
   def display_name
     username.presence || email
+  end
+
+  def favorite_list
+    paper_lists.favorite.find_by(user_id: id)
   end
 end

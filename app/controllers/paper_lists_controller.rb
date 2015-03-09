@@ -88,12 +88,13 @@ class PaperListsController < ApplicationController
     ActiveRecord::Base.transaction do
       paper_list.assign_attributes(title: paper_list_params[:title], is_public: paper_list_params[:is_public])
       paper_list.user ||= current_user
-      shared_users_params = paper_list_params[:shared_users_attributes].values.select do |hash|
+      shared_users_params = paper_list_params[:shared_users_attributes].try(:values).try(:select) do |hash|
         hash[:_destroy] == 'false'
       end
-      paper_list.shared_users = shared_users_params.map do |user_params|
+      shared_users = shared_users_params.try(:map) do |user_params|
         user = User.find_by!(email: user_params[:email])
       end
+      paper_list.shared_users = shared_users if shared_users.present?
       paper_list.save!
     end
     paper_list
