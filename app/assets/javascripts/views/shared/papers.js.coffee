@@ -7,10 +7,18 @@ class views.shared.Papers extends alpha.mvc.View
   # @override
   enterDocument: ->
     super()
+    @bindPapersEvent()
+    @setSummaryCss()
+    $(window).resize @setSummaryCss
+
+  bindPapersEvent: ->
     _.each @$('.paper'), (el) =>
       $el = $(el)
       $summary = $el.find('.summary')
       $detail = $el.find('.detail')
+      @listen $el.find('i.fa-star'), 'click',
+      @listen $el.find('i.fa-star-o'), 'click',
+
       @listen $el.find('.summary'), 'click', =>
         _.each @$('.paper'), (el) =>
           $el = $(el)
@@ -23,8 +31,7 @@ class views.shared.Papers extends alpha.mvc.View
         $summary.show()
         @setSummaryCss()
         $detail.hide()
-    @setSummaryCss()
-    $(window).resize @setSummaryCss
+
 
   setSummaryCss: ->
     _.each @$('.paper'), (el) =>
