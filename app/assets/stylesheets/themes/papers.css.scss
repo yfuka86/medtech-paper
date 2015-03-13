@@ -55,6 +55,9 @@
       &:hover {
         background-color: $GRAYEE;
       }
+      &.favorited {
+        background-color: lighten($YELLOW, 49);
+      }
       .favorite {
         float: left;
         padding: 0 5px 0 10px;
@@ -129,6 +132,23 @@
         font-size: 24px;
         font-weight: 600;
         font-family: sans-serif;
+      }
+      .favorite {
+        float: left;
+        padding: 0 5px 0 0;
+        i {
+          font-size: 18px;
+          line-height: 30px;
+          vertical-align: middle;
+          cursor: pointer;
+          &.fa-star { color: $YELLOW; }
+          &.fa-star-o {
+            color: $GRAYAA;
+            &:hover {
+              color: $GRAY66;
+            }
+          }
+        }
       }
       .popularity {
         display: inline-block;

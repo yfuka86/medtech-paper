@@ -1,7 +1,6 @@
-<div class='<%="paper#{" last" if is_last}"%>'
-   data-pubmed-id='<%= paper.pubmed_id %>'
-   data-paper-id='<%= paper.try(:id) || 0 %>' >
-  <div class='summary'>
+<div class='paper <%="last" if is_last%>'
+   data-pubmed-id='<%= paper.pubmed_id %>' >
+  <div class='summary <%="favorited" if user.favorite_list.has_paper?(paper)%>'>
     <div class='favorite'>
       <% if user.favorite_list.has_paper?(paper) %>
         <i class='fa fa-star' data-favorite-list-id='<%= user.favorite_list.id %>'></i>
@@ -26,6 +25,13 @@
     <div class='close-bar'><i class='fa fa-times'></i></div>
     <div class='title'>
       <%= paper.title %>
+    </div>
+    <div class='favorite'>
+      <% if user.favorite_list.has_paper?(paper) %>
+        <i class='fa fa-star' data-favorite-list-id='<%= user.favorite_list.id %>'></i>
+      <% else %>
+        <i class='fa fa-star-o' data-favorite-list-id='<%= user.favorite_list.id %>'></i>
+      <% end %>
     </div>
     <% if paper.popularity.present? %>
       <div class='popularity'>

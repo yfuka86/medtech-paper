@@ -1,9 +1,9 @@
 class Api::Private::PaperListsController < Api::Private::BaseController
 
   def add_paper
-    paper = Pubmed.fetch(add_paper_params[:pubmed_id])
-    paper_list = current_user.paper_lists.find_by(id: add_paper_params[:id]) ||
-                current_user.shared_paper_lists.find_by(id: add_paper_params[:id])
+    paper = Pubmed.fetch(paper_params[:pubmed_id])
+    paper_list = current_user.paper_lists.find_by(id: paper_params[:id]) ||
+                current_user.shared_paper_lists.find_by(id: paper_params[:id])
 
     error = "#{paper_list.title}にはこの論文がすでに登録されています" if paper_list.papers.find_by(id: paper.try(:id)).present?
 
@@ -20,8 +20,8 @@ class Api::Private::PaperListsController < Api::Private::BaseController
   end
 
   def remove_paper
-    relation = PaperPaperList.find_by(paper_list_id: remove_paper_params[:id], paper_id: remove_paper_params[:paper_id])
-    paper = relation.paper
+    paper = Paper.find_by(pubmed_id: paper_params[:pubmed_id])
+    relation = PaperPaperList.find_by(paper_list_id: paper_params[:id], paper_id: paper.id)
     paper_list = relation.paper_list
     if relation.destroy
       render_success
@@ -32,11 +32,7 @@ class Api::Private::PaperListsController < Api::Private::BaseController
 
   private
 
-  def add_paper_params
+  def paper_params
     params.permit(:id, :pubmed_id)
-  end
-
-  def remove_paper_params
-    params.permit(:id, :paper_id)
   end
 end

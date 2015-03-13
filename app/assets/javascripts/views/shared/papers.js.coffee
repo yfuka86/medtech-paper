@@ -37,23 +37,39 @@ class views.shared.Papers extends alpha.mvc.View
     $star = $el.find('.fa-star, .fa-star-o')
     @listen $star, 'click', (e) =>
       e.stopPropagation()
+
+      star = ->
+        $star.removeClass('fa-star-o')
+        $star.addClass('fa-star')
+        $el.find('.summary').addClass('favorited')
+        _.each $el.find('.popularity'), (popularity)->
+          num = parseInt($.trim($(popularity).text()) || 0, 10)
+          $(popularity).text(num + 1)
+
+      unstar = ->
+        $star.removeClass('fa-star')
+        $star.addClass('fa-star-o')
+        $el.find('.summary').removeClass('favorited')
+        _.each $el.find('.popularity'), (popularity)->
+          num = parseInt($.trim($(popularity).text()) || 0, 10)
+          $(popularity).text(num - 1 || '')
+
       if $star.hasClass('fa-star')
+        unstar()
         defer = alpha.async.ajax
           type: 'DELETE'
           url: '/api/p/paper_lists/remove_paper'
           data:
             id: $star.data('favorite-list-id')
-            paper_id: $el.data('paper-id')
+            pubmed_id: $el.data('pubmed-id')
         defer.done (data, status, xhr) ->
-          $star.removeClass('fa-star')
-          $star.addClass('fa-star-o')
-          _.each $el.find('.popularity'), (popularity)->
-            num = parseInt($.trim($(popularity).text()) || 0, 10)
-            $(popularity).text(num - 1 || '')
+          return
         defer.fail (data, xhr, err) =>
+          star()
           views.components.addNormalMessage data.message, {}, 'error'
 
       else if $star.hasClass('fa-star-o')
+        star()
         defer = alpha.async.ajax
           type: 'PUT'
           url: '/api/p/paper_lists/add_paper'
@@ -61,12 +77,9 @@ class views.shared.Papers extends alpha.mvc.View
             id: $star.data('favorite-list-id')
             pubmed_id: $el.data('pubmed-id')
         defer.done (data, status, xhr) ->
-          $star.removeClass('fa-star-o')
-          $star.addClass('fa-star')
-          _.each $el.find('.popularity'), (popularity)->
-            num = parseInt($.trim($(popularity).text()) || 0, 10)
-            $(popularity).text(num + 1)
+          return
         defer.fail (data, xhr, err) =>
+          unstar()
           views.components.addNormalMessage data.message, {}, 'error'
 
   setSummaryCss: ->
