@@ -2,8 +2,8 @@ class Api::Private::PaperListsController < Api::Private::BaseController
 
   def add_paper
     paper = Pubmed.fetch(add_paper_params[:pubmed_id])
-    paper_list = current_user.paper_lists.find_by(id: params[:id]) ||
-                current_user.shared_paper_lists.find_by(id: params[:id])
+    paper_list = current_user.paper_lists.find_by(id: add_paper_params[:id]) ||
+                current_user.shared_paper_lists.find_by(id: add_paper_params[:id])
 
     error = "#{paper_list.title}にはこの論文がすでに登録されています" if paper_list.papers.find_by(id: paper.try(:id)).present?
 

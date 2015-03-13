@@ -52,7 +52,6 @@ class Api::Private::BaseController < ApplicationController
 
   def valid_user
     return @_user if @_user
-
     if doorkeeper_token
       @_user = User.find(doorkeeper_token.resource_owner_id)
     else

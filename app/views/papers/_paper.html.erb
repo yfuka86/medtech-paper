@@ -1,4 +1,6 @@
-<div class='<%="paper#{" last" if is_last}"%>'>
+<div class='<%="paper#{" last" if is_last}"%>'
+   data-pubmed-id='<%= paper.pubmed_id %>'
+   data-paper-id='<%= paper.try(:id) || 0 %>' >
   <div class='summary'>
     <div class='favorite'>
       <% if user.favorite_list.has_paper?(paper) %>
