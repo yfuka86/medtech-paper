@@ -14,7 +14,6 @@ Rails.application.routes.draw do
     collection do
       get 'api_index'
       get 'api_search'
-      get 'search'
     end
   end
 

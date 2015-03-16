@@ -11,9 +11,6 @@ class PapersController < ApplicationController
     @title = '検索結果'
   end
 
-  def search
-  end
-
   def api_search
   end
 

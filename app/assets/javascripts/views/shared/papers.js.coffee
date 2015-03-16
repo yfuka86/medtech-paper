@@ -98,6 +98,7 @@ class views.shared.Papers extends alpha.mvc.View
             @$el.hide()
             location.reload()
           $el.remove()
+          views.components.addNormalMessage 'リストからの削除に成功しました', {}, 'success'
         defer.fail (data, xhr, err) =>
           views.components.addNormalMessage data.message, {}, 'error'
 
@@ -110,5 +111,6 @@ class views.shared.Papers extends alpha.mvc.View
                        $summary.find('.popularity').outerWidth() -
                        $summary.find('.title').outerWidth() -
                        $summary.find('.authors').outerWidth() -
+                       $summary.find('.published-date').outerWidth() -
                        ($summary.find('.remove-paper').outerWidth() or 0)
       $summary.find('.abstract').outerWidth(abstract_width - 30)

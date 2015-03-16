@@ -16,6 +16,9 @@
     <div class='authors'>
       <%= paper.authors_list %>
     </div>
+    <div class='published-date'>
+      <%= "#{paper.published_date.strftime('%Y/%m/%d') if paper.published_date.present?}" %>
+    </div>
     <div class='abstract'>
       <%= paper.abstract %>
     </div>

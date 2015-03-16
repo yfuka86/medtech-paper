@@ -1,5 +1,6 @@
 <h1 class='papers-title'><%= title %></h1>
 <div class='papers'>
+  <%= render 'papers/papers_header' %>
   <% papers.each do |p| %>
     <%= render 'papers/paper', paper: p, user: user %>
   <% end %>
