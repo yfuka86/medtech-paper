@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150308050520) do
+ActiveRecord::Schema.define(version: 20150313175152) do
 
   create_table "author_papers", force: :cascade do |t|
     t.integer  "author_id",  limit: 4
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20150308050520) do
     t.datetime "updated_at",             null: false
   end
 
+  add_index "authors", ["name"], name: "index_authors_on_name", unique: true, using: :btree
+
   create_table "journals", force: :cascade do |t|
     t.string   "iso_jta",    limit: 255
     t.string   "ml_jta",     limit: 255
@@ -35,10 +37,44 @@ ActiveRecord::Schema.define(version: 20150308050520) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "organizations", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "oauth_access_grants", force: :cascade do |t|
+    t.integer  "resource_owner_id", limit: 4,     null: false
+    t.integer  "application_id",    limit: 4,     null: false
+    t.string   "token",             limit: 255,   null: false
+    t.integer  "expires_in",        limit: 4,     null: false
+    t.text     "redirect_uri",      limit: 65535, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "revoked_at"
+    t.string   "scopes",            limit: 255
   end
+
+  add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true, using: :btree
+
+  create_table "oauth_access_tokens", force: :cascade do |t|
+    t.integer  "resource_owner_id", limit: 4
+    t.integer  "application_id",    limit: 4
+    t.string   "token",             limit: 255, null: false
+    t.string   "refresh_token",     limit: 255
+    t.integer  "expires_in",        limit: 4
+    t.datetime "revoked_at"
+    t.datetime "created_at",                    null: false
+    t.string   "scopes",            limit: 255
+  end
+
+  add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true, using: :btree
+  add_index "oauth_access_tokens", ["resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner_id", using: :btree
+  add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
+
+  create_table "oauth_applications", force: :cascade do |t|
+    t.string   "name",         limit: 255,   null: false
+    t.string   "uid",          limit: 255,   null: false
+    t.string   "secret",       limit: 255,   null: false
+    t.text     "redirect_uri", limit: 65535, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "paper_list_users", force: :cascade do |t|
     t.integer  "paper_list_id", limit: 4
@@ -92,10 +128,13 @@ ActiveRecord::Schema.define(version: 20150308050520) do
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "organization_id",        limit: 4
+    t.string   "username",               limit: 20
+    t.integer  "department",             limit: 4
+    t.string   "hospital_name",          limit: 50
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", using: :btree
 
 end

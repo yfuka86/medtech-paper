@@ -7,9 +7,14 @@
   </div>
 
   <div class="field">
+    <%= f.label :username, 'ユーザー名' %><br />
+    <%= f.text_field :username %>
+  </div>
+
+  <div class="field">
     <%= f.label :password, 'パスワード' %>
     <% if @validatable %>
-    <em>(<%= @minimum_password_length %> 文字以上)</em>
+    (<%= @minimum_password_length %> 文字以上)
     <% end %><br />
     <%= f.password_field :password, autocomplete: "off" %>
   </div>
@@ -17,6 +22,16 @@
   <div class="field">
     <%= f.label :password_confirmation, 'パスワード確認' %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :hospital_name, '病院名' %><br />
+    <%= f.text_field :hospital_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :department, '所属科' %><br />
+    <%= f.select :department, User.departments.map{|k, v| [t("department.#{k}"), v]}, prompt: '選択してください' %>
   </div>
 
   <div class="actions">

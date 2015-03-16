@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users, controllers: {
     sessions: "users/sessions",
     confirmations: "users/confirmations",
@@ -11,6 +12,8 @@ Rails.application.routes.draw do
 
   resources :papers, only: [:index] do
     collection do
+      get 'api_index'
+      get 'api_search'
       get 'search'
     end
   end
@@ -24,6 +27,18 @@ Rails.application.routes.draw do
 
     member do
       delete 'remove_paper'
+    end
+  end
+
+  # APIs
+  namespace :api do
+    scope 'p', module: 'private' do
+      resources :paper_lists, only: [] do
+        collection do
+          put 'add_paper'
+          delete 'remove_paper'
+        end
+      end
     end
   end
 

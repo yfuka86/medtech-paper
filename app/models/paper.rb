@@ -8,6 +8,8 @@ class Paper < ActiveRecord::Base
   accepts_nested_attributes_for :authors
   accepts_nested_attributes_for :journal
 
+  validates :pubmed_id, presence: true
+
   def self.build_from_pubmed(fetch_params={}, summary_params={})
     pmid = fetch_params["pmid"].try(:to_i)
     already_exists_paper = self.where(pubmed_id: pmid).first
@@ -18,14 +20,14 @@ class Paper < ActiveRecord::Base
     paper.abstract = fetch_params["medent"].try(:[], "abstract")
 
     fetch_data = fetch_params["medent"].try(:[], "cit")
-    author_data = fetch_data.try(:[], "authors")
-    if author_data.is_a?(Hash) && author_data["names"].is_a?(Hash)
-      author_data["names"].each do |k, v|
-        paper.authors << Author.build_from_params({name: v["name ml"]})
-      end
-    elsif author_data.is_a?(Hash) && author_data["names ml"].present?
-      paper.authors << Author.build_from_params({name: author_data["names ml"][nil]})
-    end
+    # author_data = fetch_data.try(:[], "authors")
+    # if author_data.is_a?(Hash) && author_data["names"].is_a?(Hash)
+    #   author_data["names"].each do |k, v|
+    #     paper.authors << Author.build_from_params({name: v["name ml"]})
+    #   end
+    # elsif author_data.is_a?(Hash) && author_data["names ml"].present?
+    #   paper.authors << Author.build_from_params({name: author_data["names ml"][nil]})
+    # end
 
     journal_data = fetch_data.try(:[], "from journal")
     pubdate = journal_data.try(:[], "imp").try(:[], "date")
@@ -34,6 +36,13 @@ class Paper < ActiveRecord::Base
     converted_hash = {}
     journal_data.try(:[], "title").try(:each){|k, v| converted_hash[k.gsub('-', '_')] = v}
     paper.journal = Journal.build_from_params(converted_hash)
+
+    summary_params["authors"].uniq{|h| h["name"]}.each do |author|
+      if author.is_a?(Hash)
+        paper.authors << Author.build_from_params({name: author["name"]})
+      end
+    end
+    paper.authors.uniq
 
     history = summary_params["history"]
     history.each do |hash|
@@ -50,6 +59,30 @@ class Paper < ActiveRecord::Base
     paper
   end
 
+  def self.search(params={})
+    query = self.all
+    if params[:keyword].present?
+      str = "%#{params[:keyword]}%"
+      query = self.where('title like ?', str)
+    end
+
+    query = query.where('? <= published_date', params[:min_date]) if params[:min_date].present?
+    query = query.where('published_date <= ?', params[:max_date]) if params[:max_date].present?
+
+    if params[:journal_name].present?
+      str = "%#{params[:journal_name]}%"
+      query = query.joins(:journal).where('journals.ml_jta like ? or journals.name like ?', str, str)
+    end
+    if params[:author_name].present?
+      str = "%#{params[:author_name]}%"
+      query = query.joins(:authors).where('authors.name like ?', str)
+    end
+
+    query = query.joins(:paper_paper_lists).
+      select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
+      group('papers.id').order('popularity desc')
+  end
+
   def self.ranking
     self.all.sort_by{|p| -p.popularity}
   end
@@ -63,7 +96,9 @@ class Paper < ActiveRecord::Base
   end
 
   def authors_list
-    self.authors.includes(:author_papers).order('author_papers.id').map{|a| a.name}.join(', ')
+    str = self.authors.includes(:author_papers).order('author_papers.id').map{|a| a.name}.join(', ')
+    str = self.authors.map{|a| a.name}.join(', ') if str.blank?
+    str
   end
 
   def pubmed_path

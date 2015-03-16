@@ -19,4 +19,8 @@ class PaperList < ActiveRecord::Base
   def all_users
     shared_users + [user]
   end
+
+  def has_paper?(paper)
+    self.papers.find_by(id: paper.id).present?
+  end
 end
