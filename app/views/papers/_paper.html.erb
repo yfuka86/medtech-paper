@@ -1,7 +1,14 @@
-<div class='<%="paper#{" last" if is_last}"%>'>
-  <div class='summary'>
+<div class='paper' data-pubmed-id='<%= paper.pubmed_id %>'>
+  <div class='summary <%="favorited" if user.favorite_list.has_paper?(paper)%>'>
+    <div class='favorite'>
+      <% if user.favorite_list.has_paper?(paper) %>
+        <i class='fa fa-star' data-favorite-list-id='<%= user.favorite_list.id %>'></i>
+      <% else %>
+        <i class='fa fa-star-o' data-favorite-list-id='<%= user.favorite_list.id %>'></i>
+      <% end %>
+    </div>
     <div class='popularity'>
-      <%= paper.popularity %>
+      <%= paper.popularity if paper.popularity != 0 %>
     </div>
     <div class='title'>
       <%= paper.title %>
@@ -12,11 +19,24 @@
     <div class='abstract'>
       <%= paper.abstract %>
     </div>
+    <% if (defined? paper_list) && paper_list.present? %>
+      <div class='remove-paper'>
+        <i class='fa fa-remove'></i>
+      </div>
+    <% end %>
   </div>
+
   <div class='detail' style='display:none;'>
-    <div class='close-bar'></div>
+    <div class='close-bar'><i class='fa fa-times'></i></div>
     <div class='title'>
       <%= paper.title %>
+    </div>
+    <div class='favorite'>
+      <% if user.favorite_list.has_paper?(paper) %>
+        <i class='fa fa-star' data-favorite-list-id='<%= user.favorite_list.id %>'></i>
+      <% else %>
+        <i class='fa fa-star-o' data-favorite-list-id='<%= user.favorite_list.id %>'></i>
+      <% end %>
     </div>
     <% if paper.popularity.present? %>
       <div class='popularity'>
@@ -46,7 +66,7 @@
           <%= label_tag :id, '抄読会（リスト）：' %>
           <%= select_tag :id,
                         options_for_select(
-                          user.paper_lists.map{|pl| [pl.title, pl.id] unless pl.id == ((defined? paper_list) && paper_list.try(:id))}.compact
+                          user.all_paper_lists.map{|pl| [pl.title, pl.id] unless pl.id == ((defined? paper_list) && paper_list.try(:id))}.compact
                         ), required: true, class: 'target-paper-list' %>
           にこの論文を
           <%= submit_tag "登録する", name: nil, class: 'add-paper-btn flat-button-identity2', data: {disable_with: '登録中...'} %>

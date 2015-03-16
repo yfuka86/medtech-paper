@@ -1,6 +1,6 @@
 <div class='user-info'>
   <% if user_signed_in? %>
-    <span class='email'><%= current_user.email %>さん、ようこそ</span>
+    <span class='email'><%= current_user.display_name %> さん、ようこそ</span>
     <%= link_to 'プロフィール変更', edit_user_registration_path %>
     <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
   <% end %>

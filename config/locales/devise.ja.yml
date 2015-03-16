@@ -68,5 +68,9 @@ ja:
     attributes:
       user:
         email: メールアドレス
+        username: ユーザー名
         password: パスワード
         password_confirmation: パスワード（再入力）
+        hospital_name: 病院名
+        department: 所属科
+        current_password: 現在のパスワード

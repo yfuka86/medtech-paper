@@ -1,0 +1,28 @@
+<div class='paper-list-form'>
+  <div class='form-title'>新しい抄読会を作成する</div>
+  <%= nested_form_for(@paper_list, url: paper_lists_path) do |f| %>
+    <p>
+      <%= f.text_field :title, required: true, class: 'title-input', placeholder: '抄読会名' %>
+    </p>
+    <p>
+      <%= f.label :is_public, 'このリストを公開する' %>
+      <%= f.check_box :is_public %>
+    </p>
+    <p class='form-title'>
+      抄読会メンバー（リスト共有メンバー）
+    </p>
+    <p>
+      <%= f.fields_for :shared_users do |user| %>
+        <%= user.text_field :email, class: 'email-input', placeholder: 'メールアドレス' %>
+        <%= user.link_to_remove '削除', class: 'remove-shared-user flat-button-red' %>
+      <% end %>
+      <p>
+        <%= f.link_to_add 'メンバーを追加する', :shared_users %>
+      </p>
+    </p>
+    <p>
+      <%= f.submit '作成する', class: 'submit-btn flat-button-identity2', data: {disable_with: '作成中...'} %>
+    </p>
+  <% end %>
+  <div class='end-of-form'></div>
+</div>
