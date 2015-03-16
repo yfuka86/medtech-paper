@@ -38,16 +38,18 @@
       </div>
     <% end %>
   </div>
-  <div class='papers'>
-    <% paper_list.papers.each_with_index do |p, idx| %>
-      <%= render 'papers/paper', paper: p, is_last: (idx + 1 == paper_list.papers.count), user: user, paper_list: paper_list %>
+  <div class='papers' data-paper-list-id='<%= paper_list.id %>'>
+    <% paper_list.papers.each do |p| %>
+      <%= render 'papers/paper', paper: p, user: user, paper_list: paper_list %>
     <% end %>
-    <% if paper_list.papers.count == 0 %>
+    <% if !(paper_list.papers.count == 0) %>
+      <div class='end-line'></div>
+    <% else %>
       <p class='attention'>論文が登録されていません</p>
     <% end %>
   </div>
   <div class='paper-list-menu'>
-    <%= link_to 'リストに論文を登録する', search_papers_path, class: 'paper-search-btn flat-button-identity2' %>
+    <%= link_to 'リストに論文を登録する', api_search_papers_path, class: 'paper-search-btn flat-button-identity2' %>
     <%= link_to 'リストを共有する', edit_paper_list_path(id: paper_list.id), class: 'share-btn flat-button-normal' %>
   </div>
 </div>

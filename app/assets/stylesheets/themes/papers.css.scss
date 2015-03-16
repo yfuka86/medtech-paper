@@ -7,12 +7,20 @@
   border: 1px solid $GRAYCC;
   border-radius: 10px;
   .form-title {
-    font-size: 20px;
+    font-size: 18px;
   }
-  .keyword-input {
+  form {
+    margin-left: 10px;
+  }
+  .keyword-input, .authorname-input, .journalname-input {
     font-size: 14px;
     line-height: 24px;
+  }
+  .keyword-input {
     width: 500px;
+  }
+  .authorname-input, .journalname-input {
+    width: 300px;
   }
   input[type='date'] {
     height: 24px;
@@ -33,7 +41,7 @@
 }
 
 .papers {
-  padding: 20px;
+  padding: 20px 25px;
   .attention {
     font-size: 18px;
     text-align: center;
@@ -41,9 +49,6 @@
   .paper {
     background-color: $WHITE;
     border-top: 1px solid $GRAYCC;
-    &.last {
-      border-bottom: 1px solid $GRAYCC;
-    }
     .summary {
       padding: 0 0 0 0;
       box-sizing: border-box;
@@ -109,6 +114,22 @@
         color: $GRAY77;
         white-space: nowrap;
       }
+      .remove-paper {
+        float: right;
+        width: 25px;
+        i {
+          font-size: 18px;
+          line-height: 30px;
+          vertical-align: middle;
+          cursor: pointer;
+          &.fa-remove {
+            color: darken($RED1, 5);
+            &:hover {
+              color: darken($RED1, 15);
+            }
+          }
+        }
+      }
     }
     .detail {
       padding: 20px 15%;
@@ -124,7 +145,7 @@
           font-size: 20px;
           color: $GRAYAA;
           float: right;
-          padding: 8px 15%;
+          padding: 8px 13%;
         }
       }
       .title {
@@ -184,5 +205,8 @@
         }
       }
     }
+  }
+  .end-line {
+    border-top: 1px solid $GRAYCC;
   }
 }

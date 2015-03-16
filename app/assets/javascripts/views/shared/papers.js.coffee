@@ -31,6 +31,7 @@ class views.shared.Papers extends alpha.mvc.View
         $detail.hide()
 
       @bindFavoriteEvent($el)
+      @bindRemoveEvent($el)
 
   bindFavoriteEvent: ($el)->
     # $elは@$('.paper')のうちの一つ
@@ -62,7 +63,7 @@ class views.shared.Papers extends alpha.mvc.View
           data:
             id: $star.data('favorite-list-id')
             pubmed_id: $el.data('pubmed-id')
-        defer.done (data, status, xhr) ->
+        defer.done (data, status, xhr) =>
           return
         defer.fail (data, xhr, err) =>
           star()
@@ -82,9 +83,32 @@ class views.shared.Papers extends alpha.mvc.View
           unstar()
           views.components.addNormalMessage data.message, {}, 'error'
 
+  bindRemoveEvent: ($el)->
+    @listen $el.find('.remove-paper i.fa-remove'), 'click', (e)=>
+      e.stopPropagation()
+      if window.confirm 'リストから削除しますか？'
+        defer = alpha.async.ajax
+          type: 'DELETE'
+          url: '/api/p/paper_lists/remove_paper'
+          data:
+            id: @$el.data('paper-list-id')
+            pubmed_id: $el.data('pubmed-id')
+        defer.done (data, status, xhr) =>
+          if @$('.paper').length is 1
+            @$el.hide()
+            location.reload()
+          $el.remove()
+        defer.fail (data, xhr, err) =>
+          views.components.addNormalMessage data.message, {}, 'error'
+
   setSummaryCss: ->
     _.each @$('.paper'), (el)=>
       $el = $(el)
       $summary = $el.find('.summary')
-      abstract_width = $summary.outerWidth() - $summary.find('.favorite').outerWidth() - $summary.find('.popularity').outerWidth() - $summary.find('.title').outerWidth() - $summary.find('.authors').outerWidth()
+      abstract_width = $summary.outerWidth() -
+                       $summary.find('.favorite').outerWidth() -
+                       $summary.find('.popularity').outerWidth() -
+                       $summary.find('.title').outerWidth() -
+                       $summary.find('.authors').outerWidth() -
+                       ($summary.find('.remove-paper').outerWidth() or 0)
       $summary.find('.abstract').outerWidth(abstract_width - 30)

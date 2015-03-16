@@ -3,7 +3,7 @@
 body {
   min-height: 100%;
   height: 100%;
-  background-color: lighten($IDENTITY_COLOR, 40);
+  background-color: #f3f0fa;
 }
 
 .app-identity {
@@ -28,15 +28,16 @@ body {
 
 .interface-container {
   position: relative;
-  width: 70%;
+  box-sizing: border-box;
+  width: 100%;
   height: 100%;
   margin: auto;
-  padding-left: 280px;
+  padding-left: 240px;
   .sidebar {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 280px;
+    width: 240px;
     min-height: 100%;
     box-sizing: border-box;
   }
@@ -46,5 +47,47 @@ body {
     min-width: 840px;
     box-sizing: border-box;
     padding: 10px;
+    padding-bottom: 100px;
   }
+}
+
+.pagination a, .pagination span.current, .pagination span.gap {
+    float: left;
+    padding: 0 14px;
+    line-height: 38px;
+    text-decoration: none;
+    background-color: white;
+    border: 1px solid #DDD;
+    border-left-width: 0;
+}
+
+.pagination {
+    float: right;
+    margin-right: 50px;
+    border-left: 1px solid #ddd;
+    .first{
+        padding : 0;
+        float: none;
+        border: none;
+    }
+    .prev {
+        padding : 0;
+        float: none;
+        border: none;
+    }
+    .page{
+        padding : 0;
+        float: none;
+        border: none;
+    }
+    .next{
+        padding : 0;
+        float: none;
+        border: none;
+    }
+    .last{
+        padding : 0;
+        float: none;
+        border: none;
+    }
 }

@@ -1,9 +1,11 @@
 <h1 class='papers-title'><%= title %></h1>
 <div class='papers'>
-  <% papers.each_with_index do |p, idx| %>
-    <%= render 'papers/paper', paper: p, is_last: (idx + 1 == papers.count), user: user %>
+  <% papers.each do |p| %>
+    <%= render 'papers/paper', paper: p, user: user %>
   <% end %>
-  <% if papers.count == 0 %>
+  <% if !(papers.length == 0) %>
+    <div class='end-line'></div>
+  <% else %>
     <p>お探しの論文は見つかりませんでした</p>
   <% end %>
 </div>

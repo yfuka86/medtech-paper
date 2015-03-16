@@ -8,6 +8,8 @@ class Paper < ActiveRecord::Base
   accepts_nested_attributes_for :authors
   accepts_nested_attributes_for :journal
 
+  validates :pubmed_id, presence: true
+
   def self.build_from_pubmed(fetch_params={}, summary_params={})
     pmid = fetch_params["pmid"].try(:to_i)
     already_exists_paper = self.where(pubmed_id: pmid).first
@@ -35,11 +37,12 @@ class Paper < ActiveRecord::Base
     journal_data.try(:[], "title").try(:each){|k, v| converted_hash[k.gsub('-', '_')] = v}
     paper.journal = Journal.build_from_params(converted_hash)
 
-    summary_params["authors"].each do |author|
+    summary_params["authors"].uniq{|h| h["name"]}.each do |author|
       if author.is_a?(Hash)
         paper.authors << Author.build_from_params({name: author["name"]})
       end
     end
+    paper.authors.uniq
 
     history = summary_params["history"]
     history.each do |hash|
@@ -54,6 +57,30 @@ class Paper < ActiveRecord::Base
     paper.pages = summary_params["pages"]
 
     paper
+  end
+
+  def self.search(params={})
+    query = self.all
+    if params[:keyword].present?
+      str = "%#{params[:keyword]}%"
+      query = self.where('title like ?', str)
+    end
+
+    query = query.where('? <= published_date', params[:min_date]) if params[:min_date].present?
+    query = query.where('published_date <= ?', params[:max_date]) if params[:max_date].present?
+
+    if params[:journal_name].present?
+      str = "%#{params[:journal_name]}%"
+      query = query.joins(:journal).where('journals.ml_jta like ? or journals.name like ?', str, str)
+    end
+    if params[:author_name].present?
+      str = "%#{params[:author_name]}%"
+      query = query.joins(:authors).where('authors.name like ?', str)
+    end
+
+    query = query.joins(:paper_paper_lists).
+      select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
+      group('papers.id').order('popularity desc')
   end
 
   def self.ranking

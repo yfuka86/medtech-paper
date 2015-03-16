@@ -31,7 +31,7 @@
 
 .paper-lists-title {
   font-family: serif;
-  font-size: 24px;
+  font-size: 20px;
   color: $GRAY99;
   padding: 0 20px;
 }
@@ -105,7 +105,7 @@
 .paper-list-detail {
   background-color: $WHITE;
   .paper-list-metainfo {
-    padding: 20px 40px;
+    padding: 20px 20px 0;
     .icon {
       display: inline-block;
       width: 40px;
@@ -113,19 +113,19 @@
       i {
         &.fa-star {
           padding: 5px 2px 5px 0;
-          font-size: 30px;
+          font-size: 24px;
           color: $YELLOW;
           vertical-align: middle;
         }
         &.fa-bookmark {
           padding: 5px 5px 5px 0;
-          font-size: 30px;
+          font-size: 24px;
           color: darken($IDENTITY_COLOR, 15);
           vertical-align: middle;
         }
         &.fa-share-alt {
           padding: 5px 5px 5px 0;
-          font-size: 30px;
+          font-size: 24px;
           color: $GRAYAA;
           vertical-align: middle;
         }
@@ -135,7 +135,7 @@
       display: inline-block;
       line-height: 40px;
       vertical-align: middle;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 600;
       padding-right: 20px;
     }

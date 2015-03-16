@@ -1,5 +1,4 @@
-<div class='paper <%="last" if is_last%>'
-   data-pubmed-id='<%= paper.pubmed_id %>' >
+<div class='paper' data-pubmed-id='<%= paper.pubmed_id %>'>
   <div class='summary <%="favorited" if user.favorite_list.has_paper?(paper)%>'>
     <div class='favorite'>
       <% if user.favorite_list.has_paper?(paper) %>
@@ -20,7 +19,13 @@
     <div class='abstract'>
       <%= paper.abstract %>
     </div>
+    <% if (defined? paper_list) && paper_list.present? %>
+      <div class='remove-paper'>
+        <i class='fa fa-remove'></i>
+      </div>
+    <% end %>
   </div>
+
   <div class='detail' style='display:none;'>
     <div class='close-bar'><i class='fa fa-times'></i></div>
     <div class='title'>
