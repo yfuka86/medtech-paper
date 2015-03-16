@@ -13,7 +13,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :password, '新しいパスワード' %> <i>(変更しない場合は空欄でも大丈夫です)</i><br />
+    <%= f.label :username, 'ユーザー名' %><br />
+    <%= f.text_field :username %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password, '新しいパスワード' %> <i>(変更しない場合は空欄)</i><br />
     <%= f.password_field :password, autocomplete: "off" %>
   </div>
 
@@ -23,7 +28,17 @@
   </div>
 
   <div class="field">
-    <%= f.label :current_password, '現在のパスワード'%> <i>(ユーザー情報編集のために、現在のパスワードが必要です)</i><br />
+    <%= f.label :hospital_name, '病院名' %><br />
+    <%= f.text_field :hospital_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :department, '所属科' %><br />
+    <%= f.select :department, User.departments.map{|k, v| [t("department.#{k}"), v]}, prompt: '選択してください' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :current_password, '現在のパスワード'%> <i>(編集には現在のパスワードが必要です)</i><br />
     <%= f.password_field :current_password, autocomplete: "off" %>
   </div>
 
@@ -34,6 +49,6 @@
 
 <h3>アカウントを消去する</h3>
 
-<p><%= button_to "アカウント消去", registration_path(resource_name), data: { confirm: "本当によろしいですか?" }, method: :delete %></p>
+<p><%= button_to "アカウント消去", registration_path(resource_name), class: 'destructive', data: { confirm: "本当によろしいですか?" }, method: :delete %></p>
 
 <%= link_to "Back", :back %>

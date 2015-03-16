@@ -1,6 +1,6 @@
 <div class='paper-list-form'>
   <div class='form-title'>リスト：<%= @paper_list.title %>の編集</div>
-  <%= form_for(@paper_list, url: paper_list_path(id: @paper_list.id) ,method: :put) do |f| %>
+  <%= nested_form_for(@paper_list, url: paper_list_path(id: @paper_list.id) ,method: :put) do |f| %>
     <p>
       <%= f.label :title, 'リスト名' %>
       <%= f.text_field :title, required: true, class: 'title-input' %>
@@ -8,7 +8,27 @@
     <p>
       <%= f.label :is_public, 'このリストを公開する' %>
       <%= f.check_box :is_public %>
+    </p>
+    <p class='form-title'>
+      抄読会メンバー（リスト共有メンバー）
+    </p>
+    <p>
+      管理者：<%= @paper_list.user.email %>
+    </p>
+    <p>
+      <%= f.fields_for :shared_users do |user| %>
+        <%= user.text_field :email, class: 'email-input', placeholder: 'メールアドレス' %>
+        <% if current_user.id == @paper_list.user.id %>
+          <%= user.link_to_remove '削除', class: 'remove-shared-user flat-button-red' %>
+        <% end %>
+      <% end %>
+      <p>
+        <%= f.link_to_add 'メンバーを追加する', :shared_users %>
+      </p>
+    </p>
+    <p>
       <%= f.submit '編集を完了する', class: 'submit-btn flat-button-identity2', data: {disable_with: '送信中...'} %>
     </p>
   <% end %>
+  <div class='end-of-form'></div>
 </div>

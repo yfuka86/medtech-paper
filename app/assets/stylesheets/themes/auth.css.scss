@@ -5,38 +5,47 @@
   height: 100%;
   width: 100%;
   .form-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
+    margin: 20px auto;
     width: 360px;
-    height: 600px;
+    height: 800px;
     .form-inner {
       padding: 20px;
       background-color: $WHITE;
       border: 1px solid $GRAYCC;
       border-radius: 5px;
+      h3 {
+        font-size: 20px;
+        padding: 0 0 10px 0;
+      }
       form {
         .field {
-          font-size: 16px;
+          font-size: 14px;
           box-sizing: border-box;
-          margin: 0 0 10px 0;
-          input[type='email'], input[type='password'] {
+          margin: 0 0 20px 0;
+          .field_with_errors {
+            display: inline;
+            color: $RED1;
+          }
+          input[type='email'], input[type='password'], input[type='text'] {
             width: 98%;
             font-size: 16px;
             line-height: 30px;
           }
+          select {
+            width: 70%;
+            font-size: 18px;
+          }
         }
         .actions {
           margin: 0 0 10px 0;
-          input[type='submit'] {
-            @include flat-button-identity;
-            width: 100%;
-            font-size: 16px;
-            line-height: 30px;
+        }
+        input[type='submit'] {
+          @include flat-button-identity1;
+          &.destructive {
+            @include flat-button-red;
           }
+          width: 100%;
+          margin: 0 0 10px 0;
         }
       }
     }
