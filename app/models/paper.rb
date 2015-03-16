@@ -84,7 +84,9 @@ class Paper < ActiveRecord::Base
   end
 
   def self.ranking
-    self.all.sort_by{|p| -p.popularity}
+    self.joins(:paper_paper_lists).
+      select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
+      group('papers.id').order('popularity desc')
   end
 
   def popularity
