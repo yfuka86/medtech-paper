@@ -80,6 +80,9 @@ class PaperListsController < ApplicationController
   end
 
   def search
+    search_params
+    @paper_lists = PaperList.where(user_id: current_user.id).page(params[:page])
+    @title = '検索結果'
   end
 
   private
@@ -110,5 +113,9 @@ class PaperListsController < ApplicationController
 
   def remove_paper_params
     params.permit(:id, :paper_id)
+  end
+
+  def search_params
+    params.permit()
   end
 end

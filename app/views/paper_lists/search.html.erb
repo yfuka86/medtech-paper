@@ -1,0 +1,3 @@
+<%= render 'paper_lists/search_form' %>
+<%= render 'paper_lists/paper_lists', user: current_user, paper_lists: @paper_lists, title: @title %>
+<%= paginate @paper_lists %>

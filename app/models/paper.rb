@@ -87,7 +87,7 @@ class Paper < ActiveRecord::Base
         query = query.order(title: direction)
       when 'published-date'
         query = query.order(published_date: direction)
-      else
+      when 'popularity'
         query = query.joins(:paper_paper_lists).
           select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
           group('papers.id').order('popularity #{direction.to_s}')
