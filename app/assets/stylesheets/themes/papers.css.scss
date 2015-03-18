@@ -137,6 +137,15 @@
       .abstract {
         width: 50px;
       }
+      i {
+        cursor: pointer;
+        &.active {
+          color: $RED1;
+        }
+        &.fa-chevron-up {
+          margin-left: 5px;
+        }
+      }
     }
     .detail {
       padding: 20px 15%;

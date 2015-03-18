@@ -12,6 +12,8 @@ class routers.shared.PaperLists extends alpha.mvc.Router
   shared: (query) ->
     papersView = new views.shared.Papers
     papersView.decorate '.papers'
+    papersHeaderView = new views.shared.PapersHeader(@parseQuery(location.search.slice(1)))
+    papersHeaderView.decorate '.papers-header'
 
   paperLists: () ->
     ''

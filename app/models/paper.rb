@@ -78,9 +78,27 @@ class Paper < ActiveRecord::Base
       query = query.joins(:authors).where('authors.name like ?', str)
     end
 
-    query = query.joins(:paper_paper_lists).
-      select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
-      group('papers.id').order('popularity desc')
+    if params[:sort].present?
+      ary = params[:sort].split('_')
+      key = ary[0]
+      direction = (ary[1] == 'asc' ? :asc : :desc)
+      case key
+      when 'title'
+        query = query.order(title: direction)
+      when 'published-date'
+        query = query.order(published_date: direction)
+      else
+        query = query.joins(:paper_paper_lists).
+          select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
+          group('papers.id').order('popularity #{direction.to_s}')
+      end
+    else
+      query = query.joins(:paper_paper_lists).
+        select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
+        group('papers.id').order('popularity desc')
+    end
+
+    query
   end
 
   def self.ranking
