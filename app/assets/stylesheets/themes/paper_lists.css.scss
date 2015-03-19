@@ -41,15 +41,15 @@
   form {
     margin-left: 10px;
   }
-  .keyword-input, .authorname-input, .journalname-input {
+  .keyword-input, .category-input, .username-input {
     font-size: 14px;
     line-height: 24px;
   }
-  .keyword-input {
+  .keyword-input, .username-input {
     width: 500px;
   }
-  .authorname-input, .journalname-input {
-    width: 300px;
+  .category-input {
+    width: 200px;
   }
   input[type='date'] {
     height: 24px;

@@ -63,7 +63,7 @@ class Paper < ActiveRecord::Base
     query = self.all
     if params[:keyword].present?
       str = "%#{params[:keyword]}%"
-      query = self.where('title like ?', str)
+      query = query.where('title like ?', str)
     end
 
     query = query.where('? <= published_date', params[:min_date]) if params[:min_date].present?

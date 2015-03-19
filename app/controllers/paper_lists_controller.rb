@@ -81,7 +81,7 @@ class PaperListsController < ApplicationController
 
   def search
     search_params
-    @paper_lists = PaperList.where(user_id: current_user.id).page(params[:page])
+    @paper_lists = PaperList.search(search_params).page(params[:page]).per(20)
     @title = '検索結果'
   end
 
@@ -116,6 +116,6 @@ class PaperListsController < ApplicationController
   end
 
   def search_params
-    params.permit()
+    params.permit(:sort, :keyword, :category, :username)
   end
 end
