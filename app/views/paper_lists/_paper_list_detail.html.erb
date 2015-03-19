@@ -1,6 +1,6 @@
 <div class='paper-list-detail'>
   <div class='paper-list-metainfo'>
-   <% if paper_list.user.id != user.id %>
+   <% if user.id.in?(paper_list.shared_users.pluck(:id)) %>
       <div class='icon'><i class="fa fa-share-alt"></i></div>
     <% elsif paper_list.favorite? %>
       <div class='icon'><i class="fa fa-star"></i></div>

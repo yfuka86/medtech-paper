@@ -8,7 +8,8 @@ class PaperListsController < ApplicationController
 
   def show
     @paper_list = current_user.paper_lists.find_by(id: params[:id]) ||
-                  current_user.shared_paper_lists.find_by(id: params[:id])
+                  current_user.shared_paper_lists.find_by(id: params[:id]) ||
+                  PaperList.where(is_public: true).find_by(id: params[:id])
   end
 
   def new
