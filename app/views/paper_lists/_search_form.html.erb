@@ -1,0 +1,19 @@
+<div class='paper-list-search-form'>
+  <div class='form-title'>抄読会(論文リスト)を検索する</div>
+  ※公開されているリストのみが表示されます
+  <%= form_tag search_paper_lists_path, method: :get do %>
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <p>
+      <%= text_field_tag :keyword, params[:keyword], class: 'keyword-input', placeholder: 'タイトル' %>
+    </p>
+    <p>
+      <%= text_field_tag :username, params[:username], class: 'username-input', placeholder: 'リスト管理者のユーザー名またはメールアドレス' %>
+    </p>
+    <p>
+      <%= label_tag :category, 'リストの種類' %>
+      <%= select_tag :category, options_for_select([
+        ['すべて', :general], ['お気に入り', :favorite], ['読んだ論文', :read]], params[:category]), class: 'category-input' %>
+      <%= submit_tag "検索する", name: nil, class: 'submit-btn flat-button-identity2', data: {disable_with: '検索中...'} %>
+    </p>
+  <% end %>
+</div>

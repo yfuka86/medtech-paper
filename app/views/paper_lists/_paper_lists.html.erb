@@ -3,7 +3,7 @@
   <% paper_lists.each_with_index do |paper_list, idx| %>
     <div class='<%="single-paper-list#{" last" if (idx + 1 == paper_lists.count)}"%>'>
       <div class='icon'>
-        <% if paper_list.user.id != user.id %>
+        <% if user.id.in?(paper_list.shared_users.pluck(:id)) %>
           <i class="fa fa-share-alt"></i>
         <% elsif paper_list.favorite? %>
           <i class="fa fa-star"></i>
@@ -16,7 +16,7 @@
       </div>
       <% if paper_list.user.id != user.id %>
         <div class='owner'>
-          <%= paper_list.user.email %>が作成
+          <%= paper_list.user.display_name %>さんが作成
         </div>
       <% end %>
       <div class='count'>

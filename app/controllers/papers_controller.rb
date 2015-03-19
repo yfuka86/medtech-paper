@@ -11,16 +11,13 @@ class PapersController < ApplicationController
     @title = '検索結果'
   end
 
-  def search
-  end
-
   def api_search
   end
 
   private
 
   def search_params
-    params.permit(:keyword, :min_date, :max_date, :author_name, :journal_name)
+    params.permit(:keyword, :min_date, :max_date, :author_name, :journal_name, :sort)
   end
 
   def api_search_params

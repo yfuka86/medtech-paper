@@ -1,9 +1,10 @@
 <h1 class='papers-title'><%= title %></h1>
 <div class='papers'>
-  <% papers.each do |p| %>
-    <%= render 'papers/paper', paper: p, user: user %>
-  <% end %>
   <% if !(papers.length == 0) %>
+    <%= render 'papers/papers_header' %>
+    <% papers.each do |p| %>
+      <%= render 'papers/paper', paper: p, user: user %>
+    <% end %>
     <div class='end-line'></div>
   <% else %>
     <p>お探しの論文は見つかりませんでした</p>

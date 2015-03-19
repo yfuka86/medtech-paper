@@ -63,7 +63,7 @@ class Paper < ActiveRecord::Base
     query = self.all
     if params[:keyword].present?
       str = "%#{params[:keyword]}%"
-      query = self.where('title like ?', str)
+      query = query.where('title like ?', str)
     end
 
     query = query.where('? <= published_date', params[:min_date]) if params[:min_date].present?
@@ -78,13 +78,33 @@ class Paper < ActiveRecord::Base
       query = query.joins(:authors).where('authors.name like ?', str)
     end
 
-    query = query.joins(:paper_paper_lists).
-      select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
-      group('papers.id').order('popularity desc')
+    if params[:sort].present?
+      ary = params[:sort].split('_')
+      key = ary[0]
+      direction = (ary[1] == 'asc' ? :asc : :desc)
+      case key
+      when 'title'
+        query = query.order(title: direction)
+      when 'published-date'
+        query = query.order(published_date: direction)
+      when 'popularity'
+        query = query.joins(:paper_paper_lists).
+          select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
+          group('papers.id').order('popularity #{direction.to_s}')
+      end
+    else
+      query = query.joins(:paper_paper_lists).
+        select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
+        group('papers.id').order('popularity desc')
+    end
+
+    query
   end
 
   def self.ranking
-    self.all.sort_by{|p| -p.popularity}
+    self.joins(:paper_paper_lists).
+      select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
+      group('papers.id').order('popularity desc')
   end
 
   def popularity
