@@ -92,7 +92,6 @@
       .title, .authors, .published-date, .abstract {
         float: left;
         height: 100%;
-        font-weight: 600;
         padding: 0 10px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -100,12 +99,14 @@
       }
       .title {
         width: 300px;
+        font-weight: 600;
       }
       .authors {
         width: 200px;
       }
       .published-date {
         width: 80px;
+        font-weight: 600;
       }
       .abstract {
         width: 500px;
@@ -134,8 +135,12 @@
       &:hover {
         background-color: $WHITE;
       }
+      .authors {
+        font-weight: 600;
+      }
       .abstract {
         width: 50px;
+        font-weight: 600;
       }
       i {
         cursor: pointer;
