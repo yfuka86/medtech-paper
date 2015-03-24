@@ -30,7 +30,7 @@ class Pubmed
       Paper.build_from_pubmed(fetch_results.find{|fetch_result| fetch_result["pmid"] == id},
                               summary_results.try(:[], "result").try(:[], "#{id}"))
     end
-
+    result = result.compact
     result
   end
 

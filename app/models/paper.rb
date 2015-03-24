@@ -11,31 +11,36 @@ class Paper < ActiveRecord::Base
   validates :pubmed_id, presence: true
 
   def self.build_from_pubmed(fetch_params={}, summary_params={})
-    pmid = fetch_params["pmid"].try(:to_i)
-    already_exists_paper = self.where(pubmed_id: pmid).first
+    pmid = fetch_params.try(:[], "pmid").try(:to_i) || summary_params.try(:[], "uid").try(:to_i)
+    return nil if pmid.blank?
+
+    already_exists_paper = self.find_by(pubmed_id: pmid)
     return already_exists_paper if already_exists_paper.present?
 
     paper = self.new
     paper.pubmed_id = pmid
-    paper.abstract = fetch_params["medent"].try(:[], "abstract")
 
-    fetch_data = fetch_params["medent"].try(:[], "cit")
-    # author_data = fetch_data.try(:[], "authors")
-    # if author_data.is_a?(Hash) && author_data["names"].is_a?(Hash)
-    #   author_data["names"].each do |k, v|
-    #     paper.authors << Author.build_from_params({name: v["name ml"]})
-    #   end
-    # elsif author_data.is_a?(Hash) && author_data["names ml"].present?
-    #   paper.authors << Author.build_from_params({name: author_data["names ml"][nil]})
-    # end
+    if fetch_params.present?
+      paper.abstract = fetch_params["medent"].try(:[], "abstract")
+      fetch_data = fetch_params["medent"].try(:[], "cit")
 
-    journal_data = fetch_data.try(:[], "from journal")
-    pubdate = journal_data.try(:[], "imp").try(:[], "date")
+      # author_data = fetch_data.try(:[], "authors")
+      # if author_data.is_a?(Hash) && author_data["names"].is_a?(Hash)
+      #   author_data["names"].each do |k, v|
+      #     paper.authors << Author.build_from_params({name: v["name ml"]})
+      #   end
+      # elsif author_data.is_a?(Hash) && author_data["names ml"].present?
+      #   paper.authors << Author.build_from_params({name: author_data["names ml"][nil]})
+      # end
 
-    paper.published_date = "#{pubdate["year"]}-#{pubdate["month"].presence || 1}-#{pubdate["day"].presence || 1}" if pubdate.try(:[], "year").present?
-    converted_hash = {}
-    journal_data.try(:[], "title").try(:each){|k, v| converted_hash[k.gsub('-', '_')] = v}
-    paper.journal = Journal.build_from_params(converted_hash)
+      journal_data = fetch_data.try(:[], "from journal")
+      pubdate = journal_data.try(:[], "imp").try(:[], "date")
+
+      paper.published_date = "#{pubdate["year"]}-#{pubdate["month"].presence || 1}-#{pubdate["day"].presence || 1}" if pubdate.try(:[], "year").present?
+      converted_hash = {}
+      journal_data.try(:[], "title").try(:each){|k, v| converted_hash[k.gsub('-', '_')] = v}
+      paper.journal = Journal.build_from_params(converted_hash)
+    end
 
     summary_params["authors"].uniq{|h| h["name"]}.each do |author|
       if author.is_a?(Hash)
