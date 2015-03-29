@@ -10,6 +10,31 @@ class Paper < ActiveRecord::Base
 
   validates :pubmed_id, presence: true
 
+  scope :sorter, -> (query, user) do
+    return unless query.present?
+    ary = query.split('_')
+    key = ary[0]
+    direction = (ary[1] == 'asc' ? :asc : :desc)
+
+    case key
+    when 'title'
+      order(title: direction)
+    when 'published-date'
+      order(published_date: direction)
+    when 'popularity'
+      eager_load(:paper_paper_lists).
+      group('papers.id').order("COUNT(paper_paper_lists.id) #{direction}")
+    when 'favorite'
+      if user.present?
+        favorite_id = user.favorite_list.id
+        joins("LEFT OUTER JOIN
+               (SELECT * FROM paper_paper_lists WHERE paper_paper_lists.paper_list_id = #{favorite_id})
+               AS relations ON papers.id = relations.paper_id").
+        order("CASE WHEN relations.paper_list_id = #{favorite_id} THEN 0 ELSE 1 END #{direction}")
+      end
+    end
+  end
+
   def self.build_from_pubmed(fetch_params={}, summary_params={})
     pmid = fetch_params.try(:[], "pmid").try(:to_i) || summary_params.try(:[], "uid").try(:to_i)
     return nil if pmid.blank?
@@ -84,39 +109,17 @@ class Paper < ActiveRecord::Base
     end
 
     if params[:sort].present?
-      ary = params[:sort].split('_')
-      key = ary[0]
-      direction = (ary[1] == 'asc' ? :asc : :desc)
-      case key
-      when 'title'
-        query = query.order(title: direction)
-      when 'published-date'
-        query = query.order(published_date: direction)
-      when 'popularity'
-        query = query.joins('LEFT OUTER JOIN paper_paper_lists ON papers.id = paper_paper_lists.paper_id').
-                      uniq.
-                      select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
-                      group('papers.id').order("popularity #{direction}")
-      when 'favorite'
-        if user.present?
-          favorite_id = user.favorite_list.id
-          query = query.joins("LEFT OUTER JOIN (SELECT * FROM paper_paper_lists WHERE paper_paper_lists.paper_list_id = #{favorite_id}) AS relations ON papers.id = relations.paper_id").
-                        order("CASE WHEN relations.paper_list_id = #{favorite_id} THEN 0 ELSE 1 END #{direction}")
-        end
-      end
+      query = query.sorter(params[:sort], user)
     else
-      query = query.joins(:paper_paper_lists).
-        select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
-        group('papers.id').order('popularity desc')
+      query = query.eager_load(:paper_paper_lists).
+              group('papers.id').order("COUNT(paper_paper_lists.id) desc")
     end
 
     query
   end
 
   def self.ranking
-    self.joins(:paper_paper_lists).
-      select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
-      group('papers.id').order('popularity desc')
+    self.eager_load(:paper_paper_lists).group('papers.id').order("COUNT(paper_paper_lists.id) desc")
   end
 
   def popularity

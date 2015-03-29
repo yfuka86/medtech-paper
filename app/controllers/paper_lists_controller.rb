@@ -10,6 +10,7 @@ class PaperListsController < ApplicationController
     @paper_list = current_user.paper_lists.find_by(id: params[:id]) ||
                   current_user.shared_paper_lists.find_by(id: params[:id]) ||
                   PaperList.where(is_public: true).find_by(id: params[:id])
+    @papers = @paper_list.papers.sorter(params[:sort], current_user)
   end
 
   def new

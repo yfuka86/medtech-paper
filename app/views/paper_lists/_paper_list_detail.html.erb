@@ -39,10 +39,11 @@
     <% end %>
   </div>
   <div class='papers' data-paper-list-id='<%= paper_list.id %>'>
-    <% paper_list.papers.each do |p| %>
+    <%= render 'papers/papers_header' %>
+    <% papers.each do |p| %>
       <%= render 'papers/paper', paper: p, user: user, paper_list: paper_list %>
     <% end %>
-    <% if !(paper_list.papers.count == 0) %>
+    <% if !(papers.count == 0) %>
       <div class='end-line'></div>
     <% else %>
       <p class='attention'>論文が登録されていません</p>

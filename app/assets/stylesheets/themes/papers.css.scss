@@ -135,11 +135,7 @@
       &:hover {
         background-color: $WHITE;
       }
-      .authors {
-        font-weight: 600;
-      }
-      .abstract {
-        width: 50px;
+      .authors, .journal {
         font-weight: 600;
       }
       i {
