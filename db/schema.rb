@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 20150313175152) do
     t.string   "username",               limit: 20
     t.integer  "department",             limit: 4
     t.string   "hospital_name",          limit: 50
+    t.string   "prefecture",             limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

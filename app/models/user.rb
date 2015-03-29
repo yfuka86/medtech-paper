@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   validates :username, length: { maximum: 20 }
   validates :hospital_name, length: { maximum: 50 }
   validate :valid_username?
+  validate :valid_prefecture?
 
   enum department: [:gastroenterology, :cardiology, :pulmonology, :nephrology,
                     :endocrinology, :diabetes, :collagen_disease, :allergie, :hematology,
@@ -22,6 +23,14 @@ class User < ActiveRecord::Base
   def valid_username?
     if username.present? && User.find_by(username: username).present?
       errors[:base] << 'ユーザー名は既に使用されています'
+      false
+    end
+    true
+  end
+
+  def valid_prefecture?
+    if prefecture.present? && !prefecture.in?(Constants::PREFECTURES.values)
+      errors[:base] << '都道府県名が不正です'
       false
     end
     true

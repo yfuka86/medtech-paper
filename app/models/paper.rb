@@ -64,11 +64,11 @@ class Paper < ActiveRecord::Base
     paper
   end
 
-  def self.search(params={})
+  def self.search(params={}, user)
     query = self.all
-    if params[:keyword].present?
-      str = "%#{params[:keyword]}%"
-      query = query.where('title like ?', str)
+    if params[:term].present?
+      str = "%#{params[:term]}%"
+      query = query.where('title like ? OR pubmed_id = ?', str, params[:term])
     end
 
     query = query.where('? <= published_date', params[:min_date]) if params[:min_date].present?
@@ -93,9 +93,16 @@ class Paper < ActiveRecord::Base
       when 'published-date'
         query = query.order(published_date: direction)
       when 'popularity'
-        query = query.joins(:paper_paper_lists).
-          select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
-          group('papers.id').order('popularity #{direction.to_s}')
+        query = query.joins('LEFT OUTER JOIN paper_paper_lists ON papers.id = paper_paper_lists.paper_id').
+                      uniq.
+                      select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
+                      group('papers.id').order("popularity #{direction}")
+      when 'favorite'
+        if user.present?
+          favorite_id = user.favorite_list.id
+          query = query.joins("LEFT OUTER JOIN (SELECT * FROM paper_paper_lists WHERE paper_paper_lists.paper_list_id = #{favorite_id}) AS relations ON papers.id = relations.paper_id").
+                        order("CASE WHEN relations.paper_list_id = #{favorite_id} THEN 0 ELSE 1 END #{direction}")
+        end
       end
     else
       query = query.joins(:paper_paper_lists).

@@ -3,6 +3,7 @@ class AddColumnsToUser < ActiveRecord::Migration
     add_column :users, :username, :string, limit: 20
     add_column :users, :department, :integer
     add_column :users, :hospital_name, :string, limit: 50
+    add_column :users, :prefecture, :string
 
     add_index :users, :username
   end

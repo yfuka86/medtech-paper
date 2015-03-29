@@ -71,12 +71,16 @@
 
 .paper-lists {
   padding: 20px;
-
   .single-paper-list {
     background-color: $WHITE;
     border-top: 1px solid $GRAYCC;
     height: 40px;
     padding: 0 10px 0 0;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $GRAYEE;
+    }
     &.last {
       border-bottom: 1px solid $GRAYCC;
     }
@@ -125,7 +129,7 @@
       display: inline-block;
       padding-right: 20px;
     }
-    .show-btn, .edit-btn, .destroy-btn {
+    .edit-btn, .destroy-btn {
       display: inline-block;
       float: right;
       box-sizing: border-box;

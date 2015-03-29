@@ -1,7 +1,7 @@
 <h1 class='paper-lists-title'><%= title %></h1>
 <div class='paper-lists'>
   <% paper_lists.each_with_index do |paper_list, idx| %>
-    <div class='<%="single-paper-list#{" last" if (idx + 1 == paper_lists.count)}"%>'>
+    <div class='<%="single-paper-list#{" last" if (idx + 1 == paper_lists.count)}"%>' data-id=<%= paper_list.id %>>
       <div class='icon'>
         <% if user.id.in?(paper_list.shared_users.pluck(:id)) %>
           <i class="fa fa-share-alt"></i>
@@ -29,7 +29,6 @@
                                    data: {confirm: '本当に削除してもよろしいですか？'} %>
       <% end %>
       <%= link_to '編集', edit_paper_list_path(id: paper_list.id), class: 'edit-btn flat-button-normal' %>
-      <%= link_to 'リストを見る', paper_list_path(id: paper_list.id), class: 'show-btn flat-button-normal' %>
     </div>
   <% end %>
 </div>

@@ -110,7 +110,8 @@ class views.shared.Papers extends alpha.mvc.View
                        $summary.find('.favorite').outerWidth() -
                        $summary.find('.popularity').outerWidth() -
                        $summary.find('.title').outerWidth() -
-                       $summary.find('.authors').outerWidth() -
+                       $summary.find('.read-date').outerWidth() -
+                       $summary.find('.journal').outerWidth() -
                        $summary.find('.published-date').outerWidth() -
                        ($summary.find('.remove-paper').outerWidth() or 0)
-      $summary.find('.abstract').outerWidth(abstract_width - 30)
+      $summary.find('.authors').outerWidth(abstract_width - 30)

@@ -66,8 +66,9 @@
       .favorite {
         float: left;
         padding: 0 5px 0 10px;
-        width: 25px;
+        width: 50px;
         height: 100%;
+        text-align: center;
         i {
           font-size: 18px;
           line-height: 30px;
@@ -89,7 +90,7 @@
         width: 50px;
         height: 100%;
       }
-      .title, .authors, .published-date, .abstract {
+      .title, .authors, .published-date, .journal {
         float: left;
         height: 100%;
         padding: 0 10px;
@@ -101,16 +102,15 @@
         width: 300px;
         font-weight: 600;
       }
+      .journal {
+        width: 150px;
+      }
       .authors {
-        width: 200px;
+        width: 30px;
       }
       .published-date {
         width: 80px;
         font-weight: 600;
-      }
-      .abstract {
-        width: 500px;
-        color: $GRAY77;
       }
       .remove-paper {
         float: right;
@@ -143,6 +143,7 @@
         font-weight: 600;
       }
       i {
+        font-size: 13px !important;
         cursor: pointer;
         &.active {
           color: $RED1;

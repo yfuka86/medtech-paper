@@ -13,14 +13,14 @@
     <div class='title'>
       <%= paper.title %>
     </div>
-    <div class='authors'>
-      <%= paper.authors_list %>
+    <div class='journal'>
+      <%= paper.journal_name %>
     </div>
     <div class='published-date'>
       <%= "#{paper.published_date.strftime('%Y/%m/%d') if paper.published_date.present?}" %>
     </div>
-    <div class='abstract'>
-      <%= paper.abstract %>
+    <div class='authors'>
+      <%= paper.authors_list %>
     </div>
     <% if (defined? paper_list) && paper_list.present? %>
       <div class='remove-paper'>
@@ -71,7 +71,9 @@
                         options_for_select(
                           user.all_paper_lists.map{|pl| [pl.title, pl.id] unless pl.id == ((defined? paper_list) && paper_list.try(:id))}.compact
                         ), required: true, class: 'target-paper-list' %>
-          にこの論文を
+          に読んだ日
+          <%= date_field_tag :date, params[:date], class: 'date-input' %>
+          この論文を
           <%= submit_tag "登録する", name: nil, class: 'add-paper-btn flat-button-identity2', data: {disable_with: '登録中...'} %>
         </p>
       <% end if user.present? %>

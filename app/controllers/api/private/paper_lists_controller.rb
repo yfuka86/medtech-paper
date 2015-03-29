@@ -33,6 +33,6 @@ class Api::Private::PaperListsController < Api::Private::BaseController
   private
 
   def paper_params
-    params.permit(:id, :pubmed_id)
+    params.permit(:id, :pubmed_id, :date)
   end
 end

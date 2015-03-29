@@ -60,12 +60,12 @@ class PaperListsController < ApplicationController
     paper_list = current_user.paper_lists.find_by(id: params[:id]) ||
                 current_user.shared_paper_lists.find_by(id: params[:id])
 
-    redirect_to papers_path, alert: "#{paper_list.title}にはこの論文がすでに登録されています" and return if paper_list.papers.find_by(id: paper.try(:id)).present?
+    redirect_to :back, alert: "#{paper_list.title}にはこの論文がすでに登録されています" and return if paper_list.papers.find_by(id: paper.try(:id)).present?
     paper_list.papers << paper
     if paper.save && paper_list.save
-      redirect_to paper_list_path(id: paper_list.id), notice: "#{paper_list.title}に論文が登録されました"
+      redirect_to :back, notice: "#{paper_list.title}に論文が登録されました"
     else
-      redirect_to papers_path, alert: "#{paper_list.title}への論文の登録に失敗しました"
+      redirect_to :back, alert: "#{paper_list.title}への論文の登録に失敗しました"
     end
   end
 
@@ -109,7 +109,7 @@ class PaperListsController < ApplicationController
   end
 
   def add_paper_params
-    params.permit(:id, :pubmed_id)
+    params.permit(:id, :pubmed_id, :date)
   end
 
   def remove_paper_params

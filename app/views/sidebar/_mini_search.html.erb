@@ -1,0 +1,10 @@
+<div class='mini-search'>
+  <p>論文検索</p>
+  <%= form_tag poly_search_papers_path, method: :get do %>
+    <%= text_field_tag :term, '', required: true, class: 'keyword-input', placeholder: 'キーワード (pubmed id も可)' %>
+    <p>
+      <%= submit_tag "pubmed検索", name: nil, class: 'submit-btn flat-button-normal', name: "pubmed_search" %>
+      <%= submit_tag "抄読会.com検索", name: nil, class: 'submit-btn flat-button-identity1', name: "medtech_search" %>
+    </p>
+  <% end %>
+</div>
