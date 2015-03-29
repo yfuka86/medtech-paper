@@ -212,13 +212,17 @@
       }
       .menu {
         padding: 10px 0;
-        form {
+        .add-paper-form {
+          background-color: $GRAYEE;
+          border: 1px solid $GRAYCC;
+          padding: 10px;
           .target-paper-list {
             font-size: 16px;
             min-width: 200px;
           }
           .add-paper-btn {
             padding: 2px 10px;
+            float: right;
           }
         }
       }

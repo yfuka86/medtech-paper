@@ -62,12 +62,11 @@ class PaperListsController < ApplicationController
                 current_user.shared_paper_lists.find_by(id: params[:id])
 
     redirect_to :back, alert: "#{paper_list.title}にはこの論文がすでに登録されています" and return if paper_list.papers.find_by(id: paper.try(:id)).present?
-    paper_list.papers << paper
-    if paper.save && paper_list.save
-      redirect_to :back, notice: "#{paper_list.title}に論文が登録されました"
-    else
-      redirect_to :back, alert: "#{paper_list.title}への論文の登録に失敗しました"
-    end
+    relation = PaperPaperList.new(paper: paper, paper_list: paper_list, read_date: params[:read_date])
+    relation.save!
+    redirect_to :back, notice: "#{paper_list.title}に論文が登録されました"
+  rescue => ex
+    redirect_to :back, alert: "#{paper_list.title}への論文の登録に失敗しました"
   end
 
   def remove_paper

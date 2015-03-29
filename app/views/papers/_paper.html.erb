@@ -1,4 +1,4 @@
-<div class='paper' data-pubmed-id='<%= paper.pubmed_id %>'>
+<div class='paper single-paper' data-pubmed-id='<%= paper.pubmed_id %>'>
   <div class='summary <%="favorited" if user.favorite_list.has_paper?(paper)%>'>
     <div class='favorite'>
       <% if user.favorite_list.has_paper?(paper) %>
@@ -22,7 +22,7 @@
     <div class='authors'>
       <%= paper.authors_list %>
     </div>
-    <% if (defined? paper_list) && paper_list.present? %>
+    <% if (defined? paper_list) && paper_list.present? && editable?(paper_list, user) %>
       <div class='remove-paper'>
         <i class='fa fa-remove'></i>
       </div>
@@ -63,21 +63,24 @@
       <p>
         <%= link_to t('goto_pubmed'), paper.pubmed_path, target: '_blank', class: 'pubmed-link' %>
       </p>
-      <%= form_tag add_paper_paper_lists_path, method: :put do %>
+
+      <%= form_tag add_paper_paper_lists_path, method: :put, class: 'add-paper-form' do %>
         <p>
           <%= hidden_field_tag :pubmed_id, paper.pubmed_id %>
-          <%= label_tag :id, '抄読会（リスト）：' %>
+          <%= label_tag :id, '登録先抄読会（リスト）：' %>
           <%= select_tag :id,
                         options_for_select(
-                          user.all_paper_lists.map{|pl| [pl.title, pl.id] unless pl.id == ((defined? paper_list) && paper_list.try(:id))}.compact
+                          addable_lists(paper, user).map{|pl| [pl.title, pl.id]}
                         ), required: true, class: 'target-paper-list' %>
-          に読んだ日
-          <%= date_field_tag :date, params[:date], class: 'date-input' %>
-          この論文を
-          <%= submit_tag "登録する", name: nil, class: 'add-paper-btn flat-button-identity2', data: {disable_with: '登録中...'} %>
         </p>
-      <% end if user.present? %>
-      <% if (defined? paper_list) && paper_list.present? %>
+        <p>
+          読んだ日を設定する（オプション）
+          <%= date_field_tag :read_date, params[:read_date], class: 'date-input' %>
+          <%= submit_tag "この論文を登録する", name: nil, class: 'add-paper-btn flat-button-identity2', data: {disable_with: '登録中...'} %>
+        </p>
+      <% end %>
+
+      <% if (defined? paper_list) && paper_list.present? && editable?(paper_list, user) %>
         <p>
           <%= link_to 'このリストから削除する',
                       remove_paper_paper_list_path(id: (defined? paper_list) && paper_list.id, paper_id: paper.id),

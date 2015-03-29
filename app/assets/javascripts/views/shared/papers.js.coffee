@@ -12,7 +12,7 @@ class views.shared.Papers extends alpha.mvc.View
     $(window).resize @setSummaryCss
 
   bindPapersEvent: ->
-    _.each @$('.paper'), (el)=>
+    _.each @$('.single-paper'), (el)=>
       $el = $(el)
       $summary = $el.find('.summary')
       $detail = $el.find('.detail')
@@ -94,7 +94,7 @@ class views.shared.Papers extends alpha.mvc.View
             id: @$el.data('paper-list-id')
             pubmed_id: $el.data('pubmed-id')
         defer.done (data, status, xhr) =>
-          if @$('.paper').length is 1
+          if @$('.single-paper').length is 1
             @$el.hide()
             location.reload()
           $el.remove()
@@ -103,7 +103,7 @@ class views.shared.Papers extends alpha.mvc.View
           views.components.addNormalMessage data.message, {}, 'error'
 
   setSummaryCss: ->
-    _.each @$('.paper'), (el)=>
+    _.each @$('.single-paper'), (el)=>
       $el = $(el)
       $summary = $el.find('.summary')
       abstract_width = $summary.outerWidth() -

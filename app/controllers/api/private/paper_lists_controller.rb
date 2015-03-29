@@ -21,8 +21,8 @@ class Api::Private::PaperListsController < Api::Private::BaseController
 
   def remove_paper
     paper = Paper.find_by(pubmed_id: paper_params[:pubmed_id])
-    relation = PaperPaperList.find_by(paper_list_id: paper_params[:id], paper_id: paper.id)
-    paper_list = relation.paper_list
+    paper_list = PaperList.by_user(current_user).where(paper_params[:id])
+    relation = PaperPaperList.find_by(paper_list: paper_list, paper: paper)
     if relation.destroy
       render_success
     else

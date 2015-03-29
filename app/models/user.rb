@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   end
 
   def all_paper_lists
-    paper_lists + shared_paper_lists
+    PaperList.by_user(self)
   end
 
   def display_name
