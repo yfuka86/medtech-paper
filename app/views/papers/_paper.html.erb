@@ -69,7 +69,18 @@
         <%= link_to t('goto_pubmed'), paper.pubmed_path, target: '_blank', class: 'pubmed-link' %>
       </p>
 
+      <% if (defined? paper_list) && paper_list.present? && editable?(paper_list, user) %>
+        <p>
+          <%= link_to 'このリストから削除する',
+                      remove_paper_paper_list_path(id: (defined? paper_list) && paper_list.id, paper_id: paper.id),
+                      method: :delete, class: 'remove-paper-btn flat-button-red', data: {confirm: '本当に削除しますか？'} %>
+        </p>
+      <% end %>
+
       <%= form_tag add_paper_paper_lists_path, method: :put, class: 'add-paper-form' do %>
+        <p class='add-paper-form-title'>
+          リストに登録する
+        </p>
         <p>
           <%= hidden_field_tag :pubmed_id, paper.pubmed_id %>
           <%= label_tag :id, '登録先抄読会（リスト）：' %>
@@ -79,14 +90,6 @@
           読んだ日を設定する（オプション）
           <%= date_field_tag :read_date, params[:read_date], class: 'date-input' %>
           <%= submit_tag "この論文を登録する", name: nil, class: 'add-paper-btn flat-button-identity2', data: {disable_with: '登録中...'} %>
-        </p>
-      <% end %>
-
-      <% if (defined? paper_list) && paper_list.present? && editable?(paper_list, user) %>
-        <p>
-          <%= link_to 'このリストから削除する',
-                      remove_paper_paper_list_path(id: (defined? paper_list) && paper_list.id, paper_id: paper.id),
-                      method: :delete, class: 'remove-paper-btn flat-button-red', data: {confirm: '本当に削除しますか？'} %>
         </p>
       <% end %>
     </div>

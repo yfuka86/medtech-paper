@@ -21,7 +21,7 @@ class Paper < ActiveRecord::Base
     when 'published-date'
       order(published_date: direction)
     when 'popularity'
-      joins(:paper_paper_lists).
+      eager_load(:paper_paper_lists).
       group('papers.id').order("COUNT(paper_paper_lists.id) #{direction}")
     when 'favorite'
       if user.present?
@@ -111,12 +111,7 @@ class Paper < ActiveRecord::Base
       query = query.joins(:authors).where('authors.name like ?', str)
     end
 
-    if params[:sort].present?
-      query = query.sorter(params[:sort], user)
-    else
-      query = query.eager_load(:paper_paper_lists).
-              group('papers.id').order("COUNT(paper_paper_lists.id) desc")
-    end
+    query = query.sorter(params[:sort], user)
 
     query
   end

@@ -224,8 +224,12 @@
           background-color: $GRAYEE;
           border: 1px solid $GRAYCC;
           padding: 10px;
-          .target-paper-list {
+          .add-paper-form-title {
+            margin: 0;
             font-size: 16px;
+            font-weight: 600;
+          }
+          .target-paper-list {
             min-width: 300px;
           }
           .add-paper-btn {
