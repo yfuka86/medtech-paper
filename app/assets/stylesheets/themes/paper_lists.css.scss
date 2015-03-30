@@ -29,21 +29,58 @@
   }
 }
 
+.paper-list-search-form {
+  margin: 10px;
+  padding: 20px 40px;
+  background-color: $WHITE;
+  border: 1px solid $GRAYCC;
+  border-radius: 10px;
+  .form-title {
+    font-size: 18px;
+  }
+  form {
+    margin-left: 10px;
+  }
+  .keyword-input, .category-input, .username-input {
+    font-size: 14px;
+    line-height: 24px;
+  }
+  .keyword-input, .username-input {
+    width: 500px;
+  }
+  .category-input {
+    width: 200px;
+  }
+  input[type='date'] {
+    height: 24px;
+  }
+  .submit-btn {
+    float: right;
+    width: 160px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+
 .paper-lists-title {
-  font-family: serif;
   font-size: 20px;
-  color: $GRAY99;
-  padding: 0 20px;
+  font-weight: 400;
+  color: $GRAY66;
+  padding: 5px 20px 0;
 }
 
 .paper-lists {
   padding: 20px;
-
   .single-paper-list {
     background-color: $WHITE;
     border-top: 1px solid $GRAYCC;
     height: 40px;
     padding: 0 10px 0 0;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $GRAYEE;
+    }
     &.last {
       border-bottom: 1px solid $GRAYCC;
     }
@@ -92,7 +129,7 @@
       display: inline-block;
       padding-right: 20px;
     }
-    .show-btn, .edit-btn, .destroy-btn {
+    .edit-btn, .destroy-btn {
       display: inline-block;
       float: right;
       box-sizing: border-box;
@@ -139,7 +176,7 @@
       font-weight: 600;
       padding-right: 20px;
     }
-    .created-at, .updated-at {
+    .owner, .created-at, .updated-at {
       display: inline-block;
       padding-right: 20px;
     }

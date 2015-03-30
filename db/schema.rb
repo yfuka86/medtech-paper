@@ -95,9 +95,12 @@ ActiveRecord::Schema.define(version: 20150313175152) do
   create_table "paper_paper_lists", force: :cascade do |t|
     t.integer  "paper_id",      limit: 4
     t.integer  "paper_list_id", limit: 4
+    t.date     "read_date"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
+
+  add_index "paper_paper_lists", ["paper_id", "paper_list_id"], name: "index_paper_paper_lists_on_paper_id_and_paper_list_id", unique: true, using: :btree
 
   create_table "papers", force: :cascade do |t|
     t.integer  "pubmed_id",      limit: 4
@@ -131,6 +134,7 @@ ActiveRecord::Schema.define(version: 20150313175152) do
     t.string   "username",               limit: 20
     t.integer  "department",             limit: 4
     t.string   "hospital_name",          limit: 50
+    t.string   "prefecture",             limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

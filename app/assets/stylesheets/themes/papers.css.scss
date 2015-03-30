@@ -34,10 +34,10 @@
 }
 
 .papers-title {
-  font-family: serif;
-  font-size: 24px;
-  color: $GRAY99;
-  padding: 0 20px;
+  font-size: 20px;
+  font-weight: 400;
+  color: $GRAY66;
+  padding: 5px 20px 0;
 }
 
 .papers {
@@ -49,7 +49,7 @@
   .paper {
     background-color: $WHITE;
     border-top: 1px solid $GRAYCC;
-    .summary {
+    .summary, .papers-header {
       padding: 0 0 0 0;
       box-sizing: border-box;
       cursor: pointer;
@@ -66,6 +66,9 @@
       .favorite {
         float: left;
         padding: 0 5px 0 10px;
+        width: 50px;
+        height: 100%;
+        text-align: center;
         i {
           font-size: 18px;
           line-height: 30px;
@@ -87,36 +90,37 @@
         width: 50px;
         height: 100%;
       }
-      .title {
+      .title, .read-date, .authors, .published-date, .journal {
         float: left;
-        max-width: 300px;
-        font-weight: 600;
+        height: 100%;
         padding: 0 10px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+      .title {
+        width: 300px;
+        font-weight: 600;
+      }
+      .read-date {
+        width: 100px;
+        font-weight: 600;
+        color: darken($IDENTITY_COLOR, 20);
+      }
+      .journal {
+        width: 150px;
       }
       .authors {
-        float: left;
-        max-width: 200px;
-        overflow: hidden;
-        padding: 0 10px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        width: 30px;
       }
-      .abstract {
-        float: left;
-        width: 500px;
-        display: table-cell;
-        overflow: hidden;
-        padding: 0 10px;
-        text-overflow: ellipsis;
-        color: $GRAY77;
-        white-space: nowrap;
+      .published-date {
+        width: 80px;
+        font-weight: 600;
       }
       .remove-paper {
         float: right;
         width: 25px;
+        height: 100%;
         i {
           font-size: 18px;
           line-height: 30px;
@@ -128,6 +132,28 @@
               color: darken($RED1, 15);
             }
           }
+        }
+      }
+    }
+    .papers-header {
+      cursor: default;
+      &:hover {
+        background-color: $WHITE;
+      }
+      .authors, .journal {
+        font-weight: 600;
+      }
+      .read-date {
+        color: $TEXTCOLOR;
+      }
+      i {
+        font-size: 13px !important;
+        cursor: pointer;
+        &.active {
+          color: $RED1;
+        }
+        &.fa-chevron-up {
+          margin-left: 5px;
         }
       }
     }
@@ -194,13 +220,21 @@
       }
       .menu {
         padding: 10px 0;
-        form {
-          .target-paper-list {
+        .add-paper-form {
+          background-color: $GRAYEE;
+          border: 1px solid $GRAYCC;
+          padding: 10px;
+          .add-paper-form-title {
+            margin: 0;
             font-size: 16px;
-            min-width: 200px;
+            font-weight: 600;
+          }
+          .target-paper-list {
+            min-width: 300px;
           }
           .add-paper-btn {
             padding: 2px 10px;
+            float: right;
           }
         }
       }

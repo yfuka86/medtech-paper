@@ -1,4 +1,4 @@
-<div class='paper' data-pubmed-id='<%= paper.pubmed_id %>'>
+<div class='paper single-paper' data-pubmed-id='<%= paper.pubmed_id %>'>
   <div class='summary <%="favorited" if user.favorite_list.has_paper?(paper)%>'>
     <div class='favorite'>
       <% if user.favorite_list.has_paper?(paper) %>
@@ -13,13 +13,21 @@
     <div class='title'>
       <%= paper.title %>
     </div>
+    <% if defined?(has_read_date) && has_read_date %>
+      <div class='read-date'>
+        <%= read_date(paper, paper_list) %>
+      </div>
+    <% end %>
+    <div class='journal'>
+      <%= paper.journal_name %>
+    </div>
+    <div class='published-date'>
+      <%= "#{paper.published_date.strftime('%Y/%m/%d') if paper.published_date.present?}" %>
+    </div>
     <div class='authors'>
       <%= paper.authors_list %>
     </div>
-    <div class='abstract'>
-      <%= paper.abstract %>
-    </div>
-    <% if (defined? paper_list) && paper_list.present? %>
+    <% if (defined? paper_list) && paper_list.present? && editable?(paper_list, user) %>
       <div class='remove-paper'>
         <i class='fa fa-remove'></i>
       </div>
@@ -60,23 +68,28 @@
       <p>
         <%= link_to t('goto_pubmed'), paper.pubmed_path, target: '_blank', class: 'pubmed-link' %>
       </p>
-      <%= form_tag add_paper_paper_lists_path, method: :put do %>
-        <p>
-          <%= hidden_field_tag :pubmed_id, paper.pubmed_id %>
-          <%= label_tag :id, '抄読会（リスト）：' %>
-          <%= select_tag :id,
-                        options_for_select(
-                          user.all_paper_lists.map{|pl| [pl.title, pl.id] unless pl.id == ((defined? paper_list) && paper_list.try(:id))}.compact
-                        ), required: true, class: 'target-paper-list' %>
-          にこの論文を
-          <%= submit_tag "登録する", name: nil, class: 'add-paper-btn flat-button-identity2', data: {disable_with: '登録中...'} %>
-        </p>
-      <% end if user.present? %>
-      <% if (defined? paper_list) && paper_list.present? %>
+
+      <% if (defined? paper_list) && paper_list.present? && editable?(paper_list, user) %>
         <p>
           <%= link_to 'このリストから削除する',
                       remove_paper_paper_list_path(id: (defined? paper_list) && paper_list.id, paper_id: paper.id),
                       method: :delete, class: 'remove-paper-btn flat-button-red', data: {confirm: '本当に削除しますか？'} %>
+        </p>
+      <% end %>
+
+      <%= form_tag add_paper_paper_lists_path, method: :put, class: 'add-paper-form' do %>
+        <p class='add-paper-form-title'>
+          リストに登録する
+        </p>
+        <p>
+          <%= hidden_field_tag :pubmed_id, paper.pubmed_id %>
+          <%= label_tag :id, '登録先抄読会（リスト）：' %>
+          <%= select_tag :id, options_addable_lists(paper, user), required: true, class: 'target-paper-list' %>
+        </p>
+        <p>
+          読んだ日を設定する（オプション）
+          <%= date_field_tag :read_date, params[:read_date], class: 'date-input' %>
+          <%= submit_tag "この論文を登録する", name: nil, class: 'add-paper-btn flat-button-identity2', data: {disable_with: '登録中...'} %>
         </p>
       <% end %>
     </div>

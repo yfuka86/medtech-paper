@@ -25,6 +25,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :prefecture, '都道府県' %><br />
+    <%= f.select :prefecture, Constants::PREFECTURES.map{|k, v| [v, v]}, prompt: '選択してください' %>
+  </div>
+
+  <div class="field">
     <%= f.label :hospital_name, '病院名' %><br />
     <%= f.text_field :hospital_name %>
   </div>
