@@ -7,7 +7,7 @@ class PaperList < ActiveRecord::Base
 
   accepts_nested_attributes_for :shared_users
 
-  enum category: [:general, :favorite, :read]
+  enum category: [:general, :read, :favorite]
 
   scope :by_superuser, -> (user){ where(user_id: user.id) }
   scope :by_user, -> (user) do

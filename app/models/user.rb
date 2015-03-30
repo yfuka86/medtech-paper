@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   end
 
   def all_paper_lists
-    PaperList.by_user(self)
+    PaperList.by_user(self).order(category: :desc)
   end
 
   def display_name
