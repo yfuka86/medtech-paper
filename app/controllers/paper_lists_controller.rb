@@ -11,6 +11,8 @@ class PaperListsController < ApplicationController
                   current_user.shared_paper_lists.find_by(id: params[:id]) ||
                   PaperList.where(is_public: true).find_by(id: params[:id])
     @papers = @paper_list.papers.sorter(params[:sort], current_user)
+    any_relation_has_read_date = @paper_list.papers.where.not(paper_paper_lists: {read_date: nil})
+    @has_read_date = any_relation_has_read_date.present?
   end
 
   def new

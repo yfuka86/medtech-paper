@@ -34,7 +34,7 @@
       <%= link_to '編集', edit_paper_list_path(id: paper_list.id), class: 'edit-btn flat-button-normal' %>
     <% end %>
 
-    <% if !(paper_list.all_users.count == 0) && editable?(paper_list, user) %>
+    <% if paper_list.all_users.count > 1 && editable?(paper_list, user) %>
       <div class='sharing-with'>
         <%= link_to "#{paper_list.all_users.count}人のユーザーが共有中です", '#', class: 'toggle-userlist' %>
       </div>
@@ -48,9 +48,9 @@
     <% end %>
   </div>
   <div class='papers' data-paper-list-id='<%= paper_list.id %>'>
-    <%= render 'papers/papers_header' if !(papers.count == 0) %>
+    <%= render 'papers/papers_header', has_read_date: has_read_date if !(papers.count == 0) %>
     <% papers.each do |p| %>
-      <%= render 'papers/paper', paper: p, user: user, paper_list: paper_list %>
+      <%= render 'papers/paper', paper: p, user: user, paper_list: paper_list, has_read_date: has_read_date %>
     <% end %>
     <% if !(papers.count == 0) %>
       <div class='end-line'></div>

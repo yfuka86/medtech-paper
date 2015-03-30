@@ -13,6 +13,11 @@
     <div class='title'>
       <%= paper.title %>
     </div>
+    <% if defined?(has_read_date) && has_read_date %>
+      <div class='read-date'>
+        <%= read_date(paper, paper_list) %>
+      </div>
+    <% end %>
     <div class='journal'>
       <%= paper.journal_name %>
     </div>
@@ -68,10 +73,7 @@
         <p>
           <%= hidden_field_tag :pubmed_id, paper.pubmed_id %>
           <%= label_tag :id, '登録先抄読会（リスト）：' %>
-          <%= select_tag :id,
-                        options_for_select(
-                          addable_lists(paper, user).map{|pl| [pl.title, pl.id]}
-                        ), required: true, class: 'target-paper-list' %>
+          <%= select_tag :id, options_addable_lists(paper, user), required: true, class: 'target-paper-list' %>
         </p>
         <p>
           読んだ日を設定する（オプション）

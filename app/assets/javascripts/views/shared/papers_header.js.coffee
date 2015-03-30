@@ -4,7 +4,7 @@ alpha.export 'views.shared.PapersHeader'
 # @extends {alpha.mvc.View}
 class views.shared.PapersHeader extends alpha.mvc.View
 
-  Classnames: ['favorite', 'popularity', 'title', 'published-date']
+  Classnames: ['favorite', 'popularity', 'title', 'published-date', 'read-date']
 
   # @override
   enterDocument: ->

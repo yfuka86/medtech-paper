@@ -15,14 +15,13 @@ class Paper < ActiveRecord::Base
     ary = query.split('_')
     key = ary[0]
     direction = (ary[1] == 'asc' ? :asc : :desc)
-
     case key
     when 'title'
       order(title: direction)
     when 'published-date'
       order(published_date: direction)
     when 'popularity'
-      eager_load(:paper_paper_lists).
+      joins(:paper_paper_lists).
       group('papers.id').order("COUNT(paper_paper_lists.id) #{direction}")
     when 'favorite'
       if user.present?
@@ -32,6 +31,10 @@ class Paper < ActiveRecord::Base
                AS relations ON papers.id = relations.paper_id").
         order("CASE WHEN relations.paper_list_id = #{favorite_id} THEN 0 ELSE 1 END #{direction}")
       end
+    when 'read-date'
+      eager_load(:paper_paper_lists).order("paper_paper_lists.read_date #{direction}")
+    else
+      eager_load(:paper_paper_lists).order("paper_paper_lists.created_at desc")
     end
   end
 

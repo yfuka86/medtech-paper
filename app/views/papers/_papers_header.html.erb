@@ -13,6 +13,13 @@
       <i class='fa fa-chevron-up'></i>
       <i class='fa fa-chevron-down'></i>
     </div>
+    <% if defined?(has_read_date) && has_read_date %>
+      <div class='read-date'>
+        読んだ日
+        <i class='fa fa-chevron-up'></i>
+        <i class='fa fa-chevron-down'></i>
+      </div>
+    <% end %>
     <div class='journal'>
       誌名
     </div>
