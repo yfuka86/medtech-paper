@@ -1,6 +1,6 @@
 <div class='paper-list-detail'>
   <div class='paper-list-metainfo'>
-   <% if user.id.in?(paper_list.shared_users.pluck(:id)) %>
+    <% if user.id.in?(paper_list.shared_users.pluck(:id)) %>
       <div class='icon'><i class="fa fa-share-alt"></i></div>
     <% elsif paper_list.favorite? %>
       <div class='icon'><i class="fa fa-star"></i></div>
@@ -10,6 +10,11 @@
     <div class='title'>
       <%= paper_list.title %>
     </div>
+    <% if !(paper_list.user.id == user.id) %>
+      <div class='owner'>
+        <%= paper_list.user.display_name %>さんが作成
+      </div>
+    <% end %>
     <% if paper_list.general? %>
       <div class='created-at'>
         <%= paper_list.created_at.strftime('%Y/%m/%d %H:%M') %>作成
@@ -18,38 +23,46 @@
         <%= paper_list.updated_at.strftime('%Y/%m/%d %H:%M') %>更新
       </div>
     <% end %>
+
     <% if paper_list.user.id == user.id && paper_list.general? %>
       <%= link_to '削除', paper_list_path(id: paper_list.id),
                                  method: :delete,
                                  class: 'destroy-btn flat-button-red',
                                  data: {confirm: '本当に削除してもよろしいですか？'} %>
     <% end %>
-    <%= link_to '編集', edit_paper_list_path(id: paper_list.id), class: 'edit-btn flat-button-normal' %>
-    <% unless paper_list.shared_users.count == 0 %>
+    <% if editable?(paper_list, user) %>
+      <%= link_to '編集', edit_paper_list_path(id: paper_list.id), class: 'edit-btn flat-button-normal' %>
+    <% end %>
+
+    <% if paper_list.all_users.count > 1 && editable?(paper_list, user) %>
       <div class='sharing-with'>
         <%= link_to "#{paper_list.all_users.count}人のユーザーが共有中です", '#', class: 'toggle-userlist' %>
       </div>
       <div class='userlist' style='display:none;'>
         <p class='userlist-title'>共有中のユーザー一覧</p>
-        <p><%= paper_list.user.email %><span class='auth-label'>管理者</span></p>
+        <p><%= paper_list.user.display_name %><span class='auth-label'>管理者</span></p>
         <% paper_list.shared_users.each do |user| %>
-          <p><%= user.email %></p>
+          <p><%= user.display_name %></p>
         <% end%>
       </div>
     <% end %>
   </div>
   <div class='papers' data-paper-list-id='<%= paper_list.id %>'>
-    <% paper_list.papers.each do |p| %>
-      <%= render 'papers/paper', paper: p, user: user, paper_list: paper_list %>
+    <%= render 'papers/papers_header', has_read_date: has_read_date if !(papers.count == 0) %>
+    <% papers.each do |p| %>
+      <%= render 'papers/paper', paper: p, user: user, paper_list: paper_list, has_read_date: has_read_date %>
     <% end %>
-    <% if !(paper_list.papers.count == 0) %>
+    <% if !(papers.count == 0) %>
       <div class='end-line'></div>
     <% else %>
       <p class='attention'>論文が登録されていません</p>
     <% end %>
   </div>
-  <div class='paper-list-menu'>
-    <%= link_to 'リストに論文を登録する', api_search_papers_path, class: 'paper-search-btn flat-button-identity2' %>
-    <%= link_to 'リストを共有する', edit_paper_list_path(id: paper_list.id), class: 'share-btn flat-button-normal' %>
-  </div>
+
+  <% if editable?(paper_list, user) %>
+    <div class='paper-list-menu'>
+      <%= link_to 'リストに論文を登録する', api_search_papers_path, class: 'paper-search-btn flat-button-identity2' %>
+      <%= link_to 'リストを共有する', edit_paper_list_path(id: paper_list.id), class: 'share-btn flat-button-normal' %>
+    </div>
+  <% end %>
 </div>

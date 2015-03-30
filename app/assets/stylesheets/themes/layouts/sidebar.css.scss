@@ -12,6 +12,17 @@
     }
   }
 
+  .mini-search {
+    padding: 10px;
+    form {
+      .keyword-input {
+        width: 200px;
+        font-size: 14px;
+        line-height: 24px;
+      }
+    }
+  }
+
   .menu {
     .button {
       height: 35px;

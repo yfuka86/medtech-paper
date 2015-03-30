@@ -10,32 +10,65 @@ class Paper < ActiveRecord::Base
 
   validates :pubmed_id, presence: true
 
+  scope :sorter, -> (query, user) do
+    return unless query.present?
+    ary = query.split('_')
+    key = ary[0]
+    direction = (ary[1] == 'asc' ? :asc : :desc)
+    case key
+    when 'title'
+      order(title: direction)
+    when 'published-date'
+      order(published_date: direction)
+    when 'popularity'
+      eager_load(:paper_paper_lists).
+      group('papers.id').order("COUNT(paper_paper_lists.id) #{direction}")
+    when 'favorite'
+      if user.present?
+        favorite_id = user.favorite_list.id
+        joins("LEFT OUTER JOIN
+               (SELECT * FROM paper_paper_lists WHERE paper_paper_lists.paper_list_id = #{favorite_id})
+               AS relations ON papers.id = relations.paper_id").
+        order("CASE WHEN relations.paper_list_id = #{favorite_id} THEN 0 ELSE 1 END #{direction}")
+      end
+    when 'read-date'
+      eager_load(:paper_paper_lists).order("paper_paper_lists.read_date #{direction}")
+    else
+      eager_load(:paper_paper_lists).order("paper_paper_lists.created_at desc")
+    end
+  end
+
   def self.build_from_pubmed(fetch_params={}, summary_params={})
-    pmid = fetch_params["pmid"].try(:to_i)
-    already_exists_paper = self.where(pubmed_id: pmid).first
+    pmid = fetch_params.try(:[], "pmid").try(:to_i) || summary_params.try(:[], "uid").try(:to_i)
+    return nil if pmid.blank?
+
+    already_exists_paper = self.find_by(pubmed_id: pmid)
     return already_exists_paper if already_exists_paper.present?
 
     paper = self.new
     paper.pubmed_id = pmid
-    paper.abstract = fetch_params["medent"].try(:[], "abstract")
 
-    fetch_data = fetch_params["medent"].try(:[], "cit")
-    # author_data = fetch_data.try(:[], "authors")
-    # if author_data.is_a?(Hash) && author_data["names"].is_a?(Hash)
-    #   author_data["names"].each do |k, v|
-    #     paper.authors << Author.build_from_params({name: v["name ml"]})
-    #   end
-    # elsif author_data.is_a?(Hash) && author_data["names ml"].present?
-    #   paper.authors << Author.build_from_params({name: author_data["names ml"][nil]})
-    # end
+    if fetch_params.present?
+      paper.abstract = fetch_params["medent"].try(:[], "abstract")
+      fetch_data = fetch_params["medent"].try(:[], "cit")
 
-    journal_data = fetch_data.try(:[], "from journal")
-    pubdate = journal_data.try(:[], "imp").try(:[], "date")
+      # author_data = fetch_data.try(:[], "authors")
+      # if author_data.is_a?(Hash) && author_data["names"].is_a?(Hash)
+      #   author_data["names"].each do |k, v|
+      #     paper.authors << Author.build_from_params({name: v["name ml"]})
+      #   end
+      # elsif author_data.is_a?(Hash) && author_data["names ml"].present?
+      #   paper.authors << Author.build_from_params({name: author_data["names ml"][nil]})
+      # end
 
-    paper.published_date = "#{pubdate["year"]}-#{pubdate["month"].presence || 1}-#{pubdate["day"].presence || 1}" if pubdate.try(:[], "year").present?
-    converted_hash = {}
-    journal_data.try(:[], "title").try(:each){|k, v| converted_hash[k.gsub('-', '_')] = v}
-    paper.journal = Journal.build_from_params(converted_hash)
+      journal_data = fetch_data.try(:[], "from journal")
+      pubdate = journal_data.try(:[], "imp").try(:[], "date")
+
+      paper.published_date = "#{pubdate["year"]}-#{pubdate["month"].presence || 1}-#{pubdate["day"].presence || 1}" if pubdate.try(:[], "year").present?
+      converted_hash = {}
+      journal_data.try(:[], "title").try(:each){|k, v| converted_hash[k.gsub('-', '_')] = v}
+      paper.journal = Journal.build_from_params(converted_hash)
+    end
 
     summary_params["authors"].uniq{|h| h["name"]}.each do |author|
       if author.is_a?(Hash)
@@ -59,11 +92,11 @@ class Paper < ActiveRecord::Base
     paper
   end
 
-  def self.search(params={})
+  def self.search(params={}, user)
     query = self.all
-    if params[:keyword].present?
-      str = "%#{params[:keyword]}%"
-      query = query.where('title like ?', str)
+    if params[:term].present?
+      str = "%#{params[:term]}%"
+      query = query.where('title like ? OR pubmed_id = ?', str, params[:term])
     end
 
     query = query.where('? <= published_date', params[:min_date]) if params[:min_date].present?
@@ -78,33 +111,13 @@ class Paper < ActiveRecord::Base
       query = query.joins(:authors).where('authors.name like ?', str)
     end
 
-    if params[:sort].present?
-      ary = params[:sort].split('_')
-      key = ary[0]
-      direction = (ary[1] == 'asc' ? :asc : :desc)
-      case key
-      when 'title'
-        query = query.order(title: direction)
-      when 'published-date'
-        query = query.order(published_date: direction)
-      when 'popularity'
-        query = query.joins(:paper_paper_lists).
-          select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
-          group('papers.id').order('popularity #{direction.to_s}')
-      end
-    else
-      query = query.joins(:paper_paper_lists).
-        select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
-        group('papers.id').order('popularity desc')
-    end
+    query = query.sorter(params[:sort], user)
 
     query
   end
 
   def self.ranking
-    self.joins(:paper_paper_lists).
-      select('papers.*, COUNT(paper_paper_lists.id) AS popularity').
-      group('papers.id').order('popularity desc')
+    self.eager_load(:paper_paper_lists).group('papers.id').order("COUNT(paper_paper_lists.id) desc")
   end
 
   def popularity

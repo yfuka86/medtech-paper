@@ -12,7 +12,7 @@ class views.shared.Papers extends alpha.mvc.View
     $(window).resize @setSummaryCss
 
   bindPapersEvent: ->
-    _.each @$('.paper'), (el)=>
+    _.each @$('.single-paper'), (el)=>
       $el = $(el)
       $summary = $el.find('.summary')
       $detail = $el.find('.detail')
@@ -94,7 +94,7 @@ class views.shared.Papers extends alpha.mvc.View
             id: @$el.data('paper-list-id')
             pubmed_id: $el.data('pubmed-id')
         defer.done (data, status, xhr) =>
-          if @$('.paper').length is 1
+          if @$('.single-paper').length is 1
             @$el.hide()
             location.reload()
           $el.remove()
@@ -103,14 +103,15 @@ class views.shared.Papers extends alpha.mvc.View
           views.components.addNormalMessage data.message, {}, 'error'
 
   setSummaryCss: ->
-    _.each @$('.paper'), (el)=>
+    _.each @$('.single-paper'), (el)=>
       $el = $(el)
       $summary = $el.find('.summary')
       abstract_width = $summary.outerWidth() -
                        $summary.find('.favorite').outerWidth() -
                        $summary.find('.popularity').outerWidth() -
                        $summary.find('.title').outerWidth() -
-                       $summary.find('.authors').outerWidth() -
+                       $summary.find('.read-date').outerWidth() -
+                       $summary.find('.journal').outerWidth() -
                        $summary.find('.published-date').outerWidth() -
                        ($summary.find('.remove-paper').outerWidth() or 0)
-      $summary.find('.abstract').outerWidth(abstract_width - 30)
+      $summary.find('.authors').outerWidth(abstract_width - 30)

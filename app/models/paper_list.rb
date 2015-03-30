@@ -1,5 +1,5 @@
 class PaperList < ActiveRecord::Base
-  has_many :paper_paper_lists
+  has_many :paper_paper_lists, dependent: :delete_all
   has_many :papers, through: :paper_paper_lists
   belongs_to :user
   has_many :paper_list_users, dependent: :delete_all
@@ -8,6 +8,12 @@ class PaperList < ActiveRecord::Base
   accepts_nested_attributes_for :shared_users
 
   enum category: [:general, :favorite, :read]
+
+  scope :by_superuser, -> (user){ where(user_id: user.id) }
+  scope :by_user, -> (user) do
+    joins('LEFT OUTER JOIN paper_list_users ON paper_list_users.paper_list_id = paper_lists.id').
+    where("paper_lists.user_id = #{user.id} OR paper_list_users.user_id = #{user.id}")
+  end
 
   def self.setup_with_newuser(user)
     favorite_paper_list = self.new(title: 'お気に入り', category: :favorite)

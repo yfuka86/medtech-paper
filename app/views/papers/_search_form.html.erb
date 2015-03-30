@@ -3,7 +3,7 @@
   <%= form_tag papers_path, method: :get do %>
     <%= hidden_field_tag :sort, params[:sort] %>
     <p>
-      <%= text_field_tag :keyword, params[:keyword], class: 'keyword-input', placeholder: 'キーワード (pubmed id も可)' %>
+      <%= text_field_tag :term, params[:term], class: 'keyword-input', placeholder: 'キーワード (pubmed id も可)' %>
     </p>
     <p>
       <%= label_tag :min_date, '出版年月日' %>
