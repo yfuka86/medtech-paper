@@ -102,7 +102,7 @@ MedtechPaper::Application.config.middleware.use ExceptionNotification::Rack,
   email: {
     email_prefix: '[medtech-paper][error] ',
     sender_address: %{"Medtech-Paper Error" <admin@shodokukai.com>},
-    exception_recipients: %w{yuta@piersky.com},
+    exception_recipients: %w{yfuka86@gmail.com},
     smtp_settings: {
       enable_starttls_auto: true,
       address: 'smtp.gmail.com',
