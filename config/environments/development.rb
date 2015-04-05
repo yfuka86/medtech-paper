@@ -36,4 +36,40 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.app_domain = 'localhost:3000'
+
+  # Email Settings
+  config.action_mailer.default_url_options = {host: config.app_domain}#, protocol: "https"}
+  config.action_mailer.default(from: "admin@shodokukai.com")
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
+  config.action_mailer.smtp_settings = {
+    enable_starttls_auto: true,
+    address: 'smtp.gmail.com',
+    port: '587',
+    domain: 'smtp.gmail.com',
+    authentication: :plain,
+    user_name: 'admin@shodokukai.com',
+    password: 'medtech2014' #todo put this attr in ENV
+  }
 end
+
+MedtechPaper::Application.config.middleware.use ExceptionNotification::Rack,
+  email: {
+    email_prefix: '[dev][medtech-paper][error] ',
+    sender_address: %{"Medtech-Paper Error" <admin@shodokukai.com>},
+    exception_recipients: %w{yfuka86@gmail.com},
+    smtp_settings: {
+      enable_starttls_auto: true,
+      address: 'smtp.gmail.com',
+      port: '587',
+      domain: 'smtp.gmail.com',
+      authentication: :plain,
+      user_name: 'admin@shodokukai.com',
+      password: 'medtech2014' #todo put this attr in ENV
+    }
+  }
+
