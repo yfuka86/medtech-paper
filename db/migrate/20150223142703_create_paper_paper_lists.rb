@@ -4,6 +4,7 @@ class CreatePaperPaperLists < ActiveRecord::Migration
       t.integer :paper_id
       t.integer :paper_list_id
       t.date :read_date
+      t.string :comment
 
       t.timestamps null: false
     end

@@ -21,7 +21,7 @@ class Paper < ActiveRecord::Base
     when 'published-date'
       order(published_date: direction)
     when 'popularity'
-      eager_load(:paper_paper_lists).
+      joins(:paper_paper_lists).
       group('papers.id').order("COUNT(paper_paper_lists.id) #{direction}")
     when 'favorite'
       if user.present?
@@ -117,7 +117,16 @@ class Paper < ActiveRecord::Base
   end
 
   def self.ranking
-    self.eager_load(:paper_paper_lists).group('papers.id').order("COUNT(paper_paper_lists.id) desc")
+    self.joins(:paper_paper_lists).group('papers.id').order("COUNT(paper_paper_lists.id) desc")
+  end
+
+  def self.search_by_department(department)
+    users_ids = User.where(department: department).pluck(:id)
+    paper_list_ids = PaperList.where(user_id: users_ids).pluck(:id)
+    self.joins("INNER JOIN
+               (SELECT * FROM paper_paper_lists WHERE paper_paper_lists.paper_list_id IN (#{paper_list_ids.join(',')}))
+               AS relations ON papers.id = relations.paper_id").
+        group('papers.id').order("COUNT(relations.id) desc")
   end
 
   def popularity

@@ -70,6 +70,7 @@
       </p>
 
       <% if (defined? paper_list) && paper_list.present? && editable?(paper_list, user) %>
+        <%= render 'paper_paper_lists/edit_paper_paper_lists_form', paper: paper, paper_list: paper_list, user: user %>
         <p>
           <%= link_to 'このリストから削除する',
                       remove_paper_paper_list_path(id: (defined? paper_list) && paper_list.id, paper_id: paper.id),
@@ -77,21 +78,7 @@
         </p>
       <% end %>
 
-      <%= form_tag add_paper_paper_lists_path, method: :put, class: 'add-paper-form' do %>
-        <p class='add-paper-form-title'>
-          リストに登録する
-        </p>
-        <p>
-          <%= hidden_field_tag :pubmed_id, paper.pubmed_id %>
-          <%= label_tag :id, '登録先抄読会（リスト）：' %>
-          <%= select_tag :id, options_addable_lists(paper, user), required: true, class: 'target-paper-list' %>
-        </p>
-        <p>
-          読んだ日を設定する（オプション）
-          <%= date_field_tag :read_date, params[:read_date], class: 'date-input' %>
-          <%= submit_tag "この論文を登録する", name: nil, class: 'add-paper-btn flat-button-identity2', data: {disable_with: '登録中...'} %>
-        </p>
-      <% end %>
+      <%= render 'paper_paper_lists/add_paper_paper_lists_form', paper: paper, user: user %>
     </div>
   </div>
 </div>

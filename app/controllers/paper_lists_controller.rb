@@ -64,11 +64,21 @@ class PaperListsController < ApplicationController
                 current_user.shared_paper_lists.find_by(id: params[:id])
 
     redirect_to :back, alert: "#{paper_list.title}にはこの論文がすでに登録されています" and return if paper_list.papers.find_by(id: paper.try(:id)).present?
-    relation = PaperPaperList.new(paper: paper, paper_list: paper_list, read_date: params[:read_date])
+    relation = PaperPaperList.new(paper: paper, paper_list: paper_list)
+    relation.assign_attributes(paper_paper_list_params)
     relation.save!
     redirect_to :back, notice: "#{paper_list.title}に論文が登録されました"
   rescue => ex
     redirect_to :back, alert: "#{paper_list.title}への論文の登録に失敗しました"
+  end
+
+  def edit_paper
+    relation = PaperPaperList.find_by(paper_id: params[:paper_id], paper_list_id: params[:paper_list_id])
+    relation.assign_attributes(paper_paper_list_params)
+    relation.save!
+    redirect_to :back, notice: "登録情報が編集されました"
+  rescue => ex
+    redirect_to :back, alert: "登録情報の編集に失敗しました"
   end
 
   def remove_paper
@@ -120,5 +130,9 @@ class PaperListsController < ApplicationController
 
   def search_params
     params.permit(:sort, :keyword, :category, :username)
+  end
+
+  def paper_paper_list_params
+    params.permit(:read_date, :comment)
   end
 end

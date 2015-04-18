@@ -1,2 +1,3 @@
 <%= render 'papers/papers', title: @ranking_title, papers: @ranking_papers, user: current_user, not_found: 'ランキングがありません' %>
+<%= render 'papers/papers', title: @department_title, papers: @department_papers, user: current_user, not_found: '同じ科の人気論文がありません' %>
 <%= render 'papers/papers', title: @favorite_title, papers: @favorite_papers, user: current_user, not_found: 'お気に入りがありません' %>

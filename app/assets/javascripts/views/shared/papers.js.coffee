@@ -25,6 +25,12 @@ class views.shared.Papers extends alpha.mvc.View
           $el.find('.detail').hide()
         $summary.hide()
         $detail.show()
+        defer = alpha.async.ajax
+          type: 'PUT'
+          url: '/api/p/paper_lists/add_history'
+          data:
+            pubmed_id: $el.data('pubmed-id')
+
       @listen $(el).find('.close-bar'), 'click', =>
         $summary.show()
         @setSummaryCss()
