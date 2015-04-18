@@ -19,6 +19,18 @@ class Api::Private::PaperListsController < Api::Private::BaseController
     end
   end
 
+  def add_history
+    paper = Pubmed.fetch(params[:pubmed_id])
+    paper_list = current_user.history_list
+
+    PaperPaperList.find_by(paper_id: paper.id, paper_list_id: paper_list.id).destroy if paper_list.papers.find_by(id: paper.try(:id)).present?
+
+    paper_list.papers << paper
+    paper.save && paper_list.save
+
+    render :nothing, status: 200
+  end
+
   def remove_paper
     paper = Paper.find_by(pubmed_id: paper_params[:pubmed_id])
     paper_list = PaperList.by_user(current_user).where(paper_params[:id])

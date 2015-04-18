@@ -47,4 +47,8 @@ class User < ActiveRecord::Base
   def favorite_list
     paper_lists.favorite.find_by(user_id: id)
   end
+
+  def history_list
+    paper_lists.history.find_by(user_id: id)
+  end
 end

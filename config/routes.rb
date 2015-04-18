@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get 'shared_new'
       get 'search'
       put 'add_paper'
+      put 'edit_paper'
     end
 
     member do
@@ -36,6 +37,7 @@ Rails.application.routes.draw do
       resources :paper_lists, only: [] do
         collection do
           put 'add_paper'
+          put 'add_history'
           delete 'remove_paper'
         end
       end

@@ -21,7 +21,15 @@ module PaperListsHelper
     options_for_select(ary)
   end
 
+  def paper_paper_list(paper, paper_list)
+    PaperPaperList.find_by(paper: paper, paper_list: paper_list)
+  end
+
   def read_date(paper, paper_list)
-    PaperPaperList.find_by(paper: paper, paper_list: paper_list).try(:read_date)
+    paper_paper_list(paper, paper_list).try(:read_date)
+  end
+
+  def comment(paper, paper_list)
+    paper_paper_list(paper, paper_list).try(:comment)
   end
 end

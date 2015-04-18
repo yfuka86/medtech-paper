@@ -7,7 +7,7 @@ class PaperList < ActiveRecord::Base
 
   accepts_nested_attributes_for :shared_users
 
-  enum category: [:general, :read, :favorite]
+  enum category: [:general, :read, :favorite, :history]
 
   scope :by_superuser, -> (user){ where(user_id: user.id) }
   scope :by_user, -> (user) do
@@ -16,9 +16,10 @@ class PaperList < ActiveRecord::Base
   end
 
   def self.setup_with_newuser(user)
+    history_paper_list = self.new(title: '閲覧履歴', category: :history)
     favorite_paper_list = self.new(title: 'お気に入り', category: :favorite)
     read_paper_list = self.new(title: '読んだ論文', category: :read)
-    user.paper_lists << favorite_paper_list << read_paper_list
+    user.paper_lists << history_paper_list << favorite_paper_list << read_paper_list
     user.save
   end
 

@@ -96,8 +96,9 @@ ActiveRecord::Schema.define(version: 20150313175152) do
     t.integer  "paper_id",      limit: 4
     t.integer  "paper_list_id", limit: 4
     t.date     "read_date"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "comment",       limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "paper_paper_lists", ["paper_id", "paper_list_id"], name: "index_paper_paper_lists_on_paper_id_and_paper_list_id", unique: true, using: :btree

@@ -220,11 +220,11 @@
       }
       .menu {
         padding: 10px 0;
-        .add-paper-form {
+        .add-paper-form, .edit-paper-form{
           background-color: $GRAYEE;
           border: 1px solid $GRAYCC;
           padding: 10px;
-          .add-paper-form-title {
+          .add-paper-form-title, .edit-paper-form-title {
             margin: 0;
             font-size: 16px;
             font-weight: 600;
@@ -232,7 +232,14 @@
           .target-paper-list {
             min-width: 300px;
           }
+          .comment-input {
+            display: block;
+            margin: 10px;
+            min-width: 400px;
+            height: 80px;
+          }
           .add-paper-btn {
+            margin-top: -20px;
             padding: 2px 10px;
             float: right;
           }
