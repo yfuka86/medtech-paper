@@ -9,9 +9,10 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    super
+    PaperList.setup_with_newuser(current_user) if current_user.present?
+  end
 
   # DELETE /resource/sign_out
   # def destroy
