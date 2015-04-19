@@ -18,11 +18,11 @@ ja:
       unconfirmed: 'メールアドレスの本人確認が必要です。'
     mailer:
       confirmation_instructions:
-        subject: 'アカウントの有効化について'
+        subject: '[抄読会.com]登録ありがとうございます'
       reset_password_instructions:
-        subject: 'パスワードの再設定について'
+        subject: 'パスワードの再設定'
       unlock_instructions:
-        subject: 'アカウントの凍結解除について'
+        subject: 'アカウントの凍結解除'
     omniauth_callbacks:
       failure: "%{kind} アカウントによる認証に失敗しました。理由：（%{reason}）"
       success: "%{kind} アカウントによる認証に成功しました。"

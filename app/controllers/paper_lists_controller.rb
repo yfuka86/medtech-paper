@@ -10,7 +10,16 @@ class PaperListsController < ApplicationController
     @paper_list = current_user.paper_lists.find_by(id: params[:id]) ||
                   current_user.shared_paper_lists.find_by(id: params[:id]) ||
                   PaperList.where(is_public: true).find_by(id: params[:id])
-    @papers = @paper_list.papers.sorter(params[:sort], current_user)
+    @papers = if !@paper_list.history?
+      @paper_list.papers.sorter(params[:sort], current_user)
+    else
+      # for history
+      @paper_list.papers.
+        joins("LEFT OUTER JOIN
+              (SELECT * FROM paper_paper_lists WHERE paper_paper_lists.paper_list_id = #{@paper_list.id})
+              AS relations ON papers.id = relations.paper_id").
+        order('paper_paper_lists.created_at desc')
+    end
     any_relation_has_read_date = @paper_list.papers.where.not(paper_paper_lists: {read_date: nil})
     @has_read_date = any_relation_has_read_date.present?
   end

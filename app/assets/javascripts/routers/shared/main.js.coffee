@@ -7,9 +7,9 @@ class routers.shared.Main extends alpha.mvc.Router
   routes:
     '/*p': 'shared'
 
-  # @param {?string} query
   shared: (query) ->
     @flashNotificator()
+    (new views.shared.MainView).decorate 'body'
 
   flashNotificator: (opts={})->
     renderMessage = (content, opts, mode)->

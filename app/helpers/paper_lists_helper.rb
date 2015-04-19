@@ -1,6 +1,6 @@
 module PaperListsHelper
   def editable?(paper_list, user)
-    paper_list.user == user || user.in?(paper_list.shared_users)
+    !paper_list.history? && (paper_list.user == user || user.in?(paper_list.shared_users))
   end
 
   def options_addable_lists(paper, user)
