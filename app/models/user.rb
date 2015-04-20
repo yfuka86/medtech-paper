@@ -21,7 +21,9 @@ class User < ActiveRecord::Base
                     :radiology, :dermatology, :pediatrics, :clinical, :basic, :others]
 
   def valid_username?
-    if username.present? && User.find_by(username: username).present?
+    if username.present? &&
+       User.find_by(username: username).present? &&
+       User.find_by(username: username).id != id
       errors[:base] << 'ユーザー名は既に使用されています'
       false
     end
