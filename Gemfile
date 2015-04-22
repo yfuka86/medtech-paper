@@ -17,7 +17,7 @@ gem "i18n-js"
 
 # for monitoring
 gem 'newrelic_rpm'
-gem 'exception_notification'
+gem 'exception_notification', '4.0.1'
 
 # for assets
 gem 'sass-rails', '~> 4.0.3'
