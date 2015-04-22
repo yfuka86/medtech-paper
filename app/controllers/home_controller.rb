@@ -2,7 +2,6 @@ class HomeController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    raise
     @ranking_title = t(:hot_papers)
     @ranking_papers = Paper.ranking.limit(10)
     @department_title = 'あなたの科の人気論文'

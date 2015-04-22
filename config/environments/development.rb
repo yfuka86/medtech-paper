@@ -72,4 +72,3 @@ MedtechPaper::Application.config.middleware.use ExceptionNotification::Rack,
       password: 'medtech2014' #todo put this attr in ENV
     }
   }
-
