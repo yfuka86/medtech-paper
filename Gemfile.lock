@@ -104,7 +104,7 @@ GEM
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
     ffi (1.9.8)
-    font-awesome-sass (4.2.2)
+    font-awesome-sass (4.3.2.1)
       sass (~> 3.2)
     formatador (0.2.5)
     globalid (0.3.5)
@@ -302,7 +302,7 @@ DEPENDENCIES
   doorkeeper (~> 1.3.0)
   exception_notification (= 4.0.1)
   factory_girl_rails (~> 4.4.1)
-  font-awesome-sass (~> 4.2.0)
+  font-awesome-sass (~> 4.3.0)
   guard
   guard-resque
   http-dump
