@@ -14,7 +14,8 @@
     width: 270px;
     min-height: 100%;
     box-sizing: border-box;
-    i {
+    z-index: $MENU;
+    i.menu-toggle {
       display: none;
     }
   }
@@ -22,9 +23,6 @@
     padding-left: 0;
     padding-top: 64px;
     .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
       min-height: 50px;
       box-sizing: border-box;
@@ -55,7 +53,6 @@
       .responsive {
         display: none;
         width: 100%;
-        z-index: $MENU;
         .mini-search {
           display: none;
         }
