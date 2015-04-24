@@ -14,7 +14,7 @@
     width: 270px;
     min-height: 100%;
     box-sizing: border-box;
-    i {
+    i.menu-toggle {
       display: none;
     }
   }
@@ -30,6 +30,7 @@
       box-sizing: border-box;
       padding: 0px;
       border-bottom: 1px solid $GRAYBB;
+      z-index: $MENU;
 
       i.menu-toggle {
         display: inline-block;
@@ -55,7 +56,6 @@
       .responsive {
         display: none;
         width: 100%;
-        z-index: $MENU;
         .mini-search {
           display: none;
         }
