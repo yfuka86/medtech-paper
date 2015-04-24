@@ -23,7 +23,7 @@ gem 'exception_notification', '4.0.1'
 gem 'sass-rails', '~> 4.0.3'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'font-awesome-sass', '~> 4.2.0'
+gem 'font-awesome-sass', '~> 4.3.0'
 
 gem 'jquery-rails'
 gem 'momentjs-rails'
