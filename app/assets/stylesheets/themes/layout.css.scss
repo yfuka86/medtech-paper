@@ -14,6 +14,7 @@
     width: 270px;
     min-height: 100%;
     box-sizing: border-box;
+    z-index: $MENU;
     i.menu-toggle {
       display: none;
     }
@@ -22,15 +23,11 @@
     padding-left: 0;
     padding-top: 64px;
     .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
       min-height: 50px;
       box-sizing: border-box;
       padding: 0px;
       border-bottom: 1px solid $GRAYBB;
-      z-index: $MENU;
 
       i.menu-toggle {
         display: inline-block;
