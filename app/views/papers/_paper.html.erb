@@ -18,6 +18,11 @@
         <%= read_date(paper, paper_list) %>
       </div>
     <% end %>
+    <% if defined?(has_comment) && has_comment %>
+      <div class='comment'>
+        <%= comment(paper, paper_list) %>
+      </div>
+    <% end %>
     <div class='journal'>
       <%= paper.journal_name %>
     </div>

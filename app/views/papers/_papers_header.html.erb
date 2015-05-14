@@ -20,6 +20,11 @@
         <i class='fa fa-chevron-down'></i>
       </div>
     <% end %>
+    <% if defined?(has_comment) && has_comment %>
+      <div class='comment'>
+        一言コメント
+      </div>
+    <% end %>
     <div class='journal'>
       誌名
     </div>

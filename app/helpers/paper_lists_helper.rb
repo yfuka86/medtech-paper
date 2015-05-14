@@ -8,7 +8,7 @@ module PaperListsHelper
     if paper.id.present?
       addable_lists = addable_lists.joins("LEFT OUTER JOIN (SELECT * FROM paper_paper_lists WHERE paper_paper_lists.paper_id = #{paper.id})
                                           AS relations ON paper_lists.id = relations.paper_list_id").
-                                    where("relations.id IS NULL")
+                                    where("relations.id IS NULL AND category != 3")# history以外のカテゴリ
     end
     ary = addable_lists.map do |pl|
       if pl.user == user

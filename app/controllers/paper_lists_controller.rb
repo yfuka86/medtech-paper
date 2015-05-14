@@ -2,8 +2,10 @@ class PaperListsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @paper_lists = current_user.all_paper_lists
-    @title = '抄読会（論文リスト）一覧'
+    @own_paper_lists = current_user.all_paper_lists.select{|pl| pl.shared_users.count == 0}
+    @own_paper_lists_title = '個人論文リスト一覧'
+    @shared_paper_lists = current_user.all_paper_lists.select{|pl| pl.shared_users.count > 0}
+    @shared_paper_lists_title = '抄読会一覧'
   end
 
   def show
@@ -22,6 +24,8 @@ class PaperListsController < ApplicationController
     end
     any_relation_has_read_date = @paper_list.papers.where.not(paper_paper_lists: {read_date: nil})
     @has_read_date = any_relation_has_read_date.present?
+    any_relation_has_comment = @paper_list.papers.where.not(paper_paper_lists: {comment: nil})
+    @has_comment = any_relation_has_comment.present?
   end
 
   def new
@@ -34,7 +38,7 @@ class PaperListsController < ApplicationController
 
   def create
     paper_list = assign_params_to_paper_list
-    redirect_to paper_list_path(id: paper_list.id), notice: '論文リストが保存されました'
+    redirect_to paper_lists_path, notice: '論文リストが保存されました'
   rescue ActiveRecord::RecordNotFound => e
     redirect_to new_paper_list_path, alert: '指定したメンバーが見つかりませんでした'
   rescue ActiveRecord::RecordInvalid => e
