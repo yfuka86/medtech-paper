@@ -16,6 +16,7 @@ class views.shared.Papers extends alpha.mvc.View
       $el = $(el)
       $summary = $el.find('.summary')
       $detail = $el.find('.detail')
+      pubmedId = $el.data('pubmed-id')
 
       @listen $el.find('.summary'), 'click', =>
         _.each @$('.paper'), (el)=>
@@ -25,6 +26,12 @@ class views.shared.Papers extends alpha.mvc.View
           $el.find('.detail').hide()
         $summary.hide()
         $detail.show()
+        defer = alpha.async.ajax
+          type: 'PUT'
+          url: '/api/p/paper_lists/add_history'
+          data:
+            pubmed_id: pubmedId
+
       @listen $(el).find('.close-bar'), 'click', =>
         $summary.show()
         @setSummaryCss()
@@ -111,6 +118,7 @@ class views.shared.Papers extends alpha.mvc.View
                        $summary.find('.popularity').outerWidth() -
                        $summary.find('.title').outerWidth() -
                        $summary.find('.read-date').outerWidth() -
+                       $summary.find('.comment').outerWidth() -
                        $summary.find('.journal').outerWidth() -
                        $summary.find('.published-date').outerWidth() -
                        ($summary.find('.remove-paper').outerWidth() or 0)

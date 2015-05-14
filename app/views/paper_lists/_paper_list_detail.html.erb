@@ -48,14 +48,14 @@
     <% end %>
   </div>
   <div class='papers' data-paper-list-id='<%= paper_list.id %>'>
-    <%= render 'papers/papers_header', has_read_date: has_read_date if !(papers.count == 0) %>
+    <%= render 'papers/papers_header', has_read_date: has_read_date, has_comment: has_comment if !(papers.count == 0) %>
     <% papers.each do |p| %>
-      <%= render 'papers/paper', paper: p, user: user, paper_list: paper_list, has_read_date: has_read_date %>
+      <%= render 'papers/paper', paper: p, user: user, paper_list: paper_list, has_read_date: has_read_date, has_comment: has_comment %>
     <% end %>
     <% if !(papers.count == 0) %>
       <div class='end-line'></div>
     <% else %>
-      <p class='attention'>論文が登録されていません</p>
+      <p class='attention'><%= paper_list.history? ? '閲覧履歴がありません' : '論文が登録されていません' %></p>
     <% end %>
   </div>
 

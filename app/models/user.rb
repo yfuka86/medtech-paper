@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   has_many :paper_lists, dependent: :delete_all
   has_many :paper_list_users, dependent: :delete_all
@@ -21,7 +21,9 @@ class User < ActiveRecord::Base
                     :radiology, :dermatology, :pediatrics, :clinical, :basic, :others]
 
   def valid_username?
-    if username.present? && User.find_by(username: username).present?
+    if username.present? &&
+       User.find_by(username: username).present? &&
+       User.find_by(username: username).id != id
       errors[:base] << 'ユーザー名は既に使用されています'
       false
     end
@@ -37,7 +39,7 @@ class User < ActiveRecord::Base
   end
 
   def all_paper_lists
-    PaperList.by_user(self)
+    PaperList.by_user(self).order(category: :desc)
   end
 
   def display_name
@@ -46,5 +48,13 @@ class User < ActiveRecord::Base
 
   def favorite_list
     paper_lists.favorite.find_by(user_id: id)
+  end
+
+  def read_list
+    paper_lists.read.find_by(user_id: id)
+  end
+
+  def history_list
+    paper_lists.history.find_by(user_id: id)
   end
 end

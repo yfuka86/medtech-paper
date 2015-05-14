@@ -96,8 +96,9 @@ ActiveRecord::Schema.define(version: 20150313175152) do
     t.integer  "paper_id",      limit: 4
     t.integer  "paper_list_id", limit: 4
     t.date     "read_date"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "comment",       limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "paper_paper_lists", ["paper_id", "paper_list_id"], name: "index_paper_paper_lists_on_paper_id_and_paper_list_id", unique: true, using: :btree
@@ -129,6 +130,10 @@ ActiveRecord::Schema.define(version: 20150313175152) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 255
     t.string   "last_sign_in_ip",        limit: 255
+    t.string   "confirmation_token",     limit: 255
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "username",               limit: 20
@@ -137,6 +142,7 @@ ActiveRecord::Schema.define(version: 20150313175152) do
     t.string   "prefecture",             limit: 255
   end
 
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", using: :btree

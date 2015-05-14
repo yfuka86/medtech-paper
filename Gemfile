@@ -17,13 +17,13 @@ gem "i18n-js"
 
 # for monitoring
 gem 'newrelic_rpm'
-gem 'exception_notification'
+gem 'exception_notification', '4.0.1'
 
 # for assets
 gem 'sass-rails', '~> 4.0.3'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'font-awesome-sass', '~> 4.2.0'
+gem 'font-awesome-sass', '~> 4.3.0'
 
 gem 'jquery-rails'
 gem 'momentjs-rails'
@@ -57,6 +57,8 @@ group :deployment, :development, :test do
   gem 'binding_of_caller'
   gem 'http-dump'
 end
+
+gem 'rails_12factor', group: :production
 
 
 # Use unicorn as the app server

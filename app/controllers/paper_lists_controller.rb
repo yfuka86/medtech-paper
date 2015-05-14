@@ -2,17 +2,30 @@ class PaperListsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @paper_lists = current_user.all_paper_lists
-    @title = '抄読会（論文リスト）一覧'
+    @own_paper_lists = current_user.all_paper_lists.select{|pl| pl.shared_users.count == 0}
+    @own_paper_lists_title = '個人論文リスト一覧'
+    @shared_paper_lists = current_user.all_paper_lists.select{|pl| pl.shared_users.count > 0}
+    @shared_paper_lists_title = '抄読会一覧'
   end
 
   def show
     @paper_list = current_user.paper_lists.find_by(id: params[:id]) ||
                   current_user.shared_paper_lists.find_by(id: params[:id]) ||
                   PaperList.where(is_public: true).find_by(id: params[:id])
-    @papers = @paper_list.papers.sorter(params[:sort], current_user)
+    @papers = if !@paper_list.history?
+      @paper_list.papers.sorter(params[:sort], current_user)
+    else
+      # for history
+      @paper_list.papers.
+        joins("LEFT OUTER JOIN
+              (SELECT * FROM paper_paper_lists WHERE paper_paper_lists.paper_list_id = #{@paper_list.id})
+              AS relations ON papers.id = relations.paper_id").
+        order('paper_paper_lists.created_at desc')
+    end
     any_relation_has_read_date = @paper_list.papers.where.not(paper_paper_lists: {read_date: nil})
     @has_read_date = any_relation_has_read_date.present?
+    any_relation_has_comment = @paper_list.papers.where.not(paper_paper_lists: {comment: nil})
+    @has_comment = any_relation_has_comment.present?
   end
 
   def new
@@ -25,7 +38,7 @@ class PaperListsController < ApplicationController
 
   def create
     paper_list = assign_params_to_paper_list
-    redirect_to paper_list_path(id: paper_list.id), notice: '論文リストが保存されました'
+    redirect_to paper_lists_path, notice: '論文リストが保存されました'
   rescue ActiveRecord::RecordNotFound => e
     redirect_to new_paper_list_path, alert: '指定したメンバーが見つかりませんでした'
   rescue ActiveRecord::RecordInvalid => e
@@ -64,11 +77,21 @@ class PaperListsController < ApplicationController
                 current_user.shared_paper_lists.find_by(id: params[:id])
 
     redirect_to :back, alert: "#{paper_list.title}にはこの論文がすでに登録されています" and return if paper_list.papers.find_by(id: paper.try(:id)).present?
-    relation = PaperPaperList.new(paper: paper, paper_list: paper_list, read_date: params[:read_date])
+    relation = PaperPaperList.new(paper: paper, paper_list: paper_list)
+    relation.assign_attributes(paper_paper_list_params)
     relation.save!
     redirect_to :back, notice: "#{paper_list.title}に論文が登録されました"
   rescue => ex
     redirect_to :back, alert: "#{paper_list.title}への論文の登録に失敗しました"
+  end
+
+  def edit_paper
+    relation = PaperPaperList.find_by(paper_id: params[:paper_id], paper_list_id: params[:paper_list_id])
+    relation.assign_attributes(paper_paper_list_params)
+    relation.save!
+    redirect_to :back, notice: "登録情報が編集されました"
+  rescue => ex
+    redirect_to :back, alert: "登録情報の編集に失敗しました"
   end
 
   def remove_paper
@@ -120,5 +143,9 @@ class PaperListsController < ApplicationController
 
   def search_params
     params.permit(:sort, :keyword, :category, :username)
+  end
+
+  def paper_paper_list_params
+    params.permit(:read_date, :comment)
   end
 end

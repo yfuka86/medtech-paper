@@ -1,6 +1,9 @@
 <div class='sidebar'>
+  <i class='menu-toggle fa fa-bars'></i>
   <%= render 'layouts/identity' %>
-  <%= render 'sidebar/user_info' %>
-  <%= render 'sidebar/menu' %>
-  <%= render 'sidebar/mini_search' %>
+  <span class='responsive'>
+    <%= render 'sidebar/user_info' %>
+    <%= render 'sidebar/mini_search' %>
+    <%= render 'sidebar/menu' %>
+  </span>
 </div>

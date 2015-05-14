@@ -1,0 +1,18 @@
+<%= form_tag edit_paper_paper_lists_path, method: :put, class: 'edit-paper-form' do %>
+  <p class='edit-paper-form-title'>
+    このリストへの登録情報を編集する
+  </p>
+  <%= hidden_field_tag :paper_id, paper.id %>
+  <%= hidden_field_tag :paper_list_id, paper_list.id %>
+  <p>
+    読んだ日
+    <%= date_field_tag :read_date, read_date(paper, paper_list), class: 'date-input' %>
+  </p>
+  <p>
+    コメント
+    <%= text_area_tag :comment, comment(paper, paper_list), class: 'comment-input' %>
+  </p>
+  <p>
+    <%= submit_tag "送信", name: nil, class: 'add-paper-btn flat-button-identity2', data: {disable_with: '登録中...'} %>
+  </p>
+<% end %>

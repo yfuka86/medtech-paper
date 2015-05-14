@@ -1,5 +1,8 @@
 <h1 class='paper-lists-title'><%= title %></h1>
 <div class='paper-lists'>
+  <% if paper_lists.length == 0 %>
+    <p><%= (defined?(not_found) && not_found) || '論文リストがありません' %></p>
+  <% end %>
   <% paper_lists.each_with_index do |paper_list, idx| %>
     <div class='<%="single-paper-list#{" last" if (idx + 1 == paper_lists.count)}"%>' data-id=<%= paper_list.id %>>
       <div class='icon'>
